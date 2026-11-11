@@ -64,3 +64,24 @@
   - `ruff check .`: All checks passed.
   - All Section 7.2 endpoints documented and tested.
 
+## Phase 4: Frontend Foundation
+- **Status:** Done
+- **Start Time:** 2026-11-12 00:29
+- **End Time:** 2026-11-12 00:35
+- **What was done:**
+  - Exported OpenAPI spec from backend and generated TypeScript types (`src/lib/api-types.ts`, `npm run gen:api`).
+  - Configured Tailwind design tokens: `abyss`, `deep`, `ocean`, `aqua`, `foam`, `gold`, `ok`, `warn`, `danger`, `ink`.
+  - Configured font variables and theme styles in `globals.css` with `.glass-card`, `.btn-gold`, `.btn-secondary`.
+  - Implemented typed API client `src/lib/api.ts` with custom `ApiError` class.
+  - Built React Query `Providers.tsx` and toast notification system (`src/lib/toast.ts`, `src/components/ToastHost.tsx`).
+  - Built sticky `Navbar.tsx` with logo, active link indicators, alert polling bell with badge and unread dropdown, and highlighted CTA.
+  - Built responsive `Footer.tsx` with team members and institution attribution.
+  - Built `/tanks` page with tank cards (`data-testid="tank-card-<id>"`), inline creation form (`new-tank-name`, `new-tank-volume`, `new-tank-count`, `new-tank-submit`, `tank-error`), and delete confirmation.
+  - Built `/analyse` page with tank selector, filming guide, drag-and-drop dropzone (`data-testid="upload-dropzone"`, `upload-input`), client video size/duration validation, camera view selector (`view-side`, `view-front`, `view-top`), optional context parameters, and upload progress bar (`upload-progress`, `upload-submit`).
+  - Built `/jobs/[id]` processing screen with 1.5s polling, animated 5-stage stepper (`job-stepper`, `job-stage-<name>`), progress bar (`job-progress`), animated swimming fish, error display (`job-error`, `job-retry`), and auto-redirect to `/results/[id]`.
+- **Gate 4:** PASSED
+  - `npx tsc --noEmit`: Succeeded with 0 errors.
+  - `npm run lint`: Succeeded (✔ No ESLint warnings or errors).
+  - `npm run build`: Succeeded (7/7 static pages compiled).
+
+
