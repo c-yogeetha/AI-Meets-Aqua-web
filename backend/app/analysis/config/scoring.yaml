@@ -1,0 +1,34 @@
+threshold: 35
+levels:
+  normal_max: 34
+  moderate_max: 59
+window_s: 5
+sample_hz: 5
+zones:
+  surface: 0.15
+  bottom: 0.15
+speed:
+  fast_bl_s: 3.5
+  inactive_bl_s: 0.15
+direction:
+  turn_deg: 60
+  erratic_per_s: 0.8
+isolation:
+  nn_dist_frac_diag: 0.30
+  ratio_min: 0.5
+surface:
+  ratio_min: 0.35
+bottom:
+  ratio_min: 0.6
+  inactivity_min: 0.7
+lethargy:
+  all_inactive_ratio_min: 0.8
+points:
+  fast_swimming: 10
+  erratic_swimming: 10
+  isolation: 15
+  surface_gasping: 20
+  bottom_inactivity: 15
+  lethargic: 10
+tank_formula: max_plus_spread
+spread_bonus_per_extra_stressed: 10

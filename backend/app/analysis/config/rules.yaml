@@ -1,0 +1,66 @@
+rules:
+  surface_gasping:
+    priority: high
+    behaviour: "Goldfish gasping near the surface"
+    cause: "Low oxygen, high ammonia or warm water"
+    action: "Turn on the air pump or increase aeration; check water temperature; test for ammonia."
+    source: "docs/REFERENCES.md#oxygen"
+  fast_swimming:
+    priority: medium
+    behaviour: "Fast swimming"
+    cause: "Poor water quality or sudden disturbance"
+    action: "Change about 25% of the water using temperature-matched, dechlorinated water; reduce light and noise."
+    source: "docs/REFERENCES.md#water-quality"
+  erratic_swimming:
+    priority: medium
+    behaviour: "Erratic swimming or hitting the glass"
+    cause: "Poor water quality, sudden disturbance or stress"
+    action: "Test water parameters, reduce disturbance around the tank, and observe again in an hour."
+    source: "docs/REFERENCES.md#water-quality"
+  isolation:
+    priority: medium
+    behaviour: "Fish staying alone"
+    cause: "Stress or early infection"
+    action: "Observe {fish} for 24 hours; look for spots, clamped fins or rubbing; move to a quarantine container if signs appear."
+    source: "docs/REFERENCES.md#disease"
+  bottom_inactivity:
+    priority: high
+    behaviour: "Fish inactive at the bottom"
+    cause: "Stress, low temperature or infection"
+    action: "Check water temperature (goldfish are comfortable around 18 to 24 C) and observe {fish} closely."
+    source: "docs/REFERENCES.md#temperature"
+  lethargic:
+    priority: medium
+    behaviour: "All fish inactive"
+    cause: "Water temperature or feed issue"
+    action: "Check water temperature (goldfish are comfortable around 18 to 24 C); check feed quality and amount."
+    source: "docs/REFERENCES.md#temperature"
+
+context_rules:
+  temp_high:
+    when: "water_temp_c > 24"
+    priority: medium
+    behaviour: "Water is warm"
+    cause: "Warm water holds less oxygen"
+    action: "Cool the tank gradually and increase aeration."
+    source: "docs/REFERENCES.md#temperature"
+  temp_low:
+    when: "water_temp_c < 16"
+    priority: medium
+    behaviour: "Water is cold"
+    cause: "Cold water slows metabolism"
+    action: "Raise temperature slowly (no more than 1 to 2 C per hour)."
+    source: "docs/REFERENCES.md#temperature"
+  water_change_overdue:
+    when: "last_water_change_days > 14"
+    priority: low
+    behaviour: "Water change overdue"
+    cause: "Waste builds up over time"
+    action: "Schedule a partial water change soon."
+    source: "docs/REFERENCES.md#water-quality"
+  all_clear:
+    priority: low
+    behaviour: "No stress indicators found"
+    cause: "Behaviour looks normal in this clip"
+    action: "Keep monitoring; repeat the check after feeding or water changes."
+    source: "rules.yaml#all_clear"

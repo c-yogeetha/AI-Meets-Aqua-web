@@ -1,0 +1,96 @@
+{
+  "calm.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "tank_score_max": 34,
+      "stressed_count": 0,
+      "flags_any": [],
+      "min_score": null,
+      "level_in": [
+        "Normal"
+      ]
+    }
+  },
+  "stressed_one.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "tank_score_min": 35,
+      "stressed_count": 1,
+      "flags_any": [
+        "fast_swimming",
+        "erratic_swimming",
+        "surface_gasping"
+      ],
+      "min_score": 35,
+      "level_in": [
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "gasping_surface.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "stressed_count": 1,
+      "flags_any": [
+        "surface_gasping"
+      ],
+      "min_score": 20,
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "isolated_bottom.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "stressed_count": 1,
+      "flags_any": [
+        "isolation",
+        "bottom_inactivity"
+      ],
+      "min_score": 30,
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "severe_mixed.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "tank_score_min": 50,
+      "stressed_count": 3,
+      "flags_any": [
+        "surface_gasping",
+        "bottom_inactivity"
+      ],
+      "min_score": 50,
+      "level_in": [
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "blank.mp4": {
+    "fish_count": 0,
+    "view": "side",
+    "expect": {
+      "tank_score_max": 0,
+      "stressed_count": 0,
+      "flags_any": [],
+      "min_score": 0,
+      "level_in": [
+        "Normal"
+      ]
+    }
+  }
+}
