@@ -101,5 +101,23 @@
   - `npm run lint`: 0 warnings, 0 errors.
   - `npm run build`: 10/10 pages successfully compiled.
 
+## Phase 6: Landing Page
+- **Status:** Done
+- **Start Time:** 2026-11-12 00:41
+- **End Time:** 2026-11-12 00:44
+- **What was done:**
+  - Implemented `DescendingLoader` (`data-testid="loader"`) with rising water level percentage, sessionStorage suppression, and reduced-motion detection.
+  - Implemented `DepthMeter` vertical gauge (`data-testid="depth-meter"`, `aria-hidden="true"`) tracking scroll progress from 0m to 10m.
+  - Implemented `BubbleCanvas` rising bubble particle system with visibility API auto-pausing.
+  - Implemented `FlipCards` (`data-testid="flip-card-<n>"`) with 3D transform cards and keyboard accessible Enter/Space flip for rapid diagnosis.
+  - Implemented `FaqAccordion` (`data-testid="faq-item-<n>"`, `data-testid="faq-trigger-<n>"`) with 6 FAQ questions and accessible `aria-expanded` state.
+  - Implemented Hero section (`data-testid="hero-title"`, `cta-analyse`, `cta-sample`, swimming goldfish animation, dive deeper prompt).
+  - Implemented Problem statistics (5-10%, 1 fish, Late), Dive Log 5-step timeline (Upload, Detect, Track, Analyse, Act), Four signals overview, SDGs (6, 12, 14), Live preview sample card, and Project brief card with Team attribution.
+- **Gate 6:** PASSED
+  - `npx tsc --noEmit`: 0 errors.
+  - `npm run lint`: 0 errors.
+  - `npm run build`: Succeeded (10/10 pages compiled).
+
+
 
 
