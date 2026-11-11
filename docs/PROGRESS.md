@@ -84,4 +84,22 @@
   - `npm run lint`: Succeeded (✔ No ESLint warnings or errors).
   - `npm run build`: Succeeded (7/7 static pages compiled).
 
+## Phase 5: Results & History Pages
+- **Status:** Done
+- **Start Time:** 2026-11-12 00:35
+- **End Time:** 2026-11-12 00:41
+- **What was done:**
+  - Implemented `StressGauge` component with SVG semicircle arc, color bands (Normal, Moderate, High), animated needle, numerical score (`data-testid="result-score"`), and level badge (`data-testid="result-level"`).
+  - Implemented `StressTimeline` component with Recharts, interactive focus selector (`data-testid="timeline-fish-select"`), dashed 35-threshold line, and synchronized video seek on point click.
+  - Built `/results/[id]` showpiece with annotated video player (`result-video`), key moments gallery (`key-moment-<n>`), individual fish cards (`fish-card-<id>`, `fish-status-<id>`) with expandable kinematic metrics, actionable recommendations checklist (`suggestion-<n>`), amber warnings (`warning-<n>`), PDF download (`download-pdf`), and recycle bin delete action (`delete-result`).
+  - Built `/history` page with tank filter, Fish Stress Index card (`fsi-value`, `fsi-trend`), trend trajectory chart (`trend-chart`), analysis history list (`history-row-<id>`), and 7-day recycle bin tab (`tab-bin`, `bin-row-<id>`, `bin-days-<id>`, `restore-<id>`).
+  - Built `/settings` page for alert preferences (`settings-popup`, `settings-email`, `settings-save`).
+  - Built `/testing` page displaying test summary metrics (`test-total`, `test-passed`, `test-failed`, `test-coverage`), category pass bars, filterable case table, and QA methodology.
+  - Built friendly 404 page `not-found.tsx`.
+- **Gate 5:** PASSED
+  - `npx tsc --noEmit`: 0 errors.
+  - `npm run lint`: 0 warnings, 0 errors.
+  - `npm run build`: 10/10 pages successfully compiled.
+
+
 
