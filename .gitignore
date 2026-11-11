@@ -1,0 +1,30 @@
+# Environments
+.venv/
+backend/.venv/
+node_modules/
+
+# Next.js
+frontend/.next/
+frontend/out/
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+*.egg-info/
+
+# App runtime data
+backend/data/
+test-results/
+demo-data-backup.zip
+
+# System & IDE
+.DS_Store
+.directory
+.idea/
+.vscode/
