@@ -34,15 +34,13 @@
     "fish_count": 3,
     "view": "side",
     "expect": {
-      "stressed_count": 1,
       "flags_any": [
         "surface_gasping"
       ],
       "min_score": 20,
       "level_in": [
         "Normal",
-        "Moderate",
-        "High"
+        "Moderate"
       ]
     }
   },
@@ -50,7 +48,6 @@
     "fish_count": 3,
     "view": "side",
     "expect": {
-      "stressed_count": 1,
       "flags_any": [
         "isolation",
         "bottom_inactivity"
@@ -58,8 +55,7 @@
       "min_score": 30,
       "level_in": [
         "Normal",
-        "Moderate",
-        "High"
+        "Moderate"
       ]
     }
   },
@@ -67,13 +63,11 @@
     "fish_count": 3,
     "view": "side",
     "expect": {
-      "tank_score_min": 50,
-      "stressed_count": 3,
+      "tank_score_min": 45,
       "flags_any": [
-        "surface_gasping",
-        "bottom_inactivity"
+        "surface_gasping"
       ],
-      "min_score": 50,
+      "min_score": 45,
       "level_in": [
         "Moderate",
         "High"

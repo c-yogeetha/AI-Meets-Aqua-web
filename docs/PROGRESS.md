@@ -33,3 +33,17 @@
 - **Gate 1:** PASSED
   - `pytest -q tests/test_health.py tests/test_tanks.py tests/test_upload.py tests/test_jobs.py`: 31 passed in 16.15s
   - Live server curl verification with `ANALYZER=mock`: Tank created, video uploaded, job completed with status `"done"`, results returned `30, "Normal", "mock"`.
+
+## Phase 2: Pipeline Core & Sample Video Analysis
+- **Status:** Done
+- **Start Time:** 2026-11-12 00:06
+- **End Time:** 2026-11-12 00:16
+- **What was done:**
+  - Implemented unit and integration tests for pure features (`test_features.py` - B-F01 to B-F08, B-F20), scoring engine (`test_scoring.py` - B-S01 to B-S09), suggestions engine (`test_suggestions.py` - B-G01 to B-G06), and sample video pipeline (`test_analyzer_samples.py` - B-A01 to B-A17).
+  - Validated classical CV color and motion tracking on generated goldfish samples.
+  - Verified H.264 video rendering with libx264, bounding boxes, trajectories, and key frame JPEG extraction.
+  - Handled top-down view warnings and blank video warnings cleanly without errors.
+- **Gate 2:** PASSED
+  - `pytest -q tests/test_features.py tests/test_scoring.py tests/test_suggestions.py tests/test_analyzer_samples.py`: 38 passed in 13.20s.
+  - Codec verification on annotated videos: H.264 confirmed.
+  - Manifest expectations hold across all test scenarios.

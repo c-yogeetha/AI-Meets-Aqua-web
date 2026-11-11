@@ -143,8 +143,7 @@ def compute_features_for_fish(
     direction_change_count = 0
     if len(headings) >= 2:
         for i in range(len(headings) - 1):
-            diff_angle = abs(headings[i + 1] - headings[i])
-            diff_angle = (diff_angle + 180) % 360 - 180
+            diff_angle = (headings[i + 1] - headings[i] + 180) % 360 - 180
             if abs(diff_angle) >= turn_deg:
                 direction_change_count += 1
 
