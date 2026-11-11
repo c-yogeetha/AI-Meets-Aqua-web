@@ -1,3 +1,7 @@
+import os
+
+os.environ.setdefault("MPLCONFIGDIR", "/tmp/matplotlib_cache")
+
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI

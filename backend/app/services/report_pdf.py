@@ -1,10 +1,6 @@
 import io
 from typing import Any, Dict
 
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
@@ -21,6 +17,10 @@ from reportlab.platypus import (
 
 def generate_timeline_chart(timeline_data: list, threshold: int = 35) -> io.BytesIO:
     """Generate a high-res timeline chart as PNG in memory."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
     times = [pt["t"] for pt in timeline_data] if timeline_data else [0]
     scores = [pt["score"] for pt in timeline_data] if timeline_data else [0]
 

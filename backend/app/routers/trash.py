@@ -32,3 +32,9 @@ def list_trash(db: Session = Depends(get_db)):
 def purge_trash(db: Session = Depends(get_db)):
     purged_count = purge_expired_trash(db)
     return PurgeResponse(purged=purged_count)
+
+
+@router.post("/{job_id}/restore", summary="Restore result from recycle bin (alias)")
+def restore_trash_alias(job_id: str, db: Session = Depends(get_db)):
+    from app.routers.results import restore_analysis
+    return restore_analysis(job_id=job_id, db=db)

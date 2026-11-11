@@ -42,23 +42,39 @@ def seed_demo_data(db: Session = Depends(get_db)):
             .filter(Result.tank_id == existing_tank.id, Result.deleted_at.is_(None))
             .all()
         )
-        return DemoSeedResponse(
-            tank_id=existing_tank.id,
-            result_ids=[r.job_id for r in existing_results],
+        if existing_results:
+            return DemoSeedResponse(
+                tank_id=existing_tank.id,
+                result_ids=[r.job_id for r in existing_results],
+            )
+        # If all results were soft-deleted, restore them
+        deleted_results = (
+            db.query(Result)
+            .filter(Result.tank_id == existing_tank.id, Result.deleted_at.is_not(None))
+            .all()
         )
-
-    # Create Demo Tank
-    current_time = now()
-    tank = Tank(
-        name=demo_tank_name,
-        volume_l=60.0,
-        goldfish_count=3,
-        water_temp_c=22.0,
-        created_at=current_time - timedelta(days=3),
-    )
-    db.add(tank)
-    db.commit()
-    db.refresh(tank)
+        if deleted_results:
+            for r in deleted_results:
+                r.deleted_at = None
+            db.commit()
+            return DemoSeedResponse(
+                tank_id=existing_tank.id,
+                result_ids=[r.job_id for r in deleted_results],
+            )
+        tank = existing_tank
+    else:
+        # Create Demo Tank
+        current_time = now()
+        tank = Tank(
+            name=demo_tank_name,
+            volume_l=60.0,
+            goldfish_count=3,
+            water_temp_c=22.0,
+            created_at=current_time - timedelta(days=3),
+        )
+        db.add(tank)
+        db.commit()
+        db.refresh(tank)
 
     # 3 Scenarios: Normal, Moderate, High
     scenarios = [

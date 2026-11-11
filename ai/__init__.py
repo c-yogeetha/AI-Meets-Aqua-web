@@ -1,4 +1,5 @@
-"""AI Package Placeholder.
-The AI team implements their YOLOv8 + DeepSORT goldfish tracking model here.
-See docs/AI_INTEGRATION.md for contract details.
+"""AI Model Integration Module for AI Meets Aqua.
+
+This module provides the boundary interface where the AI group's deep learning
+models (YOLOv8, DeepSORT, 3D CNNs) plug into the pipeline.
 """

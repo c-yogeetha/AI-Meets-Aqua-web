@@ -148,7 +148,7 @@ export const api = {
   },
 
   async restoreTrash(jobId: string): Promise<{ message: string }> {
-    return request<{ message: string }>(`/api/v1/trash/${jobId}/restore`, {
+    return request<{ message: string }>(`/api/v1/results/${jobId}/restore`, {
       method: "POST",
     });
   },
