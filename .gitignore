@@ -30,3 +30,25 @@ demo-data-backup.zip
 .directory
 .idea/
 .vscode/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Private keys
+*.pem
+*.key
+
+# Credentials
+secrets/
+credentials/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Frontend generated files
+frontend/test-results/
+frontend/tsconfig.tsbuildinfo
