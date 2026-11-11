@@ -1,6 +1,7 @@
 import importlib
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, Optional
+
 from app.analysis.render import render_annotated_video
 from app.analysis.scoring import score_tracks
 from app.analysis.suggestions import generate_suggestions
@@ -93,7 +94,7 @@ def run_external_analysis(
         result_dict = ai_module.analyze_video(video_path, meta, progress_cb, out_dir)
         try:
             validated = ResultResponse.model_validate(result_dict)
-            res = validated.model_dump()
+            res = validated.model_dump(mode="json")
             res["mode"] = "external"
             res["stressed_count"] = sum(1 for f in res.get("fish", []) if f.get("stressed", False))
             res["fish_count"] = len(res.get("fish", []))

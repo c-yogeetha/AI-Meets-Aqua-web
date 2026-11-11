@@ -1,7 +1,9 @@
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 import yaml
+
 from app.analysis.features import (
     compute_all_features,
     extract_per_fish_samples,

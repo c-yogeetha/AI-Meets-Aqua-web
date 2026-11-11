@@ -1,8 +1,9 @@
-import json
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
+
 from sqlalchemy.orm import Session
+
 from app.analysis.scoring import level_from_score
-from app.models import Result, Video
+from app.models import Job, Result, Video
 
 
 def compute_insights(db: Session, tank_id: str) -> Dict[str, Any]:
@@ -83,10 +84,11 @@ def compute_insights(db: Session, tank_id: str) -> Dict[str, Any]:
             messages.append("Stress has eased since the previous check.")
 
     # 2. Temperature pattern
-    # Query videos linked to results
+    # Query videos linked to results via Job
     video_temps = (
         db.query(Video.water_temp_c, Result.tank_score)
-        .join(Result, Result.job_id == Video.id)
+        .join(Job, Job.video_id == Video.id)
+        .join(Result, Result.job_id == Job.id)
         .filter(Result.tank_id == tank_id, Result.deleted_at.is_(None), Video.water_temp_c.isnot(None))
         .all()
     )

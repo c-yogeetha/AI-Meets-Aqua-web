@@ -1,6 +1,8 @@
 import math
 from typing import Any, Dict, List, Optional
+
 import numpy as np
+
 from app.analysis.types import Tracks
 
 

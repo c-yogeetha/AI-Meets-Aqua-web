@@ -1,10 +1,12 @@
-from pathlib import Path
 import time
+from pathlib import Path
+
 import pytest
 from fastapi.testclient import TestClient
+
 from app.config import settings
 from app.db import get_session_factory
-from app.models import Job, Tank, Video
+from app.models import Job, Video
 from tests.conftest import wait_for_job
 
 

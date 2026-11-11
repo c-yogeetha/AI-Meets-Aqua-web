@@ -1,6 +1,8 @@
 from typing import List, Optional
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
+
 from app.db import get_db
 from app.errors import AppError
 from app.models import Alert, AlertSettings

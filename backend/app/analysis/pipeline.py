@@ -1,7 +1,8 @@
+import time
 from datetime import datetime, timezone
 from pathlib import Path
-import time
 from typing import Any, Callable, Dict, Optional
+
 from app.analysis.external import run_external_analysis
 from app.analysis.render import render_annotated_video
 from app.analysis.scoring import score_tracks

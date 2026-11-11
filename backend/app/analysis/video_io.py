@@ -1,8 +1,9 @@
 import os
-from pathlib import Path
 import subprocess
 import tempfile
-from typing import Dict, Generator, Optional, Tuple
+from pathlib import Path
+from typing import Dict, Generator, Tuple
+
 import cv2
 import imageio_ffmpeg
 

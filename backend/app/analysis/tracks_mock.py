@@ -1,7 +1,9 @@
 import hashlib
 from pathlib import Path
 from typing import Optional
+
 import numpy as np
+
 from app.analysis.types import Detection, FrameDetections, Tracks
 
 

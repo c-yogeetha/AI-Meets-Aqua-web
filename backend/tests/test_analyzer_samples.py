@@ -1,11 +1,12 @@
 import json
-from pathlib import Path
 import subprocess
 import time
+from pathlib import Path
+
 import cv2
 import imageio_ffmpeg
 import numpy as np
-import pytest
+
 from app.analysis.pipeline import run_pipeline
 from app.schemas import ResultResponse
 
@@ -185,7 +186,7 @@ def test_b_a16_performance(tmp_path: Path, samples_dir: Path):
     meta = {"tank_id": "t", "goldfish_count": 3, "original_name": "calm.mp4", "view": "side"}
 
     start = time.time()
-    res = run_pipeline(str(video_file), meta, str(out_dir), analyzer_override="baseline")
+    _ = run_pipeline(str(video_file), meta, str(out_dir), analyzer_override="baseline")
     elapsed = time.time() - start
 
     assert elapsed < 60.0

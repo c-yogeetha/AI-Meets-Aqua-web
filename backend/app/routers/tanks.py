@@ -1,9 +1,11 @@
 from typing import List
+
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
+
 from app.db import get_db
 from app.errors import AppError
-from app.models import Job, Result, Tank, Video
+from app.models import Job, Tank, Video
 from app.schemas import TankCreate, TankResponse
 from app.services.storage import delete_permanently
 

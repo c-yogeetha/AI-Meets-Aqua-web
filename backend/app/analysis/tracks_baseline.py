@@ -1,8 +1,10 @@
 import math
 from typing import Callable, Dict, List, Optional, Tuple
+
 import cv2
 import numpy as np
 from scipy.optimize import linear_sum_assignment
+
 from app.analysis.types import Detection, FrameDetections, Tracks
 from app.analysis.video_io import frame_reader, get_video_metadata
 

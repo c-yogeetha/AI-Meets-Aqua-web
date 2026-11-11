@@ -1,9 +1,9 @@
 import math
-import numpy as np
+
 import pytest
+
 from app.analysis.features import (
     compute_all_features,
-    compute_features_for_fish,
 )
 from app.analysis.scoring import generate_fish_explanation, load_scoring_config
 from app.analysis.types import Detection, FrameDetections, Tracks
@@ -106,7 +106,7 @@ def test_b_f05_isolation_ratio(base_config):
     """B-F05: Two close fish vs one far fish: close pair ~ 0; far fish >= 0.5."""
     fps = 5.0
     frames = []
-    diag = math.sqrt(640**2 + 360**2)  # ~ 734 px; 30% is ~ 220 px
+    # 30% of 640x360 diag is ~ 220 px
     for i in range(25):
         t = i / fps
         # Fish 1 and Fish 2 are 40px apart (close)

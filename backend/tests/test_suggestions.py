@@ -1,4 +1,5 @@
 import pytest
+
 from app.analysis.suggestions import (
     evaluate_safe_condition,
     generate_suggestions,

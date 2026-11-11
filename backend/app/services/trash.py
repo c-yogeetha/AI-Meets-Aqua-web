@@ -1,7 +1,9 @@
-from datetime import timedelta
 import math
+from datetime import timedelta
 from typing import List, Tuple
+
 from sqlalchemy.orm import Session
+
 from app.clock import now
 from app.config import settings
 from app.models import Result, Tank
@@ -19,12 +21,18 @@ def get_trash_items(db: Session) -> List[Tuple[Result, str, int]]:
     )
 
     current_time = now()
+    if current_time.tzinfo is not None:
+        current_time = current_time.replace(tzinfo=None)
+
     retention_days = settings.TRASH_RETENTION_DAYS
     items = []
 
     for res, tank_name in deleted_results:
+        d_at = res.deleted_at
+        if d_at.tzinfo is not None:
+            d_at = d_at.replace(tzinfo=None)
         # Calculate age in days
-        age_seconds = (current_time - res.deleted_at).total_seconds()
+        age_seconds = (current_time - d_at).total_seconds()
         age_days = age_seconds / 86400.0
         days_remaining = max(0, math.ceil(retention_days - age_days))
         items.append((res, tank_name, days_remaining))
@@ -55,7 +63,10 @@ def restore_result(db: Session, job_id: str) -> bool:
 
 def purge_expired_trash(db: Session) -> int:
     """Purge results that exceeded retention days."""
-    cutoff = now() - timedelta(days=settings.TRASH_RETENTION_DAYS)
+    cur = now()
+    if cur.tzinfo is not None:
+        cur = cur.replace(tzinfo=None)
+    cutoff = cur - timedelta(days=settings.TRASH_RETENTION_DAYS)
     expired = db.query(Result).filter(Result.deleted_at.isnot(None), Result.deleted_at < cutoff).all()
 
     count = 0

@@ -1,6 +1,8 @@
 from typing import Optional
+
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
+
 from app.db import get_db
 from app.models import Result, Tank
 from app.schemas import HistoryItem, PagedHistory

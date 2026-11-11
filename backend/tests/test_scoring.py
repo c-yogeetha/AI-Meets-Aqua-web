@@ -1,4 +1,5 @@
 import pytest
+
 from app.analysis.scoring import (
     compute_tank_score,
     evaluate_fish_flags,
@@ -95,7 +96,6 @@ def test_b_s06_top_view_disables_vertical_flags(config):
 def test_b_s07_lethargic_all_fish_inactive(config):
     """B-S07: Lethargic applies to all fish only when every fish is inactive."""
     metrics_inactive = {"inactivity_ratio": 0.9}
-    metrics_active = {"inactivity_ratio": 0.1}
 
     # When all inactive is True
     flags, _, _ = evaluate_fish_flags(metrics_inactive, config, tank_all_inactive=True)

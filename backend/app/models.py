@@ -1,4 +1,5 @@
 import uuid
+
 from sqlalchemy import (
     Boolean,
     Column,
@@ -10,6 +11,7 @@ from sqlalchemy import (
     Text,
 )
 from sqlalchemy.orm import relationship
+
 from app.clock import now
 from app.db import Base
 

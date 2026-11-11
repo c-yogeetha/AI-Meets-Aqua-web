@@ -1,15 +1,17 @@
 import json
 import os
 from pathlib import Path
-from fastapi import APIRouter, Depends, Query, Request, Response, status
+
+from fastapi import APIRouter, Depends, Query, Request, status
 from fastapi.responses import FileResponse, StreamingResponse
 from sqlalchemy.orm import Session
+
 from app.db import get_db
 from app.errors import AppError
 from app.models import Job, Result, Tank
 from app.schemas import ResultResponse
 from app.services.report_pdf import generate_pdf_report
-from app.services.storage import delete_permanently, get_output_dir, get_trash_dir
+from app.services.storage import delete_permanently, get_output_dir
 from app.services.trash import restore_result, soft_delete_result
 
 router = APIRouter(prefix="/api/v1/results", tags=["Results"])
@@ -53,16 +55,15 @@ def get_result(job_id: str, db: Session = Depends(get_db)):
         raise AppError(status_code=410, code="result_deleted", message="This analysis was deleted and is in the recycle bin.")
 
     job = db.query(Job).filter(Job.id == job_id).first()
-    if not job:
+    if not job or not res:
+        if job and job.status != "done":
+            raise AppError(
+                status_code=409,
+                code="job_not_ready",
+                message=f"Job is currently '{job.status}' (stage: {job.stage}).",
+                details={"status": job.status, "stage": job.stage, "progress": job.progress},
+            )
         raise AppError(status_code=404, code="result_not_found", message=f"Result for job '{job_id}' not found.")
-
-    if job.status != "done" or not res:
-        raise AppError(
-            status_code=409,
-            code="job_not_ready",
-            message=f"Job is currently '{job.status}' (stage: {job.stage}).",
-            details={"status": job.status, "stage": job.stage, "progress": job.progress},
-        )
 
     return json.loads(res.result_json)
 

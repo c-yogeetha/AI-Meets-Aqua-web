@@ -1,8 +1,10 @@
-from email.message import EmailMessage
 import smtplib
 import uuid
+from email.message import EmailMessage
 from typing import Any, Dict, List
+
 from sqlalchemy.orm import Session
+
 from app.clock import now
 from app.config import settings
 from app.models import Alert, AlertSettings

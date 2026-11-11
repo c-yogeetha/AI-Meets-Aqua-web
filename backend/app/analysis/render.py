@@ -1,10 +1,12 @@
 import os
-from pathlib import Path
 import subprocess
+from pathlib import Path
 from typing import Any, Dict, List, Tuple
+
 import cv2
 import imageio_ffmpeg
 import numpy as np
+
 from app.analysis.types import Tracks
 from app.analysis.video_io import frame_reader
 
@@ -219,12 +221,12 @@ def render_annotated_video(
             cv2.imwrite(str(kf_path), kf_img, [cv2.IMWRITE_JPEG_QUALITY, 85])
 
             # Behaviour label
-            behaviour_label = "Elevated activity" if kf_score >= threshold else "Routine activity"
+            b_label = "Elevated activity" if kf_score >= threshold else "Routine activity"
             key_moments.append({
                 "t": round(kf_t, 1),
                 "fish": kf_fid,
                 "behaviour": "surface_gasping" if "surface" in kf_level.lower() else "elevated_stress",
-                "label": f"{kf_fid} ({kf_level})",
+                "label": f"{kf_fid} ({b_label})",
                 "frame_url": f"/api/v1/results/placeholder/frames/{kf_name}",
             })
 

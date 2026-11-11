@@ -1,8 +1,10 @@
 from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
+
 from app.config import settings
 from app.db import Base, get_engine, get_session_factory
 from app.errors import (
@@ -15,8 +17,8 @@ from app.routers import (
     alerts,
     demo,
     history,
-    jobs,
     insights,
+    jobs,
     results,
     system,
     tanks,

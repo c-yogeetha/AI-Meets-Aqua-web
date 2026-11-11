@@ -1,4 +1,5 @@
 from typing import Any, Dict, Optional
+
 from fastapi import Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -63,7 +64,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     first_msg = "Validation failed"
     errors = exc.errors()
     if errors:
-        loc = " -> ".join(str(l) for l in errors[0].get("loc", []))
+        loc = " -> ".join(str(item) for item in errors[0].get("loc", []))
         first_msg = f"{loc}: {errors[0].get('msg', 'Invalid value')}"
 
     return JSONResponse(

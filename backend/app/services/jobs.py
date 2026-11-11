@@ -1,15 +1,15 @@
-from concurrent.futures import ThreadPoolExecutor
 import json
 import logging
-from pathlib import Path
 import time
-from typing import Any, Dict
+from concurrent.futures import ThreadPoolExecutor
+
 from sqlalchemy.orm import Session
+
 from app.analysis.pipeline import run_pipeline
 from app.clock import now
 from app.config import settings
 from app.db import get_session_factory
-from app.models import AlertSettings, Job, Result, Tank, Video
+from app.models import Job, Result, Tank, Video
 from app.services.alerts import handle_analysis_alerts
 from app.services.storage import get_output_dir
 
@@ -103,14 +103,14 @@ def execute_job(job_id: str) -> None:
         # Write result.json
         res_file = out_dir / "result.json"
         with open(res_file, "w", encoding="utf-8") as f:
-            json.dump(result_dict, f, indent=2)
+            json.dump(result_dict, f, indent=2, default=str)
 
         # Insert Result row
         result_row = Result(
             job_id=job.id,
             tank_id=tank.id,
             mode=result_dict.get("mode", "baseline"),
-            result_json=json.dumps(result_dict),
+            result_json=json.dumps(result_dict, default=str),
             tank_score=result_dict.get("tank_score", 0),
             level=result_dict.get("level", "Normal"),
             stressed_count=result_dict.get("stressed_count", 0),

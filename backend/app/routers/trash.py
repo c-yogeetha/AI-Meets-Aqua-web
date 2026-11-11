@@ -1,6 +1,8 @@
 from typing import List
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
 from app.db import get_db
 from app.schemas import PurgeResponse, TrashItem
 from app.services.trash import get_trash_items, purge_expired_trash

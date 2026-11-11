@@ -47,3 +47,20 @@
   - `pytest -q tests/test_features.py tests/test_scoring.py tests/test_suggestions.py tests/test_analyzer_samples.py`: 38 passed in 13.20s.
   - Codec verification on annotated videos: H.264 confirmed.
   - Manifest expectations hold across all test scenarios.
+
+## Phase 3: Backend Extras, Full API & Test Coverage
+- **Status:** Done
+- **Start Time:** 2026-11-12 00:16
+- **End Time:** 2026-11-12 00:28
+- **What was done:**
+  - Implemented fake AI test packages in `backend/tests/fake_ai/` (`pipeline.py`, `pipeline_full.py`, `pipeline_bad.py`) to test the external adapter.
+  - Implemented `backend/tests/test_results_media.py` covering results, media streaming, PDF generation, range requests (B-R01 to B-R03, B-M01 to B-M03, B-P01).
+  - Implemented `backend/tests/test_history_insights_bin_alerts.py` covering history, insights, recycle bin, alerts, demo seed, and external adapter (B-HI01..02, B-IN01..03, B-BN01..05, B-AL01..04, B-D01, B-X01..04).
+  - Configured `backend/pyproject.toml` with ruff settings.
+  - Verified `ruff check .` passes with 0 errors.
+  - Reached 93% line coverage across all backend modules, exceeding the >= 80% project threshold.
+- **Gate 3:** PASSED
+  - `pytest -q --cov=app --cov-report=term-missing`: 90 passed, 93% total line coverage.
+  - `ruff check .`: All checks passed.
+  - All Section 7.2 endpoints documented and tested.
+
