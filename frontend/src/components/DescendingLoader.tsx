@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Fish } from "lucide-react";
 
 export default function DescendingLoader() {
   const [visible, setVisible] = useState(false);
@@ -13,7 +14,9 @@ export default function DescendingLoader() {
     }
 
     // Check sessionStorage
-    const visited = sessionStorage.getItem("aqua_visited");
+    const visited =
+      sessionStorage.getItem("matsya_visited") ||
+      sessionStorage.getItem("aqua_visited");
     if (visited) {
       return;
     }
@@ -30,6 +33,7 @@ export default function DescendingLoader() {
 
       if (pct >= 100) {
         clearInterval(timer);
+        sessionStorage.setItem("matsya_visited", "true");
         sessionStorage.setItem("aqua_visited", "true");
         setTimeout(() => {
           setVisible(false);
@@ -51,13 +55,13 @@ export default function DescendingLoader() {
         {/* Glowing Logo */}
         <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-gold to-aqua p-0.5 shadow-aqua-glow mb-6 animate-pulse">
           <div className="w-full h-full bg-abyss rounded-[14px] flex items-center justify-center">
-            <span className="text-4xl">🐟</span>
+            <Fish className="w-10 h-10 text-aqua" />
           </div>
         </div>
 
         {/* Brand */}
         <h2 className="font-display font-bold text-2xl text-white tracking-tight mb-2">
-          AI Meets Aqua
+          Matsya
         </h2>
         <div className="text-xs uppercase tracking-widest text-aqua/80 font-semibold mb-6 flex items-center gap-1.5">
           <span>Descending...</span>

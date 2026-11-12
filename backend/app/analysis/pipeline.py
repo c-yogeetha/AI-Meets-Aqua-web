@@ -3,12 +3,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Dict, Optional
 
+from app.analysis.detectors import resolve_analyzer_mode
 from app.analysis.external import run_external_analysis
+from app.analysis.quality import compute_reliability, probe_video_quality
 from app.analysis.render import render_annotated_video
 from app.analysis.scoring import score_tracks
 from app.analysis.suggestions import generate_suggestions
 from app.analysis.tracks_baseline import run_baseline_tracking
 from app.analysis.tracks_mock import generate_mock_tracks
+from app.analysis.tracks_onnx import run_onnx_tracking
 from app.analysis.video_io import get_video_metadata
 from app.config import settings
 
@@ -22,7 +25,8 @@ def run_pipeline(
 ) -> Dict[str, Any]:
     """Execute end-to-end analysis pipeline."""
     start_time = time.time()
-    analyzer = analyzer_override or settings.ANALYZER
+    raw_analyzer = analyzer_override or settings.ANALYZER
+    analyzer = resolve_analyzer_mode(raw_analyzer)
 
     # Test hook check
     orig_name = meta.get("original_name", "")
@@ -35,9 +39,10 @@ def run_pipeline(
         if settings.STAGE_DELAY_S > 0:
             time.sleep(settings.STAGE_DELAY_S)
 
-    # 1. Cleaning
+    # 1. Cleaning & Quality Probe
     stage_step("cleaning", 5)
     video_meta = get_video_metadata(video_path)
+    probe_metrics = probe_video_quality(video_path)
     stage_step("cleaning", 10)
 
     # If external analyzer configured
@@ -61,20 +66,64 @@ def run_pipeline(
             width=video_meta["width"],
             height=video_meta["height"],
         )
+        detection_stats = {
+            "frames_total": video_meta["frame_count"],
+            "frames_processed": len(tracks.frames),
+            "frames_with_detections_pct": 100.0,
+            "id_switch_estimate": 0,
+            "coverage_pct": 100.0,
+            "fish_tracked": goldfish_count,
+            "fish_median_px": 50.0,
+        }
+    elif analyzer == "onnx":
+        tracks, onnx_warnings, detection_stats = run_onnx_tracking(
+            video_path=video_path,
+            goldfish_count=goldfish_count,
+            progress_cb=stage_step,
+        )
+        extra_warnings.extend(onnx_warnings)
     else:
         # Baseline classical CV
-        tracks, baseline_warnings = run_baseline_tracking(
+        tracks, baseline_warnings, detection_stats = run_baseline_tracking(
             video_path=video_path,
             goldfish_count=goldfish_count,
             progress_cb=stage_step,
         )
         extra_warnings.extend(baseline_warnings)
 
+    # Compute reliability rating
+    fish_tracked = detection_stats.get("fish_tracked", 0)
+    cov_pct = detection_stats.get("coverage_pct", 0.0)
+    fish_median_px = detection_stats.get("fish_median_px", 0.0)
+
+    reliability = compute_reliability(
+        probe_metrics=probe_metrics,
+        coverage_pct=cov_pct,
+        fish_expected=goldfish_count,
+        fish_tracked=fish_tracked,
+        fish_median_px=fish_median_px,
+    )
+
+    if reliability["level"] == "low":
+        extra_warnings.append(
+            "Footage quality is rated low; interpretations and suggestions are low confidence."
+        )
+
     # 4. Analysing
     stage_step("analysing", 65)
     view = meta.get("view", "side")
     scoring_result = score_tracks(tracks, view=view)
     scoring_result["warnings"].extend(extra_warnings)
+
+    # If no fish detected at all, ensure zero score and clear warnings
+    if fish_tracked == 0:
+        scoring_result["tank_score"] = 0
+        scoring_result["level"] = "Normal"
+        scoring_result["stressed_count"] = 0
+        if not any("No goldfish detected" in w for w in scoring_result["warnings"]):
+            scoring_result["warnings"].append(
+                "No goldfish detected. Check lighting, camera angle, or try a clearer clip."
+            )
 
     # Add short duration warning if applicable
     if video_meta["duration_s"] < settings.MIN_DURATION_S:
@@ -87,12 +136,21 @@ def run_pipeline(
         "last_water_change_days": meta.get("last_water_change_days"),
         "last_fed_hours": meta.get("last_fed_hours"),
     }
-    suggestions = generate_suggestions(scoring_result["fish"], context=context)
+    # Pass reliability level to suggestions (if low, suggestions marked low_confidence)
+    # If no fish detected, do not suggest stress actions
+    if fish_tracked == 0:
+        suggestions = []
+    else:
+        suggestions = generate_suggestions(
+            scoring_result["fish"],
+            context=context,
+            reliability_level=reliability["level"],
+        )
     stage_step("analysing", 80)
 
     # 5. Rendering
     stage_step("rendering", 85)
-    video_filename, key_moments = render_annotated_video(
+    video_filename, key_moments, has_webm = render_annotated_video(
         video_path=video_path,
         tracks=tracks,
         scoring_result=scoring_result,
@@ -107,11 +165,18 @@ def run_pipeline(
         km["frame_url"] = f"/api/v1/results/{job_id}/frames/{frame_name}"
 
     analysis_time_s = round(time.time() - start_time, 2)
-    now_iso = datetime.now(timezone.utc).isoformat()
+    now_iso = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
-    return {
+    ret_detection = {
+        "frames_total": detection_stats.get("frames_total", video_meta["frame_count"]),
+        "frames_processed": detection_stats.get("frames_processed", len(tracks.frames)),
+        "frames_with_detections_pct": detection_stats.get("frames_with_detections_pct", 0.0),
+        "id_switch_estimate": detection_stats.get("id_switch_estimate", 0),
+    }
+
+    result_payload = {
         "job_id": job_id,
-        "mode": "mock" if analyzer == "mock" else "baseline",
+        "mode": analyzer,
         "tank": {
             "id": meta.get("tank_id", ""),
             "name": meta.get("tank_name", "Demo Tank"),
@@ -134,8 +199,15 @@ def run_pipeline(
         "key_moments": key_moments,
         "suggestions": suggestions,
         "warnings": scoring_result["warnings"],
+        "reliability": reliability,
+        "detection": ret_detection,
         "annotated_video_url": f"/api/v1/results/{job_id}/video",
         "disclaimer": "Behavioural indicator to support caretaker decisions; not a diagnosis.",
         "stressed_count": scoring_result["stressed_count"],
         "fish_count": scoring_result["fish_count"],
     }
+
+    if has_webm or settings.ENCODE_WEBM == 1:
+        result_payload["annotated_video_alt_url"] = f"/api/v1/results/{job_id}/video?format=webm"
+
+    return result_payload

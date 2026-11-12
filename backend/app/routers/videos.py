@@ -1,10 +1,11 @@
 import uuid
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, File, Form, UploadFile, status
+from fastapi import APIRouter, Depends, File, Form, Request, UploadFile, status
 from sqlalchemy.orm import Session
 
 from app.analysis.video_io import get_video_metadata
+from app.auth import get_current_owner_id
 from app.config import settings
 from app.db import get_db
 from app.errors import AppError
@@ -21,6 +22,7 @@ ALLOWED_VIEWS = {"side", "front", "top"}
 
 @router.post("", response_model=VideoUploadResponse, status_code=status.HTTP_202_ACCEPTED, summary="Upload a tank video and start analysis")
 async def upload_video(
+    request: Request,
     file: UploadFile = File(...),
     tank_id: str = Form(...),
     view: str = Form("side"),
@@ -30,7 +32,11 @@ async def upload_video(
     db: Session = Depends(get_db),
 ):
     # 1. Tank check
-    tank = db.query(Tank).filter(Tank.id == tank_id).first()
+    owner_id = get_current_owner_id(request)
+    q = db.query(Tank).filter(Tank.id == tank_id)
+    if owner_id is not None:
+        q = q.filter(Tank.owner_id == owner_id)
+    tank = q.first()
     if not tank:
         raise AppError(status_code=404, code="tank_not_found", message=f"Tank '{tank_id}' not found.")
 

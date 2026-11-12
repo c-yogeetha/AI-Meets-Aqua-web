@@ -1,0 +1,323 @@
+[
+  {
+    "id": "49215f5e3130",
+    "title": "Trajectory Kinematics Sample",
+    "description": "Tabular dataset of extracted goldfish coordinates, velocities and turn angles",
+    "category": "datasets",
+    "type": "csv",
+    "tags": [
+      "datasets",
+      "csv"
+    ],
+    "author": "Matsya Project Team",
+    "year": 2026,
+    "size_bytes": 887,
+    "duration_s": null,
+    "dimensions": null,
+    "source_url": null,
+    "external_url": null,
+    "featured": true,
+    "has_file": true,
+    "has_preview": false,
+    "has_thumb": true,
+    "metadata": {
+      "column_count": 7,
+      "columns": [
+        "frame",
+        "fish_id",
+        "x",
+        "y",
+        "speed_bl_s",
+        "turn_angle_deg",
+        "depth_ratio"
+      ],
+      "preview_rows": [
+        [
+          "1",
+          "1",
+          "102",
+          "201",
+          "1.30",
+          "25.0",
+          "0.45"
+        ],
+        [
+          "2",
+          "1",
+          "104",
+          "202",
+          "1.40",
+          "35.0",
+          "0.45"
+        ],
+        [
+          "3",
+          "1",
+          "106",
+          "203",
+          "1.50",
+          "45.0",
+          "0.45"
+        ],
+        [
+          "4",
+          "1",
+          "108",
+          "204",
+          "1.60",
+          "15.0",
+          "0.45"
+        ],
+        [
+          "5",
+          "1",
+          "110",
+          "205",
+          "1.20",
+          "25.0",
+          "0.45"
+        ],
+        [
+          "6",
+          "1",
+          "112",
+          "206",
+          "1.30",
+          "35.0",
+          "0.45"
+        ],
+        [
+          "7",
+          "1",
+          "114",
+          "207",
+          "1.40",
+          "45.0",
+          "0.45"
+        ],
+        [
+          "8",
+          "1",
+          "116",
+          "208",
+          "1.50",
+          "15.0",
+          "0.45"
+        ],
+        [
+          "9",
+          "1",
+          "118",
+          "209",
+          "1.60",
+          "25.0",
+          "0.45"
+        ],
+        [
+          "10",
+          "1",
+          "120",
+          "210",
+          "1.20",
+          "35.0",
+          "0.45"
+        ],
+        [
+          "11",
+          "1",
+          "122",
+          "211",
+          "1.30",
+          "45.0",
+          "0.45"
+        ],
+        [
+          "12",
+          "1",
+          "124",
+          "212",
+          "1.40",
+          "15.0",
+          "0.45"
+        ],
+        [
+          "13",
+          "1",
+          "126",
+          "213",
+          "1.50",
+          "25.0",
+          "0.45"
+        ],
+        [
+          "14",
+          "1",
+          "128",
+          "214",
+          "1.60",
+          "35.0",
+          "0.45"
+        ],
+        [
+          "15",
+          "1",
+          "130",
+          "215",
+          "1.20",
+          "45.0",
+          "0.45"
+        ],
+        [
+          "16",
+          "1",
+          "132",
+          "216",
+          "1.30",
+          "15.0",
+          "0.45"
+        ],
+        [
+          "17",
+          "1",
+          "134",
+          "217",
+          "1.40",
+          "25.0",
+          "0.45"
+        ],
+        [
+          "18",
+          "1",
+          "136",
+          "218",
+          "1.50",
+          "35.0",
+          "0.45"
+        ],
+        [
+          "19",
+          "1",
+          "138",
+          "219",
+          "1.60",
+          "45.0",
+          "0.45"
+        ],
+        [
+          "20",
+          "1",
+          "140",
+          "220",
+          "1.20",
+          "15.0",
+          "0.45"
+        ]
+      ],
+      "row_count": 30
+    }
+  },
+  {
+    "id": "78a1a3f6abde",
+    "title": "Calm Swimming Baseline",
+    "description": "Baseline 20s recording of calm goldfish swimming in a rectangular tank",
+    "category": "footage",
+    "type": "video",
+    "tags": [
+      "footage",
+      "video"
+    ],
+    "author": "Matsya Project Team",
+    "year": 2026,
+    "size_bytes": 986335,
+    "duration_s": 20.0,
+    "dimensions": "640x360",
+    "source_url": null,
+    "external_url": null,
+    "featured": true,
+    "has_file": true,
+    "has_preview": true,
+    "has_thumb": true,
+    "metadata": {
+      "fps": 15.0,
+      "frame_count": 300,
+      "duration_s": 20.0,
+      "dimensions": "640x360"
+    }
+  },
+  {
+    "id": "d7703508222f",
+    "title": "Kinematic Trajectory Quantification in Carassius auratus",
+    "description": "Non-invasive computer vision tracking provides objective metrics for evaluating stress behaviors",
+    "category": "literature",
+    "type": "pdf",
+    "tags": [
+      "literature",
+      "pdf"
+    ],
+    "author": "Matsya Project Team",
+    "year": 2026,
+    "size_bytes": 1620,
+    "duration_s": null,
+    "dimensions": null,
+    "source_url": null,
+    "external_url": null,
+    "featured": true,
+    "has_file": true,
+    "has_preview": true,
+    "has_thumb": true,
+    "metadata": {
+      "page_count": 1
+    }
+  },
+  {
+    "id": "4f8d89c9985a",
+    "title": "Matsya: Aquatic Behaviour Analysis Pipeline",
+    "description": "Presentation slide deck introducing Matsya vision, architecture, and results",
+    "category": "presentations",
+    "type": "slides",
+    "tags": [
+      "presentations",
+      "slides"
+    ],
+    "author": "Matsya Project Team",
+    "year": 2026,
+    "size_bytes": 28262,
+    "duration_s": null,
+    "dimensions": null,
+    "source_url": null,
+    "external_url": null,
+    "featured": false,
+    "has_file": true,
+    "has_preview": false,
+    "has_thumb": true,
+    "metadata": {
+      "slide_count": 1,
+      "slide_titles": [
+        "Slide 1: Matsya: Aquatic Behaviour Analysis Pipeline"
+      ]
+    }
+  },
+  {
+    "id": "ext998877665",
+    "title": "High-Speed Multi-Angle Goldfish Dataset",
+    "description": "Multi-angle high-speed tank video dataset stored in cloud repository",
+    "category": "datasets",
+    "type": "video",
+    "tags": [
+      "datasets",
+      "external"
+    ],
+    "author": "Matsya Research Group",
+    "year": 2026,
+    "size_bytes": 0,
+    "duration_s": null,
+    "dimensions": null,
+    "source_url": null,
+    "external_url": "https://drive.google.com/drive/folders/matsya-external-dataset",
+    "featured": false,
+    "has_file": false,
+    "has_preview": false,
+    "has_thumb": false,
+    "metadata": {}
+  }
+]

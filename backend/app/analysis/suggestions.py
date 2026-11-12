@@ -64,6 +64,7 @@ def generate_suggestions(
     fish_results: List[Dict[str, Any]],
     context: Optional[Dict[str, Any]] = None,
     rules_config: Optional[Dict[str, Any]] = None,
+    reliability_level: str = "high",
 ) -> List[Dict[str, Any]]:
     """Generate structured, actionable suggestions ordered by priority."""
     if rules_config is None:
@@ -74,10 +75,18 @@ def generate_suggestions(
     rules = rules_config.get("rules", {})
     context_rules = rules_config.get("context_rules", {})
 
+    # Map fish IDs with low confidence
+    low_conf_fish = set()
+    for f in fish_results:
+        if "low_confidence" in f.get("flags", []) or f.get("confidence", 1.0) < 0.4:
+            low_conf_fish.add(f.get("id"))
+
     flag_to_fish: Dict[str, List[str]] = {}
     for fish in fish_results:
         fid = fish.get("id", "Fish")
         for flag in fish.get("flags", []):
+            if flag == "low_confidence":
+                continue
             if flag not in flag_to_fish:
                 flag_to_fish[flag] = []
             flag_to_fish[flag].append(fid)
@@ -89,6 +98,10 @@ def generate_suggestions(
         if flag in rules:
             rule = rules[flag]
             action_text = rule["action"].replace("{fish}", format_fish_list(affected_fish))
+            is_low_conf = (
+                reliability_level == "low"
+                or any(fid in low_conf_fish for fid in affected_fish)
+            )
             suggestions.append({
                 "priority": rule.get("priority", "medium"),
                 "fish": affected_fish,
@@ -96,6 +109,7 @@ def generate_suggestions(
                 "cause": rule.get("cause", ""),
                 "action": action_text,
                 "source": rule.get("source", ""),
+                "low_confidence": is_low_conf,
             })
 
     # 2. Context-based rules
@@ -112,6 +126,7 @@ def generate_suggestions(
                 "cause": c_rule.get("cause", ""),
                 "action": action_text,
                 "source": c_rule.get("source", ""),
+                "low_confidence": reliability_level == "low",
             })
 
     # 3. All clear if no flags found
@@ -125,6 +140,7 @@ def generate_suggestions(
                 "cause": all_clear.get("cause", ""),
                 "action": all_clear.get("action", ""),
                 "source": all_clear.get("source", ""),
+                "low_confidence": reliability_level == "low",
             })
 
     # Priority sorting: high (0), medium (1), low (2)

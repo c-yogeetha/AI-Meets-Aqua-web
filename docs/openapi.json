@@ -1,0 +1,3245 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Matsya API",
+    "description": "Goldfish Stress Detection and Behavioral Analysis Pipeline",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Health Check v1",
+        "operationId": "health_check_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Health Check",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/system/status": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "System Status",
+        "operationId": "system_status_api_v1_system_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/system/info": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "System Information (Legacy)",
+        "operationId": "system_info_api_v1_system_info_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemInfoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/config/scoring": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Scoring and Rules Configuration",
+        "operationId": "get_scoring_config_api_v1_config_scoring_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoringConfigResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/overview": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Dashboard Overview Summary",
+        "operationId": "get_overview_api_v1_overview_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OverviewResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tanks": {
+      "get": {
+        "tags": [
+          "Tanks"
+        ],
+        "summary": "List all tank profiles",
+        "operationId": "list_tanks_api_v1_tanks_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TankResponse"
+                  },
+                  "type": "array",
+                  "title": "Response List Tanks Api V1 Tanks Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tanks"
+        ],
+        "summary": "Create a tank profile",
+        "operationId": "create_tank_api_v1_tanks_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TankCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TankResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/tanks/{tank_id}": {
+      "get": {
+        "tags": [
+          "Tanks"
+        ],
+        "summary": "Get tank profile by ID",
+        "operationId": "get_tank_api_v1_tanks__tank_id__get",
+        "parameters": [
+          {
+            "name": "tank_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tank Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TankResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Tanks"
+        ],
+        "summary": "Update tank profile",
+        "operationId": "update_tank_api_v1_tanks__tank_id__patch",
+        "parameters": [
+          {
+            "name": "tank_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tank Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TankUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TankResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tanks"
+        ],
+        "summary": "Update tank profile",
+        "operationId": "update_tank_api_v1_tanks__tank_id__put",
+        "parameters": [
+          {
+            "name": "tank_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tank Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TankUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TankResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tanks"
+        ],
+        "summary": "Delete tank and its data",
+        "operationId": "delete_tank_api_v1_tanks__tank_id__delete",
+        "parameters": [
+          {
+            "name": "tank_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Tank Id"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/videos": {
+      "post": {
+        "tags": [
+          "Videos"
+        ],
+        "summary": "Upload a tank video and start analysis",
+        "operationId": "upload_video_api_v1_videos_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_video_api_v1_videos_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VideoUploadResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Get analysis job status and progress",
+        "operationId": "get_job_api_v1_jobs__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}/cancel": {
+      "post": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Cancel a queued or running analysis job",
+        "operationId": "cancel_job_api_v1_jobs__job_id__cancel_post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/results/{job_id}": {
+      "get": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Get full analysis result",
+        "operationId": "get_result_api_v1_results__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Delete analysis result",
+        "operationId": "delete_result_api_v1_results__job_id__delete",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "permanent",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Permanent"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/results/{job_id}/video": {
+      "get": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Stream annotated video",
+        "operationId": "get_annotated_video_api_v1_results__job_id__video_get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/results/{job_id}/frames/{frame_name}": {
+      "get": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Get key frame image",
+        "operationId": "get_key_frame_api_v1_results__job_id__frames__frame_name__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "frame_name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Frame Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/results/{job_id}/report.pdf": {
+      "get": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Download PDF report",
+        "operationId": "get_pdf_report_api_v1_results__job_id__report_pdf_get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/results/{job_id}/restore": {
+      "post": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Restore result from recycle bin",
+        "operationId": "restore_analysis_api_v1_results__job_id__restore_post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{job_id}.pdf": {
+      "get": {
+        "tags": [
+          "Results"
+        ],
+        "summary": "Download PDF report (alias)",
+        "operationId": "get_pdf_report_api_v1_reports__job_id__pdf_get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/history": {
+      "get": {
+        "tags": [
+          "History"
+        ],
+        "summary": "Get paginated history of analyses",
+        "operationId": "get_history_api_v1_history_get",
+        "parameters": [
+          {
+            "name": "tank_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tank Id"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1,
+              "title": "Page"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 10,
+              "title": "Page Size"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedHistory"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/trash": {
+      "get": {
+        "tags": [
+          "Trash"
+        ],
+        "summary": "Get analyses in recycle bin",
+        "operationId": "list_trash_api_v1_trash_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TrashItem"
+                  },
+                  "type": "array",
+                  "title": "Response List Trash Api V1 Trash Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/trash/purge": {
+      "post": {
+        "tags": [
+          "Trash"
+        ],
+        "summary": "Purge expired trash immediately",
+        "operationId": "purge_trash_api_v1_trash_purge_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PurgeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/trash/{job_id}/restore": {
+      "post": {
+        "tags": [
+          "Trash"
+        ],
+        "summary": "Restore result from recycle bin (alias)",
+        "operationId": "restore_trash_alias_api_v1_trash__job_id__restore_post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/insights": {
+      "get": {
+        "tags": [
+          "Insights"
+        ],
+        "summary": "Get tank insights and FSI",
+        "operationId": "get_insights_api_v1_insights_get",
+        "parameters": [
+          {
+            "name": "tank_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Tank Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsightsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/alerts": {
+      "get": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "List system alerts",
+        "operationId": "list_alerts_api_v1_alerts_get",
+        "parameters": [
+          {
+            "name": "unread",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Unread"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlertResponse"
+                  },
+                  "title": "Response List Alerts Api V1 Alerts Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/alerts/{alert_id}/read": {
+      "post": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Mark alert as read",
+        "operationId": "mark_alert_read_api_v1_alerts__alert_id__read_post",
+        "parameters": [
+          {
+            "name": "alert_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Alert Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/alerts/read-all": {
+      "post": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Mark all alerts as read",
+        "operationId": "mark_all_alerts_read_api_v1_alerts_read_all_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/settings/alerts": {
+      "get": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Get alert settings",
+        "operationId": "get_alert_settings_api_v1_settings_alerts_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertSettingsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Alerts"
+        ],
+        "summary": "Update alert settings",
+        "operationId": "update_alert_settings_api_v1_settings_alerts_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertSettingsUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertSettingsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resources": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "List curated resource library items",
+        "operationId": "list_resources_api_v1_resources_get",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Category filter",
+              "title": "Category"
+            },
+            "description": "Category filter"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Type filter (pdf, video, etc.)",
+              "title": "Type"
+            },
+            "description": "Type filter (pdf, video, etc.)"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Search query",
+              "title": "Q"
+            },
+            "description": "Search query"
+          },
+          {
+            "name": "featured",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Featured items filter",
+              "title": "Featured"
+            },
+            "description": "Featured items filter"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Page number",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "Page number"
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Items per page",
+              "default": 20,
+              "title": "Page Size"
+            },
+            "description": "Items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resources/{resource_id}": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Get metadata for a specific resource",
+        "operationId": "get_resource_api_v1_resources__resource_id__get",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Resource Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resources/{resource_id}/file": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Download resource attachment",
+        "operationId": "download_resource_file_api_v1_resources__resource_id__file_get",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Resource Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resources/{resource_id}/preview": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Inline preview or stream of resource",
+        "operationId": "preview_resource_api_v1_resources__resource_id__preview_get",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Resource Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resources/{resource_id}/thumb": {
+      "get": {
+        "tags": [
+          "Resources"
+        ],
+        "summary": "Get resource thumbnail",
+        "operationId": "get_resource_thumbnail_api_v1_resources__resource_id__thumb_get",
+        "parameters": [
+          {
+            "name": "resource_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Resource Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/demo/seed": {
+      "post": {
+        "tags": [
+          "Demo"
+        ],
+        "summary": "Seed sample demo tank and results",
+        "operationId": "seed_demo_data_api_v1_demo_seed_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DemoSeedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AlertResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "result_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Id"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "read": {
+            "type": "boolean",
+            "title": "Read"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "tank_id",
+          "severity",
+          "message",
+          "created_at",
+          "read"
+        ],
+        "title": "AlertResponse"
+      },
+      "AlertSettingsResponse": {
+        "properties": {
+          "dashboard_popup": {
+            "type": "boolean",
+            "title": "Dashboard Popup"
+          },
+          "email_enabled": {
+            "type": "boolean",
+            "title": "Email Enabled"
+          },
+          "email_to": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email To"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dashboard_popup",
+          "email_enabled"
+        ],
+        "title": "AlertSettingsResponse"
+      },
+      "AlertSettingsUpdate": {
+        "properties": {
+          "dashboard_popup": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dashboard Popup"
+          },
+          "email_enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email Enabled"
+          },
+          "email_to": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email To"
+          }
+        },
+        "type": "object",
+        "title": "AlertSettingsUpdate"
+      },
+      "Body_upload_video_api_v1_videos_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          },
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "view": {
+            "type": "string",
+            "title": "View",
+            "default": "side"
+          },
+          "water_temp_c": {
+            "type": "string",
+            "title": "Water Temp C"
+          },
+          "last_water_change_days": {
+            "type": "string",
+            "title": "Last Water Change Days"
+          },
+          "last_fed_hours": {
+            "type": "string",
+            "title": "Last Fed Hours"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file",
+          "tank_id"
+        ],
+        "title": "Body_upload_video_api_v1_videos_post"
+      },
+      "DemoSeedResponse": {
+        "properties": {
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "result_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Result Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tank_id",
+          "result_ids"
+        ],
+        "title": "DemoSeedResponse"
+      },
+      "DetectionStats": {
+        "properties": {
+          "frames_total": {
+            "type": "integer",
+            "title": "Frames Total",
+            "default": 0
+          },
+          "frames_processed": {
+            "type": "integer",
+            "title": "Frames Processed",
+            "default": 0
+          },
+          "frames_with_detections_pct": {
+            "type": "number",
+            "title": "Frames With Detections Pct",
+            "default": 0.0
+          },
+          "id_switch_estimate": {
+            "type": "integer",
+            "title": "Id Switch Estimate",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "DetectionStats"
+      },
+      "DetectorsMap": {
+        "properties": {
+          "baseline": {
+            "type": "boolean",
+            "title": "Baseline",
+            "default": true
+          },
+          "onnx": {
+            "type": "boolean",
+            "title": "Onnx",
+            "default": false
+          },
+          "external": {
+            "type": "boolean",
+            "title": "External",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "DetectorsMap"
+      },
+      "FishMetrics": {
+        "properties": {
+          "speed_bl_s": {
+            "type": "number",
+            "title": "Speed Bl S"
+          },
+          "direction_change_rate": {
+            "type": "number",
+            "title": "Direction Change Rate"
+          },
+          "isolation_ratio": {
+            "type": "number",
+            "title": "Isolation Ratio"
+          },
+          "surface_ratio": {
+            "type": "number",
+            "title": "Surface Ratio"
+          },
+          "bottom_ratio": {
+            "type": "number",
+            "title": "Bottom Ratio"
+          },
+          "inactivity_ratio": {
+            "type": "number",
+            "title": "Inactivity Ratio"
+          }
+        },
+        "type": "object",
+        "required": [
+          "speed_bl_s",
+          "direction_change_rate",
+          "isolation_ratio",
+          "surface_ratio",
+          "bottom_ratio",
+          "inactivity_ratio"
+        ],
+        "title": "FishMetrics"
+      },
+      "FishPoint": {
+        "properties": {
+          "flag": {
+            "type": "string",
+            "title": "Flag"
+          },
+          "points": {
+            "type": "integer",
+            "title": "Points"
+          }
+        },
+        "type": "object",
+        "required": [
+          "flag",
+          "points"
+        ],
+        "title": "FishPoint"
+      },
+      "FishResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^Fish_\\d+$",
+            "title": "Id"
+          },
+          "score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Score"
+          },
+          "stressed": {
+            "type": "boolean",
+            "title": "Stressed"
+          },
+          "flags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Flags"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/FishMetrics"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/FishPoint"
+            },
+            "type": "array",
+            "title": "Points"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/TimelinePoint"
+            },
+            "type": "array",
+            "title": "Timeline"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence",
+            "default": 1.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "score",
+          "stressed",
+          "flags",
+          "metrics",
+          "points",
+          "explanation",
+          "timeline"
+        ],
+        "title": "FishResult"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HistoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "tank_name": {
+            "type": "string",
+            "title": "Tank Name"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "tank_score": {
+            "type": "integer",
+            "title": "Tank Score"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "stressed_count": {
+            "type": "integer",
+            "title": "Stressed Count"
+          },
+          "fish_count": {
+            "type": "integer",
+            "title": "Fish Count"
+          },
+          "duration_s": {
+            "type": "number",
+            "title": "Duration S"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "tank_id",
+          "tank_name",
+          "created_at",
+          "tank_score",
+          "level",
+          "stressed_count",
+          "fish_count",
+          "duration_s",
+          "mode"
+        ],
+        "title": "HistoryItem"
+      },
+      "InsightSeriesPoint": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "score"
+        ],
+        "title": "InsightSeriesPoint"
+      },
+      "InsightsResponse": {
+        "properties": {
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "fsi": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fsi"
+          },
+          "level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Level"
+          },
+          "trend": {
+            "type": "string",
+            "title": "Trend"
+          },
+          "series": {
+            "items": {
+              "$ref": "#/components/schemas/InsightSeriesPoint"
+            },
+            "type": "array",
+            "title": "Series"
+          },
+          "messages": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Messages"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tank_id",
+          "trend",
+          "series",
+          "messages"
+        ],
+        "title": "InsightsResponse"
+      },
+      "JobResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "video_id": {
+            "type": "string",
+            "title": "Video Id"
+          },
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "stage": {
+            "type": "string",
+            "title": "Stage"
+          },
+          "progress": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Progress"
+          },
+          "queue_position": {
+            "type": "integer",
+            "title": "Queue Position",
+            "default": 0
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "analyzer": {
+            "type": "string",
+            "title": "Analyzer"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "video_id",
+          "tank_id",
+          "status",
+          "stage",
+          "progress",
+          "analyzer",
+          "created_at"
+        ],
+        "title": "JobResponse"
+      },
+      "KeyMoment": {
+        "properties": {
+          "t": {
+            "type": "number",
+            "title": "T"
+          },
+          "fish": {
+            "type": "string",
+            "title": "Fish"
+          },
+          "behaviour": {
+            "type": "string",
+            "title": "Behaviour"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "frame_url": {
+            "type": "string",
+            "title": "Frame Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "t",
+          "fish",
+          "behaviour",
+          "label",
+          "frame_url"
+        ],
+        "title": "KeyMoment"
+      },
+      "OverviewResponse": {
+        "properties": {
+          "tanks_count": {
+            "type": "integer",
+            "title": "Tanks Count"
+          },
+          "analyses_count": {
+            "type": "integer",
+            "title": "Analyses Count"
+          },
+          "analyses_this_week": {
+            "type": "integer",
+            "title": "Analyses This Week"
+          },
+          "flagged_fish_count": {
+            "type": "integer",
+            "title": "Flagged Fish Count"
+          },
+          "unread_alerts_count": {
+            "type": "integer",
+            "title": "Unread Alerts Count"
+          },
+          "tanks": {
+            "items": {
+              "$ref": "#/components/schemas/TankOverviewSummary"
+            },
+            "type": "array",
+            "title": "Tanks"
+          },
+          "recent_analyses": {
+            "items": {
+              "$ref": "#/components/schemas/RecentAnalysisSummary"
+            },
+            "type": "array",
+            "title": "Recent Analyses"
+          },
+          "priority_alerts": {
+            "items": {
+              "$ref": "#/components/schemas/PriorityAlertSummary"
+            },
+            "type": "array",
+            "title": "Priority Alerts"
+          },
+          "recommended_actions": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Recommended Actions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tanks_count",
+          "analyses_count",
+          "analyses_this_week",
+          "flagged_fish_count",
+          "unread_alerts_count",
+          "tanks",
+          "recent_analyses",
+          "priority_alerts",
+          "recommended_actions"
+        ],
+        "title": "OverviewResponse"
+      },
+      "PagedHistory": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/HistoryItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page"
+          },
+          "page_size": {
+            "type": "integer",
+            "title": "Page Size"
+          }
+        },
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "page",
+          "page_size"
+        ],
+        "title": "PagedHistory"
+      },
+      "PriorityAlertSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "tank_id",
+          "severity",
+          "message",
+          "created_at"
+        ],
+        "title": "PriorityAlertSummary"
+      },
+      "PurgeResponse": {
+        "properties": {
+          "purged": {
+            "type": "integer",
+            "title": "Purged"
+          }
+        },
+        "type": "object",
+        "required": [
+          "purged"
+        ],
+        "title": "PurgeResponse"
+      },
+      "RecentAnalysisSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "tank_name": {
+            "type": "string",
+            "title": "Tank Name"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "tank_score": {
+            "type": "integer",
+            "title": "Tank Score"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "stressed_count": {
+            "type": "integer",
+            "title": "Stressed Count"
+          },
+          "fish_count": {
+            "type": "integer",
+            "title": "Fish Count"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "tank_id",
+          "tank_name",
+          "created_at",
+          "tank_score",
+          "level",
+          "stressed_count",
+          "fish_count",
+          "mode"
+        ],
+        "title": "RecentAnalysisSummary"
+      },
+      "ReliabilityInfo": {
+        "properties": {
+          "level": {
+            "type": "string",
+            "title": "Level",
+            "default": "high"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score",
+            "default": 100
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons",
+            "default": []
+          },
+          "tips": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tips",
+            "default": []
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/ReliabilityMetrics"
+          }
+        },
+        "type": "object",
+        "title": "ReliabilityInfo"
+      },
+      "ReliabilityMetrics": {
+        "properties": {
+          "brightness": {
+            "type": "number",
+            "title": "Brightness",
+            "default": 0.0
+          },
+          "contrast": {
+            "type": "number",
+            "title": "Contrast",
+            "default": 0.0
+          },
+          "sharpness": {
+            "type": "number",
+            "title": "Sharpness",
+            "default": 0.0
+          },
+          "shake_px": {
+            "type": "number",
+            "title": "Shake Px",
+            "default": 0.0
+          },
+          "coverage_pct": {
+            "type": "number",
+            "title": "Coverage Pct",
+            "default": 0.0
+          },
+          "fish_expected": {
+            "type": "integer",
+            "title": "Fish Expected",
+            "default": 0
+          },
+          "fish_tracked": {
+            "type": "integer",
+            "title": "Fish Tracked",
+            "default": 0
+          },
+          "fish_median_px": {
+            "type": "number",
+            "title": "Fish Median Px",
+            "default": 0.0
+          },
+          "fps": {
+            "type": "number",
+            "title": "Fps",
+            "default": 0.0
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width",
+            "default": 0
+          },
+          "height": {
+            "type": "integer",
+            "title": "Height",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "ReliabilityMetrics"
+      },
+      "ResultResponse": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "tank": {
+            "$ref": "#/components/schemas/ResultTankInfo"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "analysis_time_s": {
+            "type": "number",
+            "title": "Analysis Time S"
+          },
+          "video": {
+            "$ref": "#/components/schemas/ResultVideoInfo"
+          },
+          "tank_score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Tank Score"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "threshold": {
+            "type": "integer",
+            "title": "Threshold"
+          },
+          "fish": {
+            "items": {
+              "$ref": "#/components/schemas/FishResult"
+            },
+            "type": "array",
+            "title": "Fish"
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/TimelinePoint"
+            },
+            "type": "array",
+            "title": "Timeline"
+          },
+          "key_moments": {
+            "items": {
+              "$ref": "#/components/schemas/KeyMoment"
+            },
+            "type": "array",
+            "title": "Key Moments"
+          },
+          "suggestions": {
+            "items": {
+              "$ref": "#/components/schemas/SuggestionItem"
+            },
+            "type": "array",
+            "title": "Suggestions"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "reliability": {
+            "$ref": "#/components/schemas/ReliabilityInfo"
+          },
+          "detection": {
+            "$ref": "#/components/schemas/DetectionStats"
+          },
+          "annotated_video_url": {
+            "type": "string",
+            "title": "Annotated Video Url"
+          },
+          "annotated_video_alt_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotated Video Alt Url"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "mode",
+          "tank",
+          "created_at",
+          "analysis_time_s",
+          "video",
+          "tank_score",
+          "level",
+          "threshold",
+          "fish",
+          "timeline",
+          "key_moments",
+          "suggestions",
+          "warnings",
+          "annotated_video_url",
+          "disclaimer"
+        ],
+        "title": "ResultResponse"
+      },
+      "ResultTankInfo": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "goldfish_count": {
+            "type": "integer",
+            "title": "Goldfish Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "goldfish_count"
+        ],
+        "title": "ResultTankInfo"
+      },
+      "ResultVideoInfo": {
+        "properties": {
+          "duration_s": {
+            "type": "number",
+            "title": "Duration S"
+          },
+          "fps": {
+            "type": "number",
+            "title": "Fps"
+          },
+          "width": {
+            "type": "integer",
+            "title": "Width"
+          },
+          "height": {
+            "type": "integer",
+            "title": "Height"
+          },
+          "view": {
+            "type": "string",
+            "title": "View"
+          }
+        },
+        "type": "object",
+        "required": [
+          "duration_s",
+          "fps",
+          "width",
+          "height",
+          "view"
+        ],
+        "title": "ResultVideoInfo"
+      },
+      "ScoringConfigResponse": {
+        "properties": {
+          "threshold": {
+            "type": "integer",
+            "title": "Threshold"
+          },
+          "levels": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Levels"
+          },
+          "window_s": {
+            "type": "integer",
+            "title": "Window S"
+          },
+          "sample_hz": {
+            "type": "integer",
+            "title": "Sample Hz"
+          },
+          "zones": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Zones"
+          },
+          "speed": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Speed"
+          },
+          "direction": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Direction"
+          },
+          "isolation": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Isolation"
+          },
+          "surface": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Surface"
+          },
+          "bottom": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Bottom"
+          },
+          "lethargy": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Lethargy"
+          },
+          "points": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Points"
+          },
+          "tank_formula": {
+            "type": "string",
+            "title": "Tank Formula"
+          },
+          "rules": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ScoringRuleItem"
+            },
+            "type": "object",
+            "title": "Rules"
+          },
+          "context_rules": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ScoringRuleItem"
+            },
+            "type": "object",
+            "title": "Context Rules"
+          },
+          "provenance": {
+            "type": "string",
+            "title": "Provenance"
+          }
+        },
+        "type": "object",
+        "required": [
+          "threshold",
+          "levels",
+          "window_s",
+          "sample_hz",
+          "zones",
+          "speed",
+          "direction",
+          "isolation",
+          "surface",
+          "bottom",
+          "lethargy",
+          "points",
+          "tank_formula",
+          "rules",
+          "context_rules",
+          "provenance"
+        ],
+        "title": "ScoringConfigResponse"
+      },
+      "ScoringRuleItem": {
+        "properties": {
+          "priority": {
+            "type": "string",
+            "title": "Priority"
+          },
+          "behaviour": {
+            "type": "string",
+            "title": "Behaviour"
+          },
+          "cause": {
+            "type": "string",
+            "title": "Cause"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "when": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "When"
+          }
+        },
+        "type": "object",
+        "required": [
+          "priority",
+          "behaviour",
+          "cause",
+          "action"
+        ],
+        "title": "ScoringRuleItem"
+      },
+      "SuggestionItem": {
+        "properties": {
+          "priority": {
+            "type": "string",
+            "title": "Priority"
+          },
+          "fish": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Fish"
+          },
+          "behaviour": {
+            "type": "string",
+            "title": "Behaviour"
+          },
+          "cause": {
+            "type": "string",
+            "title": "Cause"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "default": ""
+          },
+          "low_confidence": {
+            "type": "boolean",
+            "title": "Low Confidence",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "priority",
+          "fish",
+          "behaviour",
+          "cause",
+          "action"
+        ],
+        "title": "SuggestionItem"
+      },
+      "SystemInfoResponse": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "analyzer": {
+            "type": "string",
+            "title": "Analyzer"
+          },
+          "external_available": {
+            "type": "boolean",
+            "title": "External Available"
+          },
+          "max_upload_mb": {
+            "type": "integer",
+            "title": "Max Upload Mb"
+          },
+          "max_duration_s": {
+            "type": "number",
+            "title": "Max Duration S"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version",
+          "analyzer",
+          "external_available",
+          "max_upload_mb",
+          "max_duration_s"
+        ],
+        "title": "SystemInfoResponse"
+      },
+      "SystemLimits": {
+        "properties": {
+          "max_upload_mb": {
+            "type": "integer",
+            "title": "Max Upload Mb"
+          },
+          "max_duration_s": {
+            "type": "number",
+            "title": "Max Duration S"
+          },
+          "min_duration_s": {
+            "type": "number",
+            "title": "Min Duration S"
+          },
+          "job_timeout_s": {
+            "type": "number",
+            "title": "Job Timeout S"
+          },
+          "max_queue": {
+            "type": "integer",
+            "title": "Max Queue"
+          }
+        },
+        "type": "object",
+        "required": [
+          "max_upload_mb",
+          "max_duration_s",
+          "min_duration_s",
+          "job_timeout_s",
+          "max_queue"
+        ],
+        "title": "SystemLimits"
+      },
+      "SystemStatusResponse": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "default": "1.0.0"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "detectors": {
+            "$ref": "#/components/schemas/DetectorsMap"
+          },
+          "queue_length": {
+            "type": "integer",
+            "title": "Queue Length"
+          },
+          "limits": {
+            "$ref": "#/components/schemas/SystemLimits"
+          },
+          "uptime_s": {
+            "type": "number",
+            "title": "Uptime S"
+          },
+          "disk_free_mb": {
+            "type": "integer",
+            "title": "Disk Free Mb"
+          }
+        },
+        "type": "object",
+        "required": [
+          "mode",
+          "detectors",
+          "queue_length",
+          "limits",
+          "uptime_s",
+          "disk_free_mb"
+        ],
+        "title": "SystemStatusResponse"
+      },
+      "TankCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Name",
+            "description": "Name of the tank"
+          },
+          "volume_l": {
+            "type": "number",
+            "maximum": 5000.0,
+            "minimum": 1.0,
+            "title": "Volume L",
+            "description": "Volume in litres"
+          },
+          "goldfish_count": {
+            "type": "integer",
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Goldfish Count",
+            "description": "Number of goldfish"
+          },
+          "water_temp_c": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 40.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Water Temp C",
+            "description": "Water temperature in Celsius"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "volume_l",
+          "goldfish_count"
+        ],
+        "title": "TankCreate"
+      },
+      "TankOverviewSummary": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "goldfish_count": {
+            "type": "integer",
+            "title": "Goldfish Count"
+          },
+          "volume_l": {
+            "type": "number",
+            "title": "Volume L"
+          },
+          "latest_score": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Score"
+          },
+          "latest_level": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latest Level"
+          },
+          "last_analyzed_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Analyzed At"
+          },
+          "sparkline": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Sparkline",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "goldfish_count",
+          "volume_l"
+        ],
+        "title": "TankOverviewSummary"
+      },
+      "TankResponse": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1,
+            "title": "Name",
+            "description": "Name of the tank"
+          },
+          "volume_l": {
+            "type": "number",
+            "maximum": 5000.0,
+            "minimum": 1.0,
+            "title": "Volume L",
+            "description": "Volume in litres"
+          },
+          "goldfish_count": {
+            "type": "integer",
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Goldfish Count",
+            "description": "Number of goldfish"
+          },
+          "water_temp_c": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 40.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Water Temp C",
+            "description": "Water temperature in Celsius"
+          },
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "volume_l",
+          "goldfish_count",
+          "id",
+          "created_at"
+        ],
+        "title": "TankResponse"
+      },
+      "TankUpdate": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 300,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "description": "Name of the tank"
+          },
+          "volume_l": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 5000.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Volume L",
+            "description": "Volume in litres"
+          },
+          "goldfish_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 20.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Goldfish Count",
+            "description": "Number of goldfish"
+          },
+          "water_temp_c": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 40.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Water Temp C",
+            "description": "Water temperature in Celsius"
+          }
+        },
+        "type": "object",
+        "title": "TankUpdate"
+      },
+      "TimelinePoint": {
+        "properties": {
+          "t": {
+            "type": "number",
+            "title": "T"
+          },
+          "score": {
+            "type": "integer",
+            "title": "Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "t",
+          "score"
+        ],
+        "title": "TimelinePoint"
+      },
+      "TrashItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "tank_id": {
+            "type": "string",
+            "title": "Tank Id"
+          },
+          "tank_name": {
+            "type": "string",
+            "title": "Tank Name"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "deleted_at": {
+            "type": "string",
+            "title": "Deleted At"
+          },
+          "days_remaining": {
+            "type": "integer",
+            "title": "Days Remaining"
+          },
+          "tank_score": {
+            "type": "integer",
+            "title": "Tank Score"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "tank_id",
+          "tank_name",
+          "created_at",
+          "deleted_at",
+          "days_remaining",
+          "tank_score",
+          "level"
+        ],
+        "title": "TrashItem"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VideoUploadResponse": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "title": "Job Id"
+          },
+          "video_id": {
+            "type": "string",
+            "title": "Video Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "job_id",
+          "video_id"
+        ],
+        "title": "VideoUploadResponse"
+      }
+    }
+  }
+}

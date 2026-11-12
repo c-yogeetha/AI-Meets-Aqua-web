@@ -6,6 +6,10 @@ export default function BubbleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -13,6 +17,7 @@ export default function BubbleCanvas() {
 
     let animId: number;
     let isVisible = true;
+    let isIntersecting = true;
 
     const resize = () => {
       canvas.width = canvas.parentElement?.clientWidth || window.innerWidth;
@@ -21,57 +26,50 @@ export default function BubbleCanvas() {
     resize();
     window.addEventListener("resize", resize);
 
-    // Visibility change handling to pause animation when tab is inactive
+    const observer = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+    });
+    observer.observe(canvas);
+
     const handleVisibility = () => {
       isVisible = !document.hidden;
-      if (isVisible) {
-        lastTime = performance.now();
-        animId = requestAnimationFrame(animate);
-      } else {
-        cancelAnimationFrame(animId);
-      }
     };
     document.addEventListener("visibilitychange", handleVisibility);
 
-    // Bubble particles
-    const bubbleCount = 28;
+    const bubbleCount = 24;
     const bubbles = Array.from({ length: bubbleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      radius: Math.random() * 3 + 1,
-      speed: Math.random() * 0.8 + 0.3,
-      opacity: Math.random() * 0.3 + 0.1,
+      radius: Math.random() * 2.5 + 1,
+      speed: Math.random() * 0.6 + 0.2,
+      opacity: Math.random() * 0.25 + 0.08,
       wobble: Math.random() * Math.PI * 2,
     }));
 
     let lastTime = performance.now();
 
     const animate = (currentTime: number) => {
-      if (!isVisible) return;
-      const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
+      if (isVisible && isIntersecting) {
+        const dt = Math.min((currentTime - lastTime) / 1000, 0.1);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        bubbles.forEach((b) => {
+          b.y -= b.speed * 60 * dt;
+          b.wobble += dt * 2;
+          const xOffset = Math.sin(b.wobble) * 0.5;
+
+          if (b.y < -10) {
+            b.y = canvas.height + 10;
+            b.x = Math.random() * canvas.width;
+          }
+
+          ctx.beginPath();
+          ctx.arc(b.x + xOffset, b.y, b.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(79, 209, 197, ${b.opacity})`;
+          ctx.fill();
+        });
+      }
       lastTime = currentTime;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      bubbles.forEach((b) => {
-        b.y -= b.speed * 60 * dt;
-        b.wobble += dt * 2;
-        const xOffset = Math.sin(b.wobble) * 0.5;
-
-        if (b.y < -10) {
-          b.y = canvas.height + 10;
-          b.x = Math.random() * canvas.width;
-        }
-
-        ctx.beginPath();
-        ctx.arc(b.x + xOffset, b.y, b.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(61, 214, 208, ${b.opacity})`;
-        ctx.fill();
-        ctx.strokeStyle = `rgba(207, 245, 242, ${b.opacity * 1.5})`;
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
-      });
-
       animId = requestAnimationFrame(animate);
     };
 
@@ -80,6 +78,7 @@ export default function BubbleCanvas() {
     return () => {
       window.removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", handleVisibility);
+      observer.disconnect();
       cancelAnimationFrame(animId);
     };
   }, []);
@@ -87,7 +86,7 @@ export default function BubbleCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none z-0 opacity-60"
+      className="absolute inset-0 pointer-events-none z-0 opacity-40"
       aria-hidden="true"
     />
   );

@@ -19,7 +19,6 @@
       "tank_score_min": 35,
       "stressed_count": 1,
       "flags_any": [
-        "fast_swimming",
         "erratic_swimming",
         "surface_gasping"
       ],
@@ -85,6 +84,95 @@
       "level_in": [
         "Normal"
       ]
+    }
+  },
+  "lethargic_all.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "flags_any": [
+        "lethargic"
+      ],
+      "level_in": [
+        "Normal",
+        "Moderate"
+      ]
+    }
+  },
+  "white_fish.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "level_in": [
+        "Normal"
+      ]
+    }
+  },
+  "two_fish_overlap.mp4": {
+    "fish_count": 2,
+    "view": "side",
+    "expect": {
+      "level_in": [
+        "Normal"
+      ]
+    }
+  },
+  "plants_decoy.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "tank_score_max": 34,
+      "stressed_count": 0,
+      "level_in": [
+        "Normal"
+      ]
+    }
+  },
+  "dark.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "reliability_level_in": [
+        "medium",
+        "low"
+      ],
+      "reliability_reason_contains": "underexposed"
+    }
+  },
+  "blurred.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "reliability_level_in": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "reliability_reason_contains": "blurry"
+    }
+  },
+  "shaky.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "reliability_level_in": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "reliability_reason_contains": "movement"
+    }
+  },
+  "tiny_fish.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "expect": {
+      "reliability_level_in": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "reliability_reason_contains": "small"
     }
   }
 }

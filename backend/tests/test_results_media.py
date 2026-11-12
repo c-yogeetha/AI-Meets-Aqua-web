@@ -93,5 +93,5 @@ def test_b_p01_pdf_report(client: TestClient, finished_job_id: str):
     reader = pypdf.PdfReader(io.BytesIO(resp.content))
     assert len(reader.pages) >= 1
     text = "".join(page.extract_text() for page in reader.pages)
-    assert "AI Meets Aqua" in text
+    assert "Matsya" in text
     assert "Tank" in text

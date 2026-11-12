@@ -3,77 +3,116 @@
 @tailwind utilities;
 
 :root {
-  --font-inter: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-fraunces: "Fraunces", Georgia, serif;
+  --abyss: #040D14;
+  --trench: #071A27;
+  --deep: #0A2A3D;
+  --current: #12485F;
+  --lagoon: #1E7F8C;
+  --aqua: #4FD1C5;
+  --foam: #D7EEEA;
+  --paper: #EEF4F1;
+  --gold: #E8A23A;
+  --ink: #E6EFED;
+  --ink-2: #9FB5B8;
+  --ink-3: #6D878C;
+  --ok: #3FBF8F;
+  --warn: #E9B949;
+  --danger: #E5636A;
+  --hair: rgba(215, 238, 234, 0.12);
+  --hair-strong: rgba(215, 238, 234, 0.22);
+  --radius: 6px;
+  --radius-lg: 8px;
+
+  --font-inter: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-fraunces: 'Fraunces Variable', Georgia, serif;
+  --font-jetbrains-mono: 'JetBrains Mono Variable', monospace;
 }
 
-body {
-  color: #E8F7F6;
-  background-color: #04141F;
-  background-image: radial-gradient(circle at 50% 0%, #062B3D 0%, #04141F 80%);
-  background-attachment: fixed;
-  min-height: 100vh;
+html {
+  color-scheme: dark;
+  background-color: var(--abyss);
+  color: var(--ink);
   font-family: var(--font-inter);
 }
 
-@layer components {
-  .glass-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(12px);
-    border-radius: 1rem;
-    transition: all 0.2s ease-in-out;
-  }
-  .glass-card:hover {
-    border-color: rgba(61, 214, 208, 0.3);
-    box-shadow: 0 0 20px rgba(61, 214, 208, 0.15);
-  }
-  .btn-gold {
-    background-color: #FF8A1F;
-    color: #04141F;
-    font-weight: 600;
-    box-shadow: 0 0 20px rgba(255, 138, 31, 0.35);
-    transition: all 0.2s ease-in-out;
-  }
-  .btn-gold:hover {
-    background-color: #FFA34D;
-    box-shadow: 0 0 25px rgba(255, 138, 31, 0.5);
-    transform: translateY(-1px);
-  }
-  .btn-gold:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-  .btn-secondary {
-    border: 1px solid #3DD6D0;
-    color: #3DD6D0;
-    background-color: transparent;
-    transition: all 0.2s ease-in-out;
-  }
-  .btn-secondary:hover {
-    background-color: rgba(61, 214, 208, 0.1);
-    box-shadow: 0 0 15px rgba(61, 214, 208, 0.25);
-  }
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--abyss);
+  color: var(--ink);
+  overflow-x: hidden;
 }
 
-@keyframes swim {
-  0% {
-    transform: translateX(-10vw) translateY(0);
-  }
-  49% {
-    transform: translateX(110vw) translateY(40px) scaleX(1);
-  }
-  50% {
-    transform: translateX(110vw) translateY(40px) scaleX(-1);
-  }
-  99% {
-    transform: translateX(-10vw) translateY(0) scaleX(-1);
-  }
-  100% {
-    transform: translateX(-10vw) translateY(0) scaleX(1);
-  }
+/* Reading text length restriction */
+.prose-readable {
+  max-width: 66ch;
+}
+
+/* Tabular figures for numerals */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Monospace label standard */
+.label-mono {
+  font-family: var(--font-jetbrains-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+}
+
+/* Hairline panel style */
+.hairline-panel {
+  border: 1px solid var(--hair);
+  border-radius: var(--radius);
+  background-color: var(--trench);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 2px;
+}
+
+/* Buttons */
+.btn-primary-gold {
+  background-color: var(--gold);
+  color: var(--abyss);
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.btn-primary-gold:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.btn-primary-gold:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary-aqua {
+  border: 1px solid var(--aqua);
+  color: var(--aqua);
+  background-color: transparent;
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.btn-secondary-aqua:hover {
+  background-color: rgba(79, 209, 197, 0.1);
 }
 
 @media (prefers-reduced-motion: reduce) {

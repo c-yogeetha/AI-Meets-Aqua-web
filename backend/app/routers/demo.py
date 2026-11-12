@@ -5,9 +5,10 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
+from app.auth import get_current_owner_id
 from app.clock import now
 from app.config import settings
 from app.db import get_db
@@ -32,9 +33,14 @@ def create_dummy_sample_video(output_mp4: Path, width: int = 640, height: int = 
 
 
 @router.post("/seed", response_model=DemoSeedResponse, summary="Seed sample demo tank and results")
-def seed_demo_data(db: Session = Depends(get_db)):
+def seed_demo_data(request: Request, db: Session = Depends(get_db)):
+    owner_id = get_current_owner_id(request) or "legacy"
     demo_tank_name = "Demo Tank (sample)"
-    existing_tank = db.query(Tank).filter(Tank.name == demo_tank_name).first()
+    existing_tank = (
+        db.query(Tank)
+        .filter(Tank.name == demo_tank_name, Tank.owner_id == owner_id)
+        .first()
+    )
 
     if existing_tank:
         existing_results = (
@@ -63,13 +69,14 @@ def seed_demo_data(db: Session = Depends(get_db)):
             )
         tank = existing_tank
     else:
-        # Create Demo Tank
+        # Create Demo Tank for current owner
         current_time = now()
         tank = Tank(
             name=demo_tank_name,
             volume_l=60.0,
             goldfish_count=3,
             water_temp_c=22.0,
+            owner_id=owner_id,
             created_at=current_time - timedelta(days=3),
         )
         db.add(tank)

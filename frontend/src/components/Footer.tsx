@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { Fish } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -8,8 +9,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-xl">🐟</span>
-              <span className="font-display font-bold text-lg text-white">AI Meets Aqua</span>
+              <Fish className="w-5 h-5 text-aqua" />
+              <span className="font-display font-bold text-lg text-white">Matsya</span>
+              <span className="text-xs text-foam/40 font-mono pl-1 border-l border-white/10">AI Meets Aqua</span>
             </div>
             <p className="text-sm text-foam/70 leading-relaxed max-w-sm">
               Computer vision and behavioural analysis for early goldfish stress detection in shared aquatic tanks.

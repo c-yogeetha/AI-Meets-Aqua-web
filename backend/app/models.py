@@ -28,6 +28,7 @@ class Tank(Base):
     volume_l = Column(Float, nullable=False)
     goldfish_count = Column(Integer, nullable=False)
     water_temp_c = Column(Float, nullable=True)
+    owner_id = Column(String(64), nullable=False, default="legacy", index=True)
     created_at = Column(DateTime(timezone=True), default=now, nullable=False)
 
     videos = relationship("Video", back_populates="tank", cascade="all, delete-orphan")

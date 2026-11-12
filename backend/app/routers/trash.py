@@ -1,8 +1,9 @@
 from typing import List
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
+from app.auth import get_current_owner_id
 from app.db import get_db
 from app.schemas import PurgeResponse, TrashItem
 from app.services.trash import get_trash_items, purge_expired_trash
@@ -11,8 +12,9 @@ router = APIRouter(prefix="/api/v1/trash", tags=["Trash"])
 
 
 @router.get("", response_model=List[TrashItem], summary="Get analyses in recycle bin")
-def list_trash(db: Session = Depends(get_db)):
-    items = get_trash_items(db)
+def list_trash(request: Request, db: Session = Depends(get_db)):
+    owner_id = get_current_owner_id(request)
+    items = get_trash_items(db, owner_id=owner_id)
     return [
         TrashItem(
             id=res.job_id,
@@ -35,6 +37,7 @@ def purge_trash(db: Session = Depends(get_db)):
 
 
 @router.post("/{job_id}/restore", summary="Restore result from recycle bin (alias)")
-def restore_trash_alias(job_id: str, db: Session = Depends(get_db)):
+def restore_trash_alias(job_id: str, request: Request, db: Session = Depends(get_db)):
     from app.routers.results import restore_analysis
-    return restore_analysis(job_id=job_id, db=db)
+
+    return restore_analysis(job_id=job_id, request=request, db=db)

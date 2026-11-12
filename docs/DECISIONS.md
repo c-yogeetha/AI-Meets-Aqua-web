@@ -57,11 +57,11 @@ Provide three distinct analyzer engines selected via the `ANALYZER` environment 
 Fish ethology research provides specific thresholds for swimming speed (Body Lengths/sec), angular velocity, water surface gasp ratios, and bottom freezing. Hardcoding these numbers inside python logic would make tuning difficult and impede scientific citation.
 
 ### Decision
-Declare all behavioral thresholds, scoring formulas, and veterinary suggestions in `backend/app/analysis/rules.yaml`.
+Declare all behavioral thresholds, scoring formulas, and care suggestions in `config/scoring.yaml`.
 
 ### Rationale & Trade-offs
-- **Non-Programmer Friendly**: Aquatic biologists and veterinary judges can inspect, cite, and adjust behavioral thresholds in plain English.
-- **Traceable Attribution**: Every generated suggestion cites a scientific guideline or research paper (e.g., Martins et al., Huntingford et al.).
+- **Non-Programmer Friendly**: Aquatic biologists and evaluators can inspect, cite, and adjust behavioral thresholds in plain English.
+- **Traceable Attribution**: Every generated suggestion cites an established aquatic husbandry guideline.
 
 ---
 

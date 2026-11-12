@@ -43,7 +43,7 @@
 - **Action**: Start at `http://localhost:3000`. Let the hero animation and wordmark load. Scroll smoothly down the page.
 - **Narrative**:
   > *"Good morning, esteemed evaluators. Ornamental aquaculture is a multi-million-dollar industry, yet standard mortality rates in domestic and farm tanks remain between 5% and 10% annually. The core problem is that teleost fish experience acute stress—from ammonia spikes, oxygen depletion, or parasitic onset—days before showing visible physical symptoms. By the time a fish gasps at the surface or stops eating, it is often too late to save the tank.*  
-  > *Today, we present **AI Meets Aqua**: an automated, computer-vision powered fish welfare monitoring platform that detects behavioral stress early, tracks individual fish over time, and delivers actionable veterinary interventions."*
+  > *Today, we present **Matsya**: an automated, computer-vision powered fish welfare monitoring platform that detects behavioral stress early, tracks individual fish over time, and delivers actionable tank care recommendations."*
 - **Action**: Highlight the depth meter advancing from 0m to 10m, the problem statistic counters, and the 5-step Dive Log timeline.
 
 ---
@@ -54,8 +54,8 @@
   > *"Our system is designed with a strict decoupled boundary:
   > 1. A responsive **Next.js 14** web application providing sub-second interactive feedback.
   > 2. A high-throughput **FastAPI** backend orchestrating an asynchronous analysis queue.
-  > 3. An ethologically-grounded **YAML Rules Engine** citing peer-reviewed literature (Martins et al., Huntingford et al.).
-  > 4. Crucially, a plug-and-play **AI Adapter Boundary**. While our AI group trains deep neural networks (YOLOv8 + DeepSORT), our platform today runs a fully functional classical computer-vision baseline that decodes frames, segments fish by color kinematics, extracts optical flow trajectories, and calculates Fish Stress Indices in real time."*
+  > 3. An ethologically-grounded **YAML Rules Engine** citing established aquatic literature.
+  > 4. Crucially, a plug-and-play **AI Adapter Boundary**. While deep neural networks (YOLOv8 + DeepSORT) can be plugged in, our platform runs a robust classical computer-vision baseline that decodes frames, segments fish by color kinematics, extracts optical flow trajectories, and calculates Fish Stress Indices in real time."*
 
 ---
 
@@ -81,17 +81,17 @@
   > *"Every analysis is logged with tank-level aggregations. The Fleet Stress Index (FSI) shows longitudinal health trends across days.
   > If a caregiver accidentally deletes an analysis, it is moved to a protected **Recycle Bin** with a 7-day retention safety net before permanent purge. Let's delete a test analysis and restore it instantly."*
 - **Action**: Click delete on a row, switch to the Recycle Bin tab, show days remaining, and click **Restore**.
-- **Action**: Click **Download PDF**: show the multi-page, publication-quality ReportLab PDF complete with tank metrics and timeline charts.
+- **Action**: Click **Download PDF**: show the multi-page, professional ReportLab PDF complete with tank metrics and timeline charts.
 
 ---
 
 ### 5. [4:30 – 5:30] Rigorous Automated Testing Suite
-- **Action**: Navigate to `/testing`.
+- **Action**: Navigate to `/validation`.
 - **Narrative**:
-  > *"Reliability in veterinary tooling is paramount. We built an exhaustive automated testing suite spanning backend unit tests, computer vision coverage, API contracts, and full browser Playwright end-to-end tests.*  
+  > *"Reliability in welfare decision support tooling is paramount. We built an exhaustive automated testing suite spanning backend unit tests, computer vision coverage, API contracts, and full browser Playwright end-to-end tests.*  
   > *As shown on this live dashboard:
-  > - **114 Total Tests**, **100% Pass Rate**, **0 Failures**.
-  > - **93.1% Backend Line Coverage** (far exceeding the 80% requirement).
+  > - **131+ Total Tests**, **100% Pass Rate**, **0 Failures**.
+  > - **90% Backend Line Coverage** (far exceeding the 85% requirement).
   > - Zero critical accessibility violations verified with Axe-core.
   > - All benchmark video scenarios (calm, stressed, surface gasping, bottom freezing) pass automated algorithmic verification."*
 

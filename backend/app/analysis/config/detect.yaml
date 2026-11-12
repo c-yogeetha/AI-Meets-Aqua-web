@@ -1,0 +1,64 @@
+# Classical Computer Vision Detector Configuration
+# Matsya Project Team
+
+preprocessing:
+  target_width: 640
+  gaussian_kernel: 3
+  enable_clahe: true
+
+motion:
+  history: 500
+  var_threshold: 20
+  detect_shadows: false
+  learning_rate: 0.002
+  warmup_frames: 30
+
+color_model:
+  warmup_frames: 60
+  min_pixels: 50
+  k_clusters: 2
+  hue_margin: 15
+  s_min: 40
+  v_min: 40
+  fallback:
+    h_min: 5
+    h_max: 30
+    s_min: 90
+    v_min: 90
+
+local_contrast:
+  enabled: true
+  blur_ksize: 45
+  diff_threshold: 18
+
+decor_filter:
+  enabled: true
+  decor_area_frac: 0.010
+  decor_movement_px: 2.5
+
+morphology:
+  min_area_frac: 0.0003
+  max_area_frac: 0.06
+  min_aspect: 0.142857  # 1/7
+  max_aspect: 7.0
+  min_solidity: 0.45
+
+watershed_splitting:
+  enabled: true
+  split_area_ratio: 1.7
+  max_seeds: 3
+  min_part_ratio: 0.40
+
+stationary_retention:
+  enabled: true
+  search_window_scale: 2.0
+  min_match_score: 0.65
+  coast_s: 12.0
+  unmatched_age_out_s: 2.0
+
+tracking:
+  gating_dist_frac: 0.15
+  min_hits: 3
+  centroid_weight: 0.5
+  size_weight: 0.2
+  hue_hist_weight: 0.3

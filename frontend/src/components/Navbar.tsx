@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell, Sparkles, Check, Settings as SettingsIcon, AlertCircle } from "lucide-react";
+import { Bell, Sparkles, Check, Settings as SettingsIcon, AlertCircle, Fish } from "lucide-react";
 import { api, type Alert } from "@/lib/api";
 import { showToast } from "@/lib/toast";
 
@@ -83,15 +83,15 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-gold to-aqua flex items-center justify-center p-0.5 shadow-gold-glow">
             <div className="w-full h-full bg-abyss rounded-[10px] flex items-center justify-center">
-              <span className="text-xl">🐟</span>
+              <Fish className="w-5 h-5 text-aqua" />
             </div>
           </div>
           <div className="flex flex-col">
             <span className="font-display font-bold text-lg tracking-tight text-white group-hover:text-aqua transition-colors">
-              AI Meets Aqua
+              Matsya
             </span>
-            <span className="text-[10px] uppercase tracking-wider text-foam/60 font-semibold -mt-1">
-              Stress Monitor
+            <span className="text-[10px] uppercase tracking-wider text-foam/60 font-semibold -mt-1 font-mono">
+              Fish Stress Pipeline
             </span>
           </div>
         </Link>

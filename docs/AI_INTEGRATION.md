@@ -8,7 +8,7 @@ This document describes the interface boundary between the web platform (backend
 
 ## 1. Integration Architecture
 
-The platform is designed around a decoupled, modular pipeline. As an AI engineer, you do **not** need to modify backend web routes or database schemas. You simply implement a Python module in the `ai/` folder and expose one of two standard functions.
+The platform is designed around a decoupled, modular pipeline. When implementing custom analysis modules, you do **not** need to modify backend web routes or database schemas. You simply implement a Python module in the `ai/` folder and expose one of two standard functions.
 
 ```
 +-------------------------------------------------------------+
@@ -42,7 +42,7 @@ The backend adapter (`backend/app/analysis/external.py`) automatically discovers
 
 ### Style A: Tracks-Only (Recommended)
 
-In Style A, your model performs fish detection and trajectory tracking, returning a structured **Tracks** dictionary. The backend handles kinematic feature calculation, stress scoring, veterinary suggestions, report generation, and annotated video rendering automatically.
+In Style A, your model performs fish detection and trajectory tracking, returning a structured **Tracks** dictionary. The backend handles kinematic feature calculation, stress scoring, care suggestions, report generation, and annotated video rendering automatically.
 
 #### Function Signature
 ```python

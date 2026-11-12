@@ -222,11 +222,21 @@ def score_tracks(
             "bottom_ratio": 0.0, "inactivity_ratio": 0.0,
         })
         flags, points, score = evaluate_fish_flags(m, config, view=view, tank_all_inactive=all_inactive)
-        stressed = score >= threshold
-        if stressed:
-            stressed_count += 1
+        confidence = resampled[fid].get("confidence", 1.0)
+
+        # Fish with confidence < 0.4 are flagged low_confidence and never labelled "Stressed"
+        if confidence < 0.4:
+            if "low_confidence" not in flags:
+                flags.append("low_confidence")
+            stressed = False
+            explanation = f"{fid}: Not enough data (observed in only {int(round(confidence * 100))}% of frames)."
+        else:
+            stressed = score >= threshold
+            if stressed:
+                stressed_count += 1
+            explanation = generate_fish_explanation(fid, flags, m)
+
         all_scores.append(score)
-        explanation = generate_fish_explanation(fid, flags, m)
 
         fish_results.append({
             "id": fid,
@@ -237,6 +247,7 @@ def score_tracks(
             "points": points,
             "explanation": explanation,
             "timeline": window_fish_scores[fid],
+            "confidence": confidence,
         })
 
     tank_score = compute_tank_score(all_scores, stressed_count, config)

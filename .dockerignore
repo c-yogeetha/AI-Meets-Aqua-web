@@ -1,0 +1,12 @@
+**/node_modules
+**/.venv
+**/__pycache__
+*.pyc
+.git
+.work
+backend/data
+frontend/.next
+samples_real
+resources_inbox
+test-results
+docs/screens

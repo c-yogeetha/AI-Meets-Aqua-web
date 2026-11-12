@@ -48,7 +48,7 @@ const CARDS: FlipCardData[] = [
     behaviour: "Resting immobile on tank gravel in corners with minimal fin movement.",
     cause: "Water temperature below 18°C; nitrate intoxication; swim bladder disorder; high salinity.",
     action: "Confirm heater temperature is between 20°C and 23°C. Test nitrate; siphon gravel floor.",
-    source: "Martins et al. (2012), Rev Fish Biol Fish",
+    source: "Fish Welfare Husbandry Guidelines (2012)",
   },
 ];
 

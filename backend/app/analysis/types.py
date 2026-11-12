@@ -7,6 +7,7 @@ class Detection(BaseModel):
     id: str
     bbox: List[float] = Field(..., description="[x1, y1, x2, y2]")
     conf: float = 1.0
+    coasting: bool = False
 
 
 class FrameDetections(BaseModel):

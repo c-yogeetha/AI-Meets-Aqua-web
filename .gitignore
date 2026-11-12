@@ -24,6 +24,10 @@ coverage.xml
 backend/data/
 test-results/
 demo-data-backup.zip
+.work/
+samples_real/
+resources_inbox/
+backend/outputs/
 
 # System & IDE
 .DS_Store

@@ -1,6 +1,6 @@
 import math
 from datetime import timedelta
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from sqlalchemy.orm import Session
 
@@ -10,15 +10,17 @@ from app.models import Result, Tank
 from app.services.storage import delete_permanently, move_to_trash, restore_from_trash
 
 
-def get_trash_items(db: Session) -> List[Tuple[Result, str, int]]:
+def get_trash_items(db: Session, owner_id: Optional[str] = None) -> List[Tuple[Result, str, int]]:
     """Return all deleted results with tank name and days remaining."""
-    deleted_results = (
+    query = (
         db.query(Result, Tank.name)
         .join(Tank, Result.tank_id == Tank.id)
         .filter(Result.deleted_at.isnot(None))
-        .order_by(Result.deleted_at.desc())
-        .all()
     )
+    if owner_id is not None:
+        query = query.filter(Tank.owner_id == owner_id)
+
+    deleted_results = query.order_by(Result.deleted_at.desc()).all()
 
     current_time = now()
     if current_time.tzinfo is not None:
@@ -74,6 +76,44 @@ def purge_expired_trash(db: Session) -> int:
         jid = res.job_id
         db.delete(res)
         delete_permanently(jid)
+        count += 1
+
+    if count > 0:
+        db.commit()
+    return count
+
+
+def purge_retention(db: Session, retention_days: Optional[int] = None) -> int:
+    """Purge old analysis results and outputs older than retention_days, excluding demo tanks."""
+    import shutil
+
+    from app.models import Tank
+    from app.services.storage import get_output_dir
+
+    days = retention_days if retention_days is not None else settings.RETENTION_DAYS
+    cur = now()
+    if cur.tzinfo is not None:
+        cur = cur.replace(tzinfo=None)
+    cutoff = cur - timedelta(days=days)
+
+    results = (
+        db.query(Result)
+        .join(Tank, Result.tank_id == Tank.id)
+        .filter(Result.created_at < cutoff)
+        .filter(~Tank.name.ilike("%demo%"))
+        .all()
+    )
+
+    count = 0
+    for res in results:
+        jid = res.job_id
+        db.delete(res)
+        out_dir = get_output_dir(jid)
+        if out_dir.exists():
+            try:
+                shutil.rmtree(out_dir, ignore_errors=True)
+            except Exception:
+                pass
         count += 1
 
     if count > 0:

@@ -27,6 +27,17 @@ def get_engine():
             cursor.execute("PRAGMA foreign_keys=ON;")
             cursor.close()
 
+        # Check and migrate owner_id on tanks if table exists
+        with _engine.connect() as conn:
+            try:
+                res = conn.exec_driver_sql("PRAGMA table_info(tanks)").fetchall()
+                cols = [r[1] for r in res]
+                if cols and "owner_id" not in cols:
+                    conn.exec_driver_sql("ALTER TABLE tanks ADD COLUMN owner_id VARCHAR(64) NOT NULL DEFAULT 'legacy'")
+                    conn.commit()
+            except Exception:
+                pass
+
     return _engine
 
 

@@ -1,0 +1,274 @@
+{
+  "job_id": "tmp_hero_analysis",
+  "mode": "baseline",
+  "tank": {
+    "id": "demo-tank-01",
+    "name": "Main Observation Tank",
+    "goldfish_count": 3
+  },
+  "created_at": "2026-11-12T14:10:01.697176Z",
+  "analysis_time_s": 7.2,
+  "video": {
+    "duration_s": 20.0,
+    "fps": 15.0,
+    "width": 640,
+    "height": 360,
+    "view": "side",
+    "poster_url": "/sample/poster.jpg"
+  },
+  "tank_score": 40,
+  "level": "Moderate",
+  "threshold": 35,
+  "fish": [
+    {
+      "id": "Fish_1",
+      "score": 40,
+      "stressed": true,
+      "flags": [
+        "fast_swimming",
+        "erratic_swimming",
+        "surface_gasping"
+      ],
+      "metrics": {
+        "speed_bl_s": 3.46,
+        "direction_change_rate": 2.02,
+        "isolation_ratio": 0.37,
+        "surface_ratio": 1.0,
+        "bottom_ratio": 0.0,
+        "inactivity_ratio": 0.0
+      },
+      "points": [
+        {
+          "flag": "fast_swimming",
+          "points": 10
+        },
+        {
+          "flag": "erratic_swimming",
+          "points": 10
+        },
+        {
+          "flag": "surface_gasping",
+          "points": 20
+        }
+      ],
+      "explanation": "Fish_1 spent 100% of the clip near the surface and swam fast at 3.46 body lengths per second and exhibited 2.02 sharp turns/s.",
+      "timeline": [
+        {
+          "t": 0.0,
+          "score": 40
+        },
+        {
+          "t": 5.0,
+          "score": 40
+        },
+        {
+          "t": 10.0,
+          "score": 30
+        },
+        {
+          "t": 15.0,
+          "score": 55
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "id": "Fish_2",
+      "score": 0,
+      "stressed": false,
+      "flags": [],
+      "metrics": {
+        "speed_bl_s": 0.72,
+        "direction_change_rate": 0.76,
+        "isolation_ratio": 0.32,
+        "surface_ratio": 0.0,
+        "bottom_ratio": 0.0,
+        "inactivity_ratio": 0.13
+      },
+      "points": [],
+      "explanation": "Fish_2 exhibited normal swimming patterns with steady speed of 0.72 BL/s.",
+      "timeline": [
+        {
+          "t": 0.0,
+          "score": 0
+        },
+        {
+          "t": 5.0,
+          "score": 0
+        },
+        {
+          "t": 10.0,
+          "score": 0
+        },
+        {
+          "t": 15.0,
+          "score": 25
+        }
+      ],
+      "confidence": 0.99
+    },
+    {
+      "id": "Fish_3",
+      "score": 0,
+      "stressed": false,
+      "flags": [],
+      "metrics": {
+        "speed_bl_s": 0.36,
+        "direction_change_rate": 0.46,
+        "isolation_ratio": 0.31,
+        "surface_ratio": 0.0,
+        "bottom_ratio": 0.0,
+        "inactivity_ratio": 0.45
+      },
+      "points": [],
+      "explanation": "Fish_3 exhibited normal swimming patterns with steady speed of 0.36 BL/s.",
+      "timeline": [
+        {
+          "t": 0.0,
+          "score": 0
+        },
+        {
+          "t": 5.0,
+          "score": 15
+        },
+        {
+          "t": 10.0,
+          "score": 0
+        },
+        {
+          "t": 15.0,
+          "score": 0
+        }
+      ],
+      "confidence": 0.77
+    }
+  ],
+  "timeline": [
+    {
+      "t": 0.0,
+      "score": 40
+    },
+    {
+      "t": 5.0,
+      "score": 40
+    },
+    {
+      "t": 10.0,
+      "score": 30
+    },
+    {
+      "t": 15.0,
+      "score": 55
+    }
+  ],
+  "key_moments": [
+    {
+      "t": 0.0,
+      "fish": "Fish_1",
+      "behaviour": "elevated_stress",
+      "label": "Fish_1 (Elevated activity)",
+      "frame_url": "/api/v1/results/tmp_hero_analysis/frames/kf_01.jpg"
+    },
+    {
+      "t": 2.0,
+      "fish": "Fish_1",
+      "behaviour": "elevated_stress",
+      "label": "Fish_1 (Elevated activity)",
+      "frame_url": "/api/v1/results/tmp_hero_analysis/frames/kf_02.jpg"
+    },
+    {
+      "t": 12.5,
+      "fish": "Fish_1",
+      "behaviour": "elevated_stress",
+      "label": "Fish_1 (Elevated activity)",
+      "frame_url": "/api/v1/results/tmp_hero_analysis/frames/kf_03.jpg"
+    },
+    {
+      "t": 14.5,
+      "fish": "Fish_1",
+      "behaviour": "elevated_stress",
+      "label": "Fish_1 (Elevated activity)",
+      "frame_url": "/api/v1/results/tmp_hero_analysis/frames/kf_04.jpg"
+    },
+    {
+      "t": 16.5,
+      "fish": "Fish_1",
+      "behaviour": "elevated_stress",
+      "label": "Fish_1 (Elevated activity)",
+      "frame_url": "/api/v1/results/tmp_hero_analysis/frames/kf_05.jpg"
+    },
+    {
+      "t": 18.5,
+      "fish": "Fish_1",
+      "behaviour": "elevated_stress",
+      "label": "Fish_1 (Elevated activity)",
+      "frame_url": "/api/v1/results/tmp_hero_analysis/frames/kf_06.jpg"
+    }
+  ],
+  "suggestions": [
+    {
+      "priority": "high",
+      "fish": [
+        "Fish_1"
+      ],
+      "behaviour": "Goldfish gasping near the surface",
+      "cause": "Low oxygen, high ammonia or warm water",
+      "action": "Turn on the air pump or increase aeration; check water temperature; test for ammonia.",
+      "source": "docs/REFERENCES.md#oxygen",
+      "low_confidence": false
+    },
+    {
+      "priority": "medium",
+      "fish": [
+        "Fish_1"
+      ],
+      "behaviour": "Fast swimming",
+      "cause": "Poor water quality or sudden disturbance",
+      "action": "Change about 25% of the water using temperature-matched, dechlorinated water; reduce light and noise.",
+      "source": "docs/REFERENCES.md#water-quality",
+      "low_confidence": false
+    },
+    {
+      "priority": "medium",
+      "fish": [
+        "Fish_1"
+      ],
+      "behaviour": "Erratic swimming or hitting the glass",
+      "cause": "Poor water quality, sudden disturbance or stress",
+      "action": "Test water parameters, reduce disturbance around the tank, and observe again in an hour.",
+      "source": "docs/REFERENCES.md#water-quality",
+      "low_confidence": false
+    }
+  ],
+  "warnings": [],
+  "reliability": {
+    "level": "high",
+    "score": 100,
+    "reasons": [],
+    "tips": [],
+    "metrics": {
+      "brightness": 103.8,
+      "contrast": 22.9,
+      "sharpness": 101.6,
+      "shake_px": 0.12,
+      "coverage_pct": 100.0,
+      "fish_expected": 3,
+      "fish_tracked": 3,
+      "fish_median_px": 79.0,
+      "fps": 15.0,
+      "width": 640,
+      "height": 360
+    }
+  },
+  "detection": {
+    "frames_total": 300,
+    "frames_processed": 150,
+    "frames_with_detections_pct": 100.0,
+    "id_switch_estimate": 0
+  },
+  "annotated_video_url": "/sample/annotated.mp4",
+  "disclaimer": "Behavioural indicator to support caretaker decisions; not a diagnosis.",
+  "stressed_count": 1,
+  "fish_count": 3,
+  "annotated_video_alt_url": "/media/hero.webm"
+}

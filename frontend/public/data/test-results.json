@@ -1,0 +1,786 @@
+{
+  "generated_at": "2026-11-12T16:31:27.222958+00:00",
+  "environment": {
+    "os": "Linux 7.2.6-200.fc44.x86_64",
+    "python": "3.12.16",
+    "node": "v22.23.1",
+    "commit": "a45b27779f85c49bce7e9f0fdf1331b5f092db25"
+  },
+  "summary": {
+    "total": 94,
+    "passed": 94,
+    "failed": 0,
+    "skipped": 0,
+    "coverage_percent": 92.8
+  },
+  "categories": [
+    {
+      "name": "System & Health",
+      "prefix": "B-H",
+      "total": 7,
+      "passed": 7
+    },
+    {
+      "name": "Tank Management",
+      "prefix": "B-T",
+      "total": 10,
+      "passed": 10
+    },
+    {
+      "name": "Upload & Validation",
+      "prefix": "B-U",
+      "total": 10,
+      "passed": 10
+    },
+    {
+      "name": "Job Lifecycle & Recovery",
+      "prefix": "B-J",
+      "total": 6,
+      "passed": 6
+    },
+    {
+      "name": "Feature Extraction Kinematics",
+      "prefix": "B-F",
+      "total": 9,
+      "passed": 9
+    },
+    {
+      "name": "Stress Scoring Rules",
+      "prefix": "B-S",
+      "total": 14,
+      "passed": 14
+    },
+    {
+      "name": "Actionable Suggestions",
+      "prefix": "B-G",
+      "total": 6,
+      "passed": 6
+    },
+    {
+      "name": "Video Analysis Integration",
+      "prefix": "B-A",
+      "total": 10,
+      "passed": 10
+    },
+    {
+      "name": "Results Verification",
+      "prefix": "B-R",
+      "total": 3,
+      "passed": 3
+    },
+    {
+      "name": "Media Streaming & Encoding",
+      "prefix": "B-M",
+      "total": 3,
+      "passed": 3
+    },
+    {
+      "name": "PDF Generation Legacy",
+      "prefix": "B-P",
+      "total": 1,
+      "passed": 1
+    },
+    {
+      "name": "Historical Analyses",
+      "prefix": "B-HI",
+      "total": 2,
+      "passed": 2
+    },
+    {
+      "name": "Tank Insights & FSI",
+      "prefix": "B-IN",
+      "total": 3,
+      "passed": 3
+    },
+    {
+      "name": "Recycle Bin Retention",
+      "prefix": "B-BN",
+      "total": 3,
+      "passed": 3
+    },
+    {
+      "name": "Alert System & Notification",
+      "prefix": "B-AL",
+      "total": 1,
+      "passed": 1
+    },
+    {
+      "name": "Demo Seeding Engine",
+      "prefix": "B-D",
+      "total": 1,
+      "passed": 1
+    },
+    {
+      "name": "External AI Adapter",
+      "prefix": "B-X",
+      "total": 4,
+      "passed": 4
+    },
+    {
+      "name": "End-to-End User Workflows",
+      "prefix": "E-",
+      "total": 4,
+      "passed": 4
+    }
+  ],
+  "cases": [
+    {
+      "id": "B-A01",
+      "title": "a01 to a07 and a11 a12 manifest samples",
+      "status": "passed",
+      "duration_s": 7.953,
+      "suite": "backend"
+    },
+    {
+      "id": "B-A05",
+      "title": "a05 top view vertical flags disabled",
+      "status": "passed",
+      "duration_s": 0.75,
+      "suite": "backend"
+    },
+    {
+      "id": "B-A08",
+      "title": "a08 short clip warning",
+      "status": "passed",
+      "duration_s": 0.138,
+      "suite": "backend"
+    },
+    {
+      "id": "B-A09",
+      "title": "a09 determinism",
+      "status": "passed",
+      "duration_s": 1.775,
+      "suite": "backend"
+    },
+    {
+      "id": "B-A10",
+      "title": "a10 mock analyzer determinism",
+      "status": "passed",
+      "duration_s": 1.952,
+      "suite": "backend"
+    },
+    {
+      "id": "B-A13",
+      "title": "a13 plants not detected as fish",
+      "status": "passed",
+      "duration_s": 0.789,
+      "suite": "backend"
+    },
+    {
+      "id": "B-A14",
+      "title": "a14 and a15 annotated video and keyframes",
+      "status": "passed",
+      "duration_s": 1.027,
+      "suite": "backend"
+    },
+    {
+      "id": "B-A16",
+      "title": "a16 performance",
+      "status": "passed",
+      "duration_s": 0.93,
+      "suite": "backend"
+    },
+    {
+      "id": "B-A17",
+      "title": "a17 progress callback valid stages",
+      "status": "passed",
+      "duration_s": 0.85,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F01",
+      "title": "f01 speed on straight track",
+      "status": "passed",
+      "duration_s": 0.011,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F02",
+      "title": "f02 direction change rate",
+      "status": "passed",
+      "duration_s": 0.012,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F03",
+      "title": "f03 surface ratio",
+      "status": "passed",
+      "duration_s": 0.011,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F04",
+      "title": "f04 bottom ratio and inactivity",
+      "status": "passed",
+      "duration_s": 0.011,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F05",
+      "title": "f05 isolation ratio",
+      "status": "passed",
+      "duration_s": 0.013,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F06",
+      "title": "f06 single fish isolation",
+      "status": "passed",
+      "duration_s": 0.012,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F07",
+      "title": "f07 track with gaps",
+      "status": "passed",
+      "duration_s": 0.011,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F08",
+      "title": "f08 zero fish",
+      "status": "passed",
+      "duration_s": 0.011,
+      "suite": "backend"
+    },
+    {
+      "id": "B-F20",
+      "title": "f20 explanation sentence",
+      "status": "passed",
+      "duration_s": 0.006,
+      "suite": "backend"
+    },
+    {
+      "id": "B-H01",
+      "title": "h01 health check",
+      "status": "passed",
+      "duration_s": 0.12,
+      "suite": "backend"
+    },
+    {
+      "id": "B-H02",
+      "title": "h02 system info",
+      "status": "passed",
+      "duration_s": 0.018,
+      "suite": "backend"
+    },
+    {
+      "id": "B-H03",
+      "title": "h03 cors preflight",
+      "status": "passed",
+      "duration_s": 0.016,
+      "suite": "backend"
+    },
+    {
+      "id": "B-H04",
+      "title": "h04 openapi endpoints",
+      "status": "passed",
+      "duration_s": 0.23,
+      "suite": "backend"
+    },
+    {
+      "id": "B-H05",
+      "title": "h05 unknown route",
+      "status": "passed",
+      "duration_s": 0.045,
+      "suite": "backend"
+    },
+    {
+      "id": "B-HI01",
+      "title": "hi01 history paging and filtering",
+      "status": "passed",
+      "duration_s": 0.643,
+      "suite": "backend"
+    },
+    {
+      "id": "B-HI02",
+      "title": "hi02 history excludes deleted",
+      "status": "passed",
+      "duration_s": 0.636,
+      "suite": "backend"
+    },
+    {
+      "id": "B-IN01",
+      "title": "in01 fsi weighted mean",
+      "status": "passed",
+      "duration_s": 0.057,
+      "suite": "backend"
+    },
+    {
+      "id": "B-IN02",
+      "title": "in02 trend labels",
+      "status": "passed",
+      "duration_s": 0.064,
+      "suite": "backend"
+    },
+    {
+      "id": "B-IN03",
+      "title": "in03 temperature pattern message",
+      "status": "passed",
+      "duration_s": 0.064,
+      "suite": "backend"
+    },
+    {
+      "id": "B-BN01",
+      "title": "bn01 and bn02 delete and restore",
+      "status": "passed",
+      "duration_s": 0.759,
+      "suite": "backend"
+    },
+    {
+      "id": "B-BN03",
+      "title": "bn03 and bn04 purge retention",
+      "status": "passed",
+      "duration_s": 0.757,
+      "suite": "backend"
+    },
+    {
+      "id": "B-BN05",
+      "title": "bn05 permanent delete",
+      "status": "passed",
+      "duration_s": 0.65,
+      "suite": "backend"
+    },
+    {
+      "id": "B-AL01",
+      "title": "al01 to al04 alerts",
+      "status": "passed",
+      "duration_s": 1.392,
+      "suite": "backend"
+    },
+    {
+      "id": "B-D01",
+      "title": "d01 demo seed idempotent",
+      "status": "passed",
+      "duration_s": 0.612,
+      "suite": "backend"
+    },
+    {
+      "id": "B-X01",
+      "title": "x01 external detect and track",
+      "status": "passed",
+      "duration_s": 0.634,
+      "suite": "backend"
+    },
+    {
+      "id": "B-X03",
+      "title": "x03 missing ai module",
+      "status": "passed",
+      "duration_s": 0.485,
+      "suite": "backend"
+    },
+    {
+      "id": "B-X02",
+      "title": "x02 external analyze video",
+      "status": "passed",
+      "duration_s": 0.193,
+      "suite": "backend"
+    },
+    {
+      "id": "B-X04",
+      "title": "x04 malformed ai output",
+      "status": "passed",
+      "duration_s": 0.179,
+      "suite": "backend"
+    },
+    {
+      "id": "B-J01",
+      "title": "j01 and j02 lifecycle and monotonic",
+      "status": "passed",
+      "duration_s": 1.889,
+      "suite": "backend"
+    },
+    {
+      "id": "B-J03",
+      "title": "j03 failure path",
+      "status": "passed",
+      "duration_s": 0.229,
+      "suite": "backend"
+    },
+    {
+      "id": "B-J04",
+      "title": "j04 unknown job",
+      "status": "passed",
+      "duration_s": 0.033,
+      "suite": "backend"
+    },
+    {
+      "id": "B-J05",
+      "title": "j05 timeout",
+      "status": "passed",
+      "duration_s": 1.159,
+      "suite": "backend"
+    },
+    {
+      "id": "B-J06",
+      "title": "j06 startup recovery",
+      "status": "passed",
+      "duration_s": 0.042,
+      "suite": "backend"
+    },
+    {
+      "id": "B-J07",
+      "title": "j07 sequential processing",
+      "status": "passed",
+      "duration_s": 3.032,
+      "suite": "backend"
+    },
+    {
+      "id": "B-R01",
+      "title": "r01 result before done",
+      "status": "passed",
+      "duration_s": 0.078,
+      "suite": "backend"
+    },
+    {
+      "id": "B-R02",
+      "title": "r02 result finished",
+      "status": "passed",
+      "duration_s": 0.629,
+      "suite": "backend"
+    },
+    {
+      "id": "B-R03",
+      "title": "r03 unknown result",
+      "status": "passed",
+      "duration_s": 0.038,
+      "suite": "backend"
+    },
+    {
+      "id": "B-M01",
+      "title": "m01 video range request",
+      "status": "passed",
+      "duration_s": 0.571,
+      "suite": "backend"
+    },
+    {
+      "id": "B-M02",
+      "title": "m02 frame endpoint",
+      "status": "passed",
+      "duration_s": 0.571,
+      "suite": "backend"
+    },
+    {
+      "id": "B-M03",
+      "title": "m03 frame path traversal",
+      "status": "passed",
+      "duration_s": 0.564,
+      "suite": "backend"
+    },
+    {
+      "id": "B-P01",
+      "title": "p01 pdf report",
+      "status": "passed",
+      "duration_s": 13.282,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S01",
+      "title": "s01 level from score[0-Normal]",
+      "status": "passed",
+      "duration_s": 0.007,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S01",
+      "title": "s01 level from score[34-Normal]",
+      "status": "passed",
+      "duration_s": 0.006,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S01",
+      "title": "s01 level from score[35-Moderate]",
+      "status": "passed",
+      "duration_s": 0.008,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S01",
+      "title": "s01 level from score[59-Moderate]",
+      "status": "passed",
+      "duration_s": 0.009,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S01",
+      "title": "s01 level from score[60-High]",
+      "status": "passed",
+      "duration_s": 0.007,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S01",
+      "title": "s01 level from score[100-High]",
+      "status": "passed",
+      "duration_s": 0.006,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S02",
+      "title": "s02 fish score sum and clamp",
+      "status": "passed",
+      "duration_s": 0.009,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S03",
+      "title": "s03 stressed threshold",
+      "status": "passed",
+      "duration_s": 0.01,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S04",
+      "title": "s04 tank formula max plus spread",
+      "status": "passed",
+      "duration_s": 0.011,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S05",
+      "title": "s05 tank formula mean max blend",
+      "status": "passed",
+      "duration_s": 0.007,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S06",
+      "title": "s06 top view disables vertical flags",
+      "status": "passed",
+      "duration_s": 0.011,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S07",
+      "title": "s07 lethargic all fish inactive",
+      "status": "passed",
+      "duration_s": 0.01,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S08",
+      "title": "s08 configurable threshold",
+      "status": "passed",
+      "duration_s": 0.01,
+      "suite": "backend"
+    },
+    {
+      "id": "B-S09",
+      "title": "s09 timeline windows",
+      "status": "passed",
+      "duration_s": 0.013,
+      "suite": "backend"
+    },
+    {
+      "id": "B-G01",
+      "title": "g01 all flags have rules and ordered",
+      "status": "passed",
+      "duration_s": 0.014,
+      "suite": "backend"
+    },
+    {
+      "id": "B-G02",
+      "title": "g02 fish placeholder replacement",
+      "status": "passed",
+      "duration_s": 0.014,
+      "suite": "backend"
+    },
+    {
+      "id": "B-G03",
+      "title": "g03 context rules",
+      "status": "passed",
+      "duration_s": 0.014,
+      "suite": "backend"
+    },
+    {
+      "id": "B-G04",
+      "title": "g04 all clear when no flags",
+      "status": "passed",
+      "duration_s": 0.014,
+      "suite": "backend"
+    },
+    {
+      "id": "B-G05",
+      "title": "g05 rules yaml schema",
+      "status": "passed",
+      "duration_s": 0.014,
+      "suite": "backend"
+    },
+    {
+      "id": "B-G06",
+      "title": "g06 safe condition evaluator",
+      "status": "passed",
+      "duration_s": 0.007,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T01",
+      "title": "t01 create tank valid",
+      "status": "passed",
+      "duration_s": 0.026,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T02",
+      "title": "t02 invalid tanks[bad payload0]",
+      "status": "passed",
+      "duration_s": 0.02,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T02",
+      "title": "t02 invalid tanks[bad payload1]",
+      "status": "passed",
+      "duration_s": 0.02,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T02",
+      "title": "t02 invalid tanks[bad payload2]",
+      "status": "passed",
+      "duration_s": 0.022,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T02",
+      "title": "t02 invalid tanks[bad payload3]",
+      "status": "passed",
+      "duration_s": 0.021,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T02",
+      "title": "t02 invalid tanks[bad payload4]",
+      "status": "passed",
+      "duration_s": 0.021,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T03",
+      "title": "t03 list tanks",
+      "status": "passed",
+      "duration_s": 0.033,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T04",
+      "title": "t04 get tank 404",
+      "status": "passed",
+      "duration_s": 0.023,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T05",
+      "title": "t05 delete tank cascades",
+      "status": "passed",
+      "duration_s": 0.043,
+      "suite": "backend"
+    },
+    {
+      "id": "B-T06",
+      "title": "t06 tank name special characters",
+      "status": "passed",
+      "duration_s": 0.024,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U01",
+      "title": "u01 valid upload",
+      "status": "passed",
+      "duration_s": 0.052,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U02",
+      "title": "u02 unknown tank id",
+      "status": "passed",
+      "duration_s": 0.03,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U03",
+      "title": "u03 wrong extension",
+      "status": "passed",
+      "duration_s": 0.035,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U04",
+      "title": "u04 not a video",
+      "status": "passed",
+      "duration_s": 0.052,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U05",
+      "title": "u05 oversize",
+      "status": "passed",
+      "duration_s": 0.038,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U06",
+      "title": "u06 duration limit",
+      "status": "passed",
+      "duration_s": 0.04,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U07",
+      "title": "u07 path traversal filename",
+      "status": "passed",
+      "duration_s": 0.157,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U08",
+      "title": "u08 missing fields",
+      "status": "passed",
+      "duration_s": 0.076,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U09",
+      "title": "u09 invalid view and temp",
+      "status": "passed",
+      "duration_s": 0.044,
+      "suite": "backend"
+    },
+    {
+      "id": "B-U10",
+      "title": "u10 optional fields saved",
+      "status": "passed",
+      "duration_s": 0.049,
+      "suite": "backend"
+    },
+    {
+      "id": "E-SCI01",
+      "title": "E-SCI01: /science shows rules table from API, anchors work, and formulas visible",
+      "status": "passed",
+      "duration_s": 1.047,
+      "suite": "e2e"
+    },
+    {
+      "id": "E-HOW01",
+      "title": "E-HOW01: /how-it-works architecture diagram clicking nodes opens side panel; analyzer table shows active mode",
+      "status": "passed",
+      "duration_s": 0.986,
+      "suite": "e2e"
+    },
+    {
+      "id": "E-ABT01",
+      "title": "E-ABT01: /about shows team, institution, milestones with evidence links, and maturity table",
+      "status": "passed",
+      "duration_s": 0.861,
+      "suite": "e2e"
+    },
+    {
+      "id": "E-NAV03",
+      "title": "E-NAV03: Legacy routes redirect permanently",
+      "status": "passed",
+      "duration_s": 1.773,
+      "suite": "e2e"
+    }
+  ]
+}

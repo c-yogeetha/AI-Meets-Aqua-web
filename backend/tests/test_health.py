@@ -40,7 +40,7 @@ def test_b_h03_cors_preflight(client: TestClient):
 
 def test_b_h04_openapi_endpoints(client: TestClient):
     """B-H04: OpenAPI spec lists all required endpoints."""
-    resp = client.get("/openapi.json")
+    resp = client.get("/api/openapi.json")
     assert resp.status_code == 200
     paths = resp.json().get("paths", {})
 

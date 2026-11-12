@@ -5,13 +5,20 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     DATA_DIR: str = "data"
-    ANALYZER: str = "baseline"
+    ANALYZER: str = "auto"
     AI_MODULE: str = "ai.pipeline"
-    MAX_UPLOAD_MB: int = 200
-    MAX_DURATION_S: float = 120.0
-    MIN_DURATION_S: float = 2.0
+    MAX_UPLOAD_MB: int = 120
+    MAX_DURATION_S: float = 90.0
+    MIN_DURATION_S: float = 3.0
     JOB_TIMEOUT_S: float = 300.0
+    MAX_QUEUE: int = 5
+    UPLOADS_PER_HOUR_PER_IP: int = 20
+    RETENTION_DAYS: int = 30
     TRASH_RETENTION_DAYS: int = 7
+    KEEP_UPLOADS: int = 0
+    ENCODE_WEBM: int = 0
+    SINGLE_USER_MODE: int = 0
+    SAMPLES_DIR: str = "samples"
     CORS_ORIGINS: str = "http://localhost:3000,http://127.0.0.1:3000"
     CORS_ORIGIN_REGEX: str = ""
     ENABLE_TEST_HOOKS: int = 0
@@ -56,11 +63,23 @@ class Settings(BaseSettings):
     def db_path(self) -> Path:
         return self.data_path / "aqua.db"
 
+    @property
+    def models_path(self) -> Path:
+        backend_root = Path(__file__).resolve().parent.parent
+        return backend_root / "models"
+
+    @property
+    def resources_public_path(self) -> Path:
+        backend_root = Path(__file__).resolve().parent.parent
+        return backend_root / "resources_public"
+
     def ensure_dirs(self) -> None:
         self.uploads_path.mkdir(parents=True, exist_ok=True)
         self.outputs_path.mkdir(parents=True, exist_ok=True)
         self.trash_path.mkdir(parents=True, exist_ok=True)
         self.outbox_path.mkdir(parents=True, exist_ok=True)
+        self.models_path.mkdir(parents=True, exist_ok=True)
+        self.resources_public_path.mkdir(parents=True, exist_ok=True)
 
 
 settings = Settings()

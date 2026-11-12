@@ -1,0 +1,93 @@
+49215f5e3130:
+  author: Matsya Project Team
+  canonical_file: trajectory_kinematics_sample.csv
+  category: datasets
+  description: Tabular dataset of extracted goldfish coordinates, velocities and turn
+    angles
+  external_url: null
+  featured: true
+  id: 49215f5e3130
+  public: true
+  sensitive: false
+  size_bytes: 887
+  source_url: null
+  tags:
+  - datasets
+  - csv
+  title: Trajectory Kinematics Sample
+  type: csv
+  year: 2026
+4f8d89c9985a:
+  author: Matsya Project Team
+  canonical_file: matsya_overview_presentation.pptx
+  category: presentations
+  description: Presentation slide deck introducing Matsya vision, architecture, and
+    results
+  external_url: null
+  featured: false
+  id: 4f8d89c9985a
+  public: true
+  sensitive: false
+  size_bytes: 28262
+  source_url: null
+  tags:
+  - presentations
+  - slides
+  title: 'Matsya: Aquatic Behaviour Analysis Pipeline'
+  type: slides
+  year: 2026
+78a1a3f6abde:
+  author: Matsya Project Team
+  canonical_file: calm_swimming_baseline.mp4
+  category: footage
+  description: Baseline 20s recording of calm goldfish swimming in a rectangular tank
+  external_url: null
+  featured: true
+  id: 78a1a3f6abde
+  public: true
+  sensitive: false
+  size_bytes: 986335
+  source_url: null
+  tags:
+  - footage
+  - video
+  title: Calm Swimming Baseline
+  type: video
+  year: 2026
+d7703508222f:
+  author: Matsya Project Team
+  canonical_file: goldfish_kinematic_stress_analysis.pdf
+  category: literature
+  description: Non-invasive computer vision tracking provides objective metrics for
+    evaluating stress behaviors
+  external_url: null
+  featured: true
+  id: d7703508222f
+  public: true
+  sensitive: false
+  size_bytes: 1620
+  source_url: null
+  tags:
+  - literature
+  - pdf
+  title: Kinematic Trajectory Quantification in Carassius auratus
+  type: pdf
+  year: 2026
+ext998877665:
+  author: Matsya Research Group
+  canonical_file: null
+  category: datasets
+  description: Multi-angle high-speed tank video dataset stored in cloud repository
+  external_url: https://drive.google.com/drive/folders/matsya-external-dataset
+  featured: false
+  id: ext998877665
+  public: true
+  sensitive: false
+  size_bytes: 0
+  source_url: null
+  tags:
+  - datasets
+  - external
+  title: High-Speed Multi-Angle Goldfish Dataset
+  type: video
+  year: 2026

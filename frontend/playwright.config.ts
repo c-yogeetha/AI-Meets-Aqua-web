@@ -12,7 +12,7 @@ export default defineConfig({
     ["json", { outputFile: path.resolve(__dirname, "../test-results/e2e.json") }],
   ],
   use: {
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: process.env.BASE_URL || "http://127.0.0.1:3000",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -22,11 +22,18 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "prod",
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: process.env.PROD_URL || "http://127.0.0.1:8080",
+      },
+    },
   ],
   webServer: [
     {
       command:
-        "cd ../backend && MPLCONFIGDIR=/tmp/matplotlib ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 DATA_DIR=/tmp/aqua-e2e .venv/bin/uvicorn app.main:app --port 8000 --host 127.0.0.1",
+        "cd ../backend && MPLCONFIGDIR=/tmp/matplotlib ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 SINGLE_USER_MODE=1 DATA_DIR=/tmp/aqua-e2e .venv/bin/uvicorn app.main:app --port 8000 --host 127.0.0.1",
       url: "http://127.0.0.1:8000/health",
       reuseExistingServer: !process.env.CI,
       timeout: 60000,

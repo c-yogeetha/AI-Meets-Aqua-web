@@ -20,6 +20,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { showToast } from "@/lib/toast";
+import { downloadFile } from "@/lib/download";
 
 export default function ResultPage() {
   const params = useParams();
@@ -31,6 +32,7 @@ export default function ResultPage() {
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [expandedFish, setExpandedFish] = useState<Record<string, boolean>>({});
   const [doneSuggestions, setDoneSuggestions] = useState<Record<number, boolean>>({});
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   // Query result
   const {
@@ -163,18 +165,22 @@ export default function ResultPage() {
       ? "AI model"
       : "Baseline analysis";
 
-  const videoSrc = result.annotated_video_url.startsWith("http")
-    ? result.annotated_video_url
-    : `${api.getBaseUrl()}${result.annotated_video_url}`;
+  const videoSrc = api.apiUrl(result.annotated_video_url || `/api/v1/results/${jobId}/video`);
 
   const posterSrc =
     result.key_moments && result.key_moments.length > 0
-      ? result.key_moments[0].frame_url.startsWith("http")
-        ? result.key_moments[0].frame_url
-        : `${api.getBaseUrl()}${result.key_moments[0].frame_url}`
+      ? api.apiUrl(result.key_moments[0].frame_url)
       : undefined;
 
-  const pdfDownloadUrl = api.getPdfUrl(jobId);
+  const handleDownloadPdf = async () => {
+    setIsDownloadingPdf(true);
+    try {
+      await downloadFile(api.getPdfUrl(jobId), `matsya-report-${jobId.slice(0, 8)}.pdf`);
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
+
   const stressedCount = result.fish.filter((f) => f.stressed).length;
 
   return (
@@ -206,16 +212,16 @@ export default function ResultPage() {
 
         {/* Header Actions */}
         <div className="flex items-center gap-3">
-          <a
-            href={pdfDownloadUrl}
+          <button
+            type="button"
+            onClick={handleDownloadPdf}
+            disabled={isDownloadingPdf}
             data-testid="download-pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-secondary px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5"
+            className="btn-secondary px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 disabled:opacity-50"
           >
-            <Download className="w-4 h-4" />
+            {isDownloadingPdf ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
             <span>Download PDF</span>
-          </a>
+          </button>
           <button
             onClick={handleDelete}
             data-testid="delete-result"
@@ -294,14 +300,19 @@ export default function ResultPage() {
               controls
               playsInline
               poster={posterSrc}
-              src={videoSrc}
               onTimeUpdate={() => {
                 if (videoRef.current) {
                   setVideoCurrentTime(videoRef.current.currentTime);
                 }
               }}
               className="w-full h-full object-contain"
-            />
+            >
+              {result.annotated_video_alt_url && (
+                <source src={api.apiUrl(result.annotated_video_alt_url)} type="video/webm" />
+              )}
+              <source src={videoSrc} type="video/mp4" />
+              Your browser does not support video playback.
+            </video>
           </div>
         </div>
 
@@ -581,7 +592,7 @@ export default function ResultPage() {
           </div>
         )}
 
-        {/* Veterinary disclaimer */}
+        {/* Care guidance disclaimer */}
         <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-foam/60 text-xs flex items-start gap-2.5">
           <Info className="w-4 h-4 flex-shrink-0 text-aqua mt-0.5" />
           <span>

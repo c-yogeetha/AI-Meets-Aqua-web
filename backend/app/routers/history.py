@@ -1,8 +1,9 @@
 from typing import Optional
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy.orm import Session
 
+from app.auth import get_current_owner_id
 from app.db import get_db
 from app.models import Result, Tank
 from app.schemas import HistoryItem, PagedHistory
@@ -12,16 +13,21 @@ router = APIRouter(prefix="/api/v1/history", tags=["History"])
 
 @router.get("", response_model=PagedHistory, summary="Get paginated history of analyses")
 def get_history(
+    request: Request,
     tank_id: Optional[str] = Query(None),
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
     db: Session = Depends(get_db),
 ):
+    owner_id = get_current_owner_id(request)
     query = (
         db.query(Result, Tank.name)
         .join(Tank, Result.tank_id == Tank.id)
         .filter(Result.deleted_at.is_(None))
     )
+
+    if owner_id is not None:
+        query = query.filter(Tank.owner_id == owner_id)
 
     if tank_id:
         query = query.filter(Result.tank_id == tank_id)

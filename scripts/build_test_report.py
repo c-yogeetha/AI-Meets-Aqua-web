@@ -26,13 +26,18 @@ CATEGORIES = [
     ("Video Analysis Integration", "B-A"),
     ("Results Verification", "B-R"),
     ("Media Streaming & Encoding", "B-M"),
-    ("PDF Report Generation", "B-P"),
+    ("PDF Report Packaging", "B-PDF"),
+    ("PDF Generation Legacy", "B-P"),
     ("Historical Analyses", "B-HI"),
     ("Tank Insights & FSI", "B-IN"),
     ("Recycle Bin Retention", "B-BN"),
     ("Alert System & Notification", "B-AL"),
     ("Demo Seeding Engine", "B-D"),
     ("External AI Adapter", "B-X"),
+    ("Owner Scoping & Isolation", "B-OWN"),
+    ("Data Retention & Cleanup", "B-RET"),
+    ("Resource Catalog & Endpoints", "B-RES"),
+    ("OpenAPI Schema Contract", "B-CT"),
     ("End-to-End User Workflows", "E-"),
 ]
 
@@ -115,7 +120,7 @@ def parse_playwright_json(json_path: str) -> list[dict]:
         def walk_suites(suite):
             for spec in suite.get("specs", []):
                 title = spec.get("title", "")
-                match = re.search(r"(E-[0-9]+)", title)
+                match = re.search(r"(E-[A-Za-z0-9]+)", title)
                 case_id = match.group(1) if match else "E-XX"
 
                 # Check test runs
@@ -152,6 +157,7 @@ def main():
     e2e_json = os.path.join(root_dir, "test-results", "e2e.json")
     out_md = os.path.join(root_dir, "docs", "TEST_REPORT.md")
     out_json = os.path.join(root_dir, "frontend", "public", "test-results.json")
+    out_json_data = os.path.join(root_dir, "frontend", "public", "data", "test-results.json")
 
     backend_cases = parse_backend_junit(backend_xml)
     coverage_pct = parse_coverage_xml(cov_xml)
@@ -207,11 +213,16 @@ def main():
         json.dump(report_data, f, indent=2)
     print(f"Wrote {out_json}")
 
+    os.makedirs(os.path.dirname(out_json_data), exist_ok=True)
+    with open(out_json_data, "w", encoding="utf-8") as f:
+        json.dump(report_data, f, indent=2)
+    print(f"Wrote {out_json_data}")
+
     # Write markdown report
     all_p0_pass = "yes" if failed == 0 and total > 0 else "no"
 
     md_lines = [
-        "# AI Meets Aqua - Test Verification Report",
+        "# Matsya - Test Verification Report",
         "",
         f"**Generated:** {now_iso}  ",
         f"**Environment:** {env['os']} | Python {env['python']} | Node {env['node']}  ",
@@ -246,7 +257,7 @@ def main():
     ])
 
     for c in all_cases:
-        status_badge = "✅ Passed" if c["status"] == "passed" else "❌ Failed"
+        status_badge = "Passed" if c["status"] == "passed" else "Failed"
         md_lines.append(f"| `{c['id']}` | {c['suite']} | {c['title']} | {status_badge} | {c['duration_s']}s |")
 
     os.makedirs(os.path.dirname(out_md), exist_ok=True)

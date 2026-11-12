@@ -14,8 +14,8 @@ const FAQS: FaqItemData[] = [
     a: "The system monitors behavioral stress indicators in ornamental goldfish: high burst speeds, erratic zig-zag turning, prolonged surface gasping (piping), social isolation, and corner lethargy.",
   },
   {
-    q: "Is this considered a medical or veterinary diagnosis?",
-    a: "No. It is a decision-support screening tool for tank caretakers. It detects overt behavioural deviations early to prompt water testing or consultation, but does not replace professional veterinary care.",
+    q: "Is this considered a clinical medical diagnosis?",
+    a: "No. It is a decision-support screening tool for tank caretakers. It detects overt behavioural deviations early to prompt water testing or consultation, but does not replace professional clinical care.",
   },
   {
     q: "What kind of video footage should I upload for optimal accuracy?",

@@ -13,6 +13,7 @@ import {
   RotateCcw,
   History,
   Sparkles,
+  Fish,
 } from "lucide-react";
 
 const STAGES = [
@@ -105,10 +106,8 @@ export default function JobProgressPage() {
         {/* Looping Swimming Fish Animation */}
         {!isFailed && (
           <div className="relative h-20 mb-6 flex items-center justify-center">
-            <div className="relative animate-bounce duration-1000">
-              <span className="text-5xl block transform -scale-x-100">🐟</span>
-              <span className="absolute -top-1 -right-2 text-xs text-aqua animate-ping">🫧</span>
-              <span className="absolute -bottom-1 -left-2 text-[10px] text-foam/60 animate-pulse">🫧</span>
+            <div className="relative animate-bounce duration-1000 p-3 rounded-full bg-aqua/10 border border-aqua/30">
+              <Fish className="w-10 h-10 text-aqua block transform -scale-x-100" />
             </div>
           </div>
         )}

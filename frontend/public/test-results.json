@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-11T19:46:53.014501+00:00",
+  "generated_at": "2026-11-12T16:31:27.222958+00:00",
   "environment": {
     "os": "Linux 7.2.6-200.fc44.x86_64",
     "python": "3.12.16",
     "node": "v22.23.1",
-    "commit": "ee19ff59624f8e7ec653ed9096e8b92d7c7afef1"
+    "commit": "a45b27779f85c49bce7e9f0fdf1331b5f092db25"
   },
   "summary": {
-    "total": 114,
-    "passed": 114,
+    "total": 94,
+    "passed": 94,
     "failed": 0,
     "skipped": 0,
     "coverage_percent": 92.8
@@ -75,7 +75,7 @@
       "passed": 3
     },
     {
-      "name": "PDF Report Generation",
+      "name": "PDF Generation Legacy",
       "prefix": "B-P",
       "total": 1,
       "passed": 1
@@ -119,8 +119,8 @@
     {
       "name": "End-to-End User Workflows",
       "prefix": "E-",
-      "total": 24,
-      "passed": 24
+      "total": 4,
+      "passed": 4
     }
   ],
   "cases": [
@@ -755,171 +755,31 @@
       "suite": "backend"
     },
     {
-      "id": "E-01",
-      "title": "E-01: Open / shows hero, loader completes, no console errors",
+      "id": "E-SCI01",
+      "title": "E-SCI01: /science shows rules table from API, anchors work, and formulas visible",
       "status": "passed",
-      "duration_s": 1.914,
+      "duration_s": 1.047,
       "suite": "e2e"
     },
     {
-      "id": "E-02",
-      "title": "E-02: Scroll the landing page updates depth meter",
+      "id": "E-HOW01",
+      "title": "E-HOW01: /how-it-works architecture diagram clicking nodes opens side panel; analyzer table shows active mode",
       "status": "passed",
-      "duration_s": 1.518,
+      "duration_s": 0.986,
       "suite": "e2e"
     },
     {
-      "id": "E-03",
-      "title": "E-03: cta-analyse navigates to /analyse",
+      "id": "E-ABT01",
+      "title": "E-ABT01: /about shows team, institution, milestones with evidence links, and maturity table",
       "status": "passed",
-      "duration_s": 4.327,
+      "duration_s": 0.861,
       "suite": "e2e"
     },
     {
-      "id": "E-04",
-      "title": "E-04: FAQ accordion toggles aria-expanded and shows answer",
+      "id": "E-NAV03",
+      "title": "E-NAV03: Legacy routes redirect permanently",
       "status": "passed",
-      "duration_s": 3.867,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-05",
-      "title": "E-05: Flip card via keyboard Enter key",
-      "status": "passed",
-      "duration_s": 0.594,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-06",
-      "title": "E-06: Create tank with empty name shows validation error",
-      "status": "passed",
-      "duration_s": 1.278,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-07",
-      "title": "E-07: Create tank valid adds tank card",
-      "status": "passed",
-      "duration_s": 1.071,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-08",
-      "title": "E-08: Upload a .txt file displays upload-error",
-      "status": "passed",
-      "duration_s": 1.14,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-09",
-      "title": "E-09: Happy path: upload stressed_one.mp4 and verify full results",
-      "status": "passed",
-      "duration_s": 23.696,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-10",
-      "title": "E-10: Upload calm.mp4 finishes Normal",
-      "status": "passed",
-      "duration_s": 20.295,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-11",
-      "title": "E-11: Failure: upload a file named x__fail__.mp4 shows job-error and retry",
-      "status": "passed",
-      "duration_s": 1.662,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-12",
-      "title": "E-12: Timeline focus and interaction",
-      "status": "passed",
-      "duration_s": 3.929,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-13",
-      "title": "E-13: History shows the analysis; FSI value present; trend chart present",
-      "status": "passed",
-      "duration_s": 0.63,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-14",
-      "title": "E-14: Delete a result and verify recycle bin",
-      "status": "passed",
-      "duration_s": 4.252,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-15",
-      "title": "E-15: Bell badge and notification dropdown",
-      "status": "passed",
-      "duration_s": 2.679,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-16",
-      "title": "E-16: Settings toggles persist after save and reload",
-      "status": "passed",
-      "duration_s": 1.83,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-17",
-      "title": "E-17: Mobile viewport 375x812 has no horizontal scroll",
-      "status": "passed",
-      "duration_s": 0.637,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-18",
-      "title": "E-18: prefers-reduced-motion skips loader",
-      "status": "passed",
-      "duration_s": 0.582,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-19",
-      "title": "E-19: Try a sample seeds demo and opens result with Demo data badge",
-      "status": "passed",
-      "duration_s": 4.211,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-20",
-      "title": "E-20: Backend unreachable displays error banner gracefully without crash",
-      "status": "passed",
-      "duration_s": 2.309,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-21",
-      "title": "E-21: Accessibility audit with axe has zero critical violations",
-      "status": "passed",
-      "duration_s": 2.747,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-22",
-      "title": "E-22: Unknown URL displays 404 page",
-      "status": "passed",
-      "duration_s": 0.509,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-23",
-      "title": "E-23: /testing page shows summary totals",
-      "status": "passed",
-      "duration_s": 0.544,
-      "suite": "e2e"
-    },
-    {
-      "id": "E-24",
-      "title": "E-24: Download PDF button has valid application/pdf link",
-      "status": "passed",
-      "duration_s": 3.865,
+      "duration_s": 1.773,
       "suite": "e2e"
     }
   ]

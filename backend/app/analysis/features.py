@@ -32,14 +32,22 @@ def extract_per_fish_samples(tracks: Tracks, sample_hz: float = 5.0) -> Dict[str
         for det in frame.detections:
             fid = det.id
             if fid not in fish_raw:
-                fish_raw[fid] = {"t": [], "bboxes": [], "centroids": []}
+                fish_raw[fid] = {
+                    "t": [],
+                    "bboxes": [],
+                    "centroids": [],
+                    "coasting": [],
+                }
             fish_raw[fid]["t"].append(t)
             x1, y1, x2, y2 = det.bbox
             fish_raw[fid]["bboxes"].append([x1, y1, x2, y2])
             fish_raw[fid]["centroids"].append([(x1 + x2) / 2.0, (y1 + y2) / 2.0])
+            fish_raw[fid]["coasting"].append(getattr(det, "coasting", False))
 
     resampled: Dict[str, Dict[str, Any]] = {}
     dt = 1.0 / sample_hz
+
+    total_frames_count = len(tracks.frames)
 
     for fid, data in fish_raw.items():
         times = data["t"]
@@ -55,6 +63,14 @@ def extract_per_fish_samples(tracks: Tracks, sample_hz: float = 5.0) -> Dict[str
         centroids = interpolate_track(times, data["centroids"], target_times)
         bboxes = interpolate_track(times, data["bboxes"], target_times)
 
+        # Nearest neighbor interpolation for boolean coasting flag
+        coasting_arr = np.array(data["coasting"], dtype=bool)
+        t_arr = np.array(times)
+        coasting_resampled = np.zeros(len(target_times), dtype=bool)
+        for i, tt in enumerate(target_times):
+            idx = int(np.argmin(np.abs(t_arr - tt)))
+            coasting_resampled[i] = coasting_arr[idx]
+
         # Body length is median of max(w, h) in pixels
         widths = np.abs(bboxes[:, 2] - bboxes[:, 0])
         heights = np.abs(bboxes[:, 3] - bboxes[:, 1])
@@ -63,13 +79,19 @@ def extract_per_fish_samples(tracks: Tracks, sample_hz: float = 5.0) -> Dict[str
         if median_bl < 1.0:
             median_bl = 50.0
 
+        # Confidence: fraction of video frames the fish was observed
+        observed_fraction = len(times) / max(total_frames_count, 1)
+
         resampled[fid] = {
             "times": target_times,
             "centroids": centroids,
             "bboxes": bboxes,
+            "coasting": coasting_resampled,
             "bl": median_bl,
             "t_min": t_min,
             "t_max": t_max,
+            "confidence": round(float(observed_fraction), 2),
+            "raw_times": times,
         }
 
     return resampled
@@ -87,12 +109,14 @@ def compute_features_for_fish(
     """Compute behavioral features for one fish over an optional time window."""
     times = fish_data["times"]
     centroids = fish_data["centroids"]
+    coasting = fish_data.get("coasting", np.zeros(len(times), dtype=bool))
     bl = fish_data["bl"]
 
     if time_window is not None:
         mask = (times >= time_window[0]) & (times <= time_window[1])
         times = times[mask]
         centroids = centroids[mask]
+        coasting = coasting[mask]
 
     n_samples = len(times)
     if n_samples < 2:
@@ -109,10 +133,15 @@ def compute_features_for_fish(
     diffs = np.diff(centroids, axis=0)
     dists = np.linalg.norm(diffs, axis=1)
     dts = np.diff(times)
-    valid_dt = dts > 1e-5
+
+    # Gaps shorter than 1.0s are interpolated; longer gaps are excluded
+    valid_dt = (dts > 1e-5) & (dts <= 1.0)
     diffs = diffs[valid_dt]
     dists = dists[valid_dt]
     dts = dts[valid_dt]
+    # Check coasting: coasting boxes count as zero movement
+    coasting_steps = coasting[:-1][valid_dt] | coasting[1:][valid_dt]
+    dists[coasting_steps] = 0.0
 
     if len(dts) == 0:
         return {
@@ -182,7 +211,6 @@ def compute_features_for_fish(
                 other_c = all_fish_data[other_id]["centroids"]
                 # Check if other fish was present around time t
                 if other_t[0] <= t <= other_t[-1]:
-                    # Find nearest point
                     o_idx = np.searchsorted(other_t, t)
                     o_idx = min(max(o_idx, 0), len(other_t) - 1)
                     if abs(other_t[o_idx] - t) <= 0.25:
