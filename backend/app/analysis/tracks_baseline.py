@@ -7,6 +7,7 @@ import numpy as np
 import yaml
 from scipy.optimize import linear_sum_assignment
 
+from app.analysis.preprocess import Preprocessor
 from app.analysis.types import Detection, FrameDetections, Tracks
 from app.analysis.video_io import frame_reader, get_video_metadata
 
@@ -111,11 +112,7 @@ class DominantColorModel:
             diff = (2.0 * h_channel - 2.0 * ch + 180.0) % 360.0 - 180.0
             circ_dist = np.abs(diff) / 2.0
 
-            c_mask = (
-                (circ_dist <= self.hue_margin)
-                & (s_channel >= self.s_min)
-                & (v_channel >= self.v_min)
-            )
+            c_mask = (circ_dist <= self.hue_margin) & (s_channel >= self.s_min) & (v_channel >= self.v_min)
             final_mask[c_mask] = 255
 
         # Also fallback orange range
@@ -187,22 +184,28 @@ def split_merged_blobs(
                         px, py, pw, ph = cv2.boundingRect(part_c)
                         global_x = x + px
                         global_y = y + py
-                        candidate_parts.append((
-                            global_x + pw / 2.0,
-                            global_y + ph / 2.0,
-                            [float(global_x), float(global_y), float(global_x + pw), float(global_y + ph)],
-                            p_area,
-                            part_c,
-                        ))
+                        candidate_parts.append(
+                            (
+                                global_x + pw / 2.0,
+                                global_y + ph / 2.0,
+                                [float(global_x), float(global_y), float(global_x + pw), float(global_y + ph)],
+                                p_area,
+                                part_c,
+                            )
+                        )
 
                     if valid_split and len(candidate_parts) >= 2:
                         processed_blobs.extend(candidate_parts)
                         split_successful = True
 
             if not split_successful:
-                processed_blobs.append((x + w / 2.0, y + h / 2.0, [float(x), float(y), float(x + w), float(y + h)], area, cnt))
+                processed_blobs.append(
+                    (x + w / 2.0, y + h / 2.0, [float(x), float(y), float(x + w), float(y + h)], area, cnt)
+                )
         else:
-            processed_blobs.append((x + w / 2.0, y + h / 2.0, [float(x), float(y), float(x + w), float(y + h)], area, cnt))
+            processed_blobs.append(
+                (x + w / 2.0, y + h / 2.0, [float(x), float(y), float(x + w), float(y + h)], area, cnt)
+            )
 
     return processed_blobs
 
@@ -266,15 +269,17 @@ class RobustHungarianTracker:
             hist = extract_hue_histogram(bgr_frame, bbox)
             w = bbox[2] - bbox[0]
             h = bbox[3] - bbox[1]
-            det_features.append({
-                "cx": cx,
-                "cy": cy,
-                "bbox": bbox,
-                "area": area,
-                "hist": hist,
-                "w": w,
-                "h": h,
-            })
+            det_features.append(
+                {
+                    "cx": cx,
+                    "cy": cy,
+                    "bbox": bbox,
+                    "area": area,
+                    "hist": hist,
+                    "w": w,
+                    "h": h,
+                }
+            )
 
         active_tids = [tid for tid, td in self.tracks.items() if td["active"]]
         assigned_tracks = set()
@@ -301,11 +306,7 @@ class RobustHungarianTracker:
                     if math.isnan(d_hist):
                         d_hist = 0.5
 
-                    cost = (
-                        self.w_centroid * d_norm
-                        + self.w_size * d_size
-                        + self.w_hist * d_hist
-                    )
+                    cost = self.w_centroid * d_norm + self.w_size * d_size + self.w_hist * d_hist
                     C[i, j] = cost
 
             row_ind, col_ind = linear_sum_assignment(C)
@@ -358,12 +359,14 @@ class RobustHungarianTracker:
         frame_results = []
         for tid, td in self.tracks.items():
             if td["times"] and td["times"][-1] == t:
-                frame_results.append((
-                    tid,
-                    td["bboxes"][-1],
-                    td["confs"][-1],
-                    td["coasting"][-1],
-                ))
+                frame_results.append(
+                    (
+                        tid,
+                        td["bboxes"][-1],
+                        td["confs"][-1],
+                        td["coasting"][-1],
+                    )
+                )
 
         return frame_results
 
@@ -478,6 +481,7 @@ def run_baseline_tracking(
     effective_fps = min(fps, target_fps) if fps > 0 else target_fps
 
     # 1. Warm-up pass to train dominant colour model, build static decor mask, and warm up MOG2
+    warmup_preprocessor = Preprocessor(config, effective_fps)
     color_model = DominantColorModel(config)
     m_cfg = config.get("motion", {})
     bg_sub = cv2.createBackgroundSubtractorMOG2(
@@ -495,7 +499,9 @@ def run_baseline_tracking(
     warmup_frame_count = 0
     first_frame_hsv = None
 
-    for f_idx, t, frame, fw, fh in frame_reader(video_path, target_width=target_w, max_fps=effective_fps):
+    for f_idx, t, source_frame, fw, fh in frame_reader(video_path, target_width=target_w, max_fps=effective_fps):
+        prep = warmup_preprocessor.process(source_frame, t)
+        frame = prep.detection_frame
         if enable_clahe:
             lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
             l_ch, a_ch, b_ch = cv2.split(lab)
@@ -567,11 +573,18 @@ def run_baseline_tracking(
 
     # Detection & Tracking Pass (bg_sub keeps learned background model)
     lr = m_cfg.get("learning_rate", 0.002)
+    preprocessor = Preprocessor(config, effective_fps)
+    surface_masks_by_time: Dict[float, np.ndarray] = {}
 
-    for f_idx, t, frame, fw, fh in frame_reader(video_path, target_width=target_w, max_fps=effective_fps):
+    preprocess_flags: List[Dict[str, Any]] = []
+    for f_idx, t, source_frame, fw, fh in frame_reader(video_path, target_width=target_w, max_fps=effective_fps):
         frame_w, frame_h = fw, fh
         if tracker is None:
             tracker = RobustHungarianTracker(config, frame_w, frame_h, effective_fps)
+        prep = preprocessor.process(source_frame, t)
+        frame = prep.detection_frame
+        preprocess_flags.append(prep.flags)
+        surface_masks_by_time[round(t, 3)] = prep.surface_zone_mask
 
         if enable_clahe:
             lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
@@ -603,6 +616,14 @@ def run_baseline_tracking(
         else:
             # Color model is primary for orange fish; motion supplements
             fused = cv2.bitwise_or(colour_mask, motion_mask)
+
+        # Exclude glare and transient bubbles from foreground; surface detections remain visible.
+        if prep.foreground_exclusion_mask.shape == fused.shape:
+            fused = cv2.bitwise_and(fused, cv2.bitwise_not(prep.foreground_exclusion_mask))
+
+        # Exclude glare and transient bubbles from foreground. Surface detections remain visible.
+        if prep.foreground_exclusion_mask.shape == fused.shape:
+            fused = cv2.bitwise_and(fused, cv2.bitwise_not(prep.foreground_exclusion_mask))
 
         # Apply static decor mask
         if decor_enabled and static_decor_mask.shape == fused.shape:
@@ -644,7 +665,15 @@ def run_baseline_tracking(
             blobs = []
             for cnt in valid_contours:
                 x, y, w, h = cv2.boundingRect(cnt)
-                blobs.append((x + w / 2.0, y + h / 2.0, [float(x), float(y), float(x + w), float(y + h)], cv2.contourArea(cnt), cnt))
+                blobs.append(
+                    (
+                        x + w / 2.0,
+                        y + h / 2.0,
+                        [float(x), float(y), float(x + w), float(y + h)],
+                        cv2.contourArea(cnt),
+                        cnt,
+                    )
+                )
 
         for _, _, bbox, area, _ in blobs:
             running_areas.append(area)
@@ -653,7 +682,7 @@ def run_baseline_tracking(
             running_areas = running_areas[-200:]
 
         # Update tracker
-        frame_dets = tracker.update(blobs, frame, t)
+        frame_dets = tracker.update(blobs, source_frame, t)
 
         frames_processed_count += 1
         if len(frame_dets) > 0:
@@ -724,12 +753,23 @@ def run_baseline_tracking(
                     bbox = tdata["bboxes"][c_idx]
                     coasting = tdata["coasting"][c_idx]
                     conf = tdata["confs"][c_idx]
-                    frame_dets_list.append(Detection(
-                        id=fid,
-                        bbox=bbox,
-                        conf=round(float(conf), 2),
-                        coasting=coasting,
-                    ))
+                    surface_mask = surface_masks_by_time.get(round(t, 3))
+                    cx = int(max(0, min(frame_w - 1, round((bbox[0] + bbox[2]) / 2))))
+                    cy = int(max(0, min(frame_h - 1, round((bbox[1] + bbox[3]) / 2))))
+                    surface_zone = bool(
+                        surface_mask is not None
+                        and surface_mask.shape == (frame_h, frame_w)
+                        and surface_mask[cy, cx] > 0
+                    )
+                    frame_dets_list.append(
+                        Detection(
+                            id=fid,
+                            bbox=bbox,
+                            conf=round(float(conf), 2),
+                            coasting=coasting,
+                            surface_zone=surface_zone,
+                        )
+                    )
         frames_output.append(FrameDetections(t=round(t, 3), detections=frame_dets_list))
 
     tracks = Tracks(
@@ -761,6 +801,13 @@ def run_baseline_tracking(
         "coverage_pct": cov_pct,
         "fish_tracked": detected_count,
         "fish_median_px": fish_median_px,
+        "preprocess": {
+            **preprocessor.summary(),
+            "steps_fired": {
+                key: sum(1 for flags in preprocess_flags if bool(flags.get(key)))
+                for key in ("colour_cast", "flicker", "glare", "surface_band")
+            },
+        },
     }
 
     return tracks, warnings, detection_stats

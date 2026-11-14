@@ -2,8 +2,8 @@
   author: Matsya Project Team
   canonical_file: trajectory_kinematics_sample.csv
   category: datasets
-  description: Tabular dataset of extracted goldfish coordinates, velocities and turn
-    angles
+  description: Synthetic 30-row demonstration table of generated fish coordinates,
+    speed, turn angle and depth ratio; not measured aquarium footage.
   external_url: null
   featured: true
   id: 49215f5e3130
@@ -14,15 +14,16 @@
   tags:
   - datasets
   - csv
-  title: Trajectory Kinematics Sample
+  - synthetic
+  title: Synthetic Trajectory Kinematics Sample
   type: csv
   year: 2026
 4f8d89c9985a:
   author: Matsya Project Team
   canonical_file: matsya_overview_presentation.pptx
   category: presentations
-  description: Presentation slide deck introducing Matsya vision, architecture, and
-    results
+  description: Internal one-slide project presentation covering the Matsya analysis
+    pipeline.
   external_url: null
   featured: false
   id: 4f8d89c9985a
@@ -33,6 +34,7 @@
   tags:
   - presentations
   - slides
+  - project-material
   title: 'Matsya: Aquatic Behaviour Analysis Pipeline'
   type: slides
   year: 2026
@@ -40,7 +42,8 @@
   author: Matsya Project Team
   canonical_file: calm_swimming_baseline.mp4
   category: footage
-  description: Baseline 20s recording of calm goldfish swimming in a rectangular tank
+  description: Procedurally generated 20-second baseline clip for software testing;
+    not recorded from a live aquarium.
   external_url: null
   featured: true
   id: 78a1a3f6abde
@@ -51,43 +54,7 @@
   tags:
   - footage
   - video
-  title: Calm Swimming Baseline
-  type: video
-  year: 2026
-d7703508222f:
-  author: Matsya Project Team
-  canonical_file: goldfish_kinematic_stress_analysis.pdf
-  category: literature
-  description: Non-invasive computer vision tracking provides objective metrics for
-    evaluating stress behaviors
-  external_url: null
-  featured: true
-  id: d7703508222f
-  public: true
-  sensitive: false
-  size_bytes: 1620
-  source_url: null
-  tags:
-  - literature
-  - pdf
-  title: Kinematic Trajectory Quantification in Carassius auratus
-  type: pdf
-  year: 2026
-ext998877665:
-  author: Matsya Research Group
-  canonical_file: null
-  category: datasets
-  description: Multi-angle high-speed tank video dataset stored in cloud repository
-  external_url: https://drive.google.com/drive/folders/matsya-external-dataset
-  featured: false
-  id: ext998877665
-  public: true
-  sensitive: false
-  size_bytes: 0
-  source_url: null
-  tags:
-  - datasets
-  - external
-  title: High-Speed Multi-Angle Goldfish Dataset
+  - synthetic
+  title: Synthetic Calm Swimming Clip
   type: video
   year: 2026

@@ -321,6 +321,21 @@ def generate_scenario_video(
             shift_y = int(round(rng.uniform(-7.0, 7.0)))
             M = np.float32([[1, 0, shift_x], [0, 1, shift_y]])
             frame = cv2.warpAffine(frame, M, (width, height), borderMode=cv2.BORDER_REFLECT)
+        elif scenario in {"glare_spot", "glare_sweep", "glare_bubbles_combined"}:
+            x = int(width * (0.55 if scenario == "glare_spot" else 0.25 + 0.5 * (0.5 + 0.5 * math.sin(t * 0.7))))
+            cv2.ellipse(frame, (x, int(height * 0.35)), (int(width * 0.11), int(height * 0.08)), -12, 0, 360, (250, 250, 250), -1)
+        if scenario in {"bubbles_light", "bubbles_heavy", "glare_bubbles_combined"}:
+            bubble_count = 2 if scenario == "bubbles_light" else 14
+            for bubble in range(bubble_count):
+                bx = int(width * (0.72 + 0.18 * math.sin(t * 1.5 + bubble)))
+                by = int(height - ((f * (2 + bubble % 4) + bubble * 27) % height))
+                radius = 2 + (bubble % 3)
+                cv2.circle(frame, (bx, by), radius, (230, 235, 240), 1, cv2.LINE_AA)
+        elif scenario == "green_cast":
+            frame = np.clip(frame.astype(np.float32) * np.array([1.0, 1.28, 0.72], dtype=np.float32), 0, 255).astype(np.uint8)
+        elif scenario == "flicker":
+            factor = 0.65 if (f // 5) % 2 else 1.25
+            frame = np.clip(frame.astype(np.float32) * factor, 0, 255).astype(np.uint8)
 
         vw.write(frame)
 
@@ -346,6 +361,13 @@ def main():
         "blurred",
         "shaky",
         "tiny_fish",
+        "glare_spot",
+        "glare_sweep",
+        "bubbles_light",
+        "bubbles_heavy",
+        "green_cast",
+        "flicker",
+        "glare_bubbles_combined",
     ]
 
     for sc in scenarios:
@@ -480,6 +502,14 @@ def main():
             },
         },
     }
+
+    for name in ("glare_spot", "glare_sweep", "bubbles_light", "bubbles_heavy", "green_cast", "flicker", "glare_bubbles_combined"):
+        manifest[f"{name}.mp4"] = {
+            "fish_count": 3,
+            "view": "side",
+            "synthetic": True,
+            "expect": {"level_in": ["Normal", "Moderate", "High"]},
+        }
 
     manifest_file = samples_dir / "manifest.json"
     with open(manifest_file, "w", encoding="utf-8") as f:

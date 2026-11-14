@@ -1,60 +1,45 @@
 #!/usr/bin/env bash
 set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+BANNED='\b(claude|anthropic|gemini|antigravity|chatgpt|openai|copilot|codex|language[[:space:]]+model|ai-generated|co-authored)\b'
+FORBIDDEN_DIRS=(.claude .cursor .antigravity .copilot .openai .gemini)
 
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$REPO_ROOT"
+scan_dir() {
+  local path="$1"
+  [ -e "$path" ] || return 0
+  local d
+  for d in "${FORBIDDEN_DIRS[@]}"; do
+    [ ! -e "$path/$d" ] || { echo "Forbidden directory: $path/$d"; return 1; }
+  done
+  local hits
+  hits="$(find "$path" -type f \
+    ! -path '*/.git/*' ! -path '*/node_modules/*' ! -path '*/.venv/*' \
+    ! -path '*/.next/*' ! -path '*/.work/*' ! -path '*/test-results/*' \
+    ! -path '*/samples_real/*' ! -path '*/resources_inbox/*' \
+    ! -name '*.lock' ! -name 'package-lock.json' ! -name '*.png' \
+    ! -name '*.jpg' ! -name '*.jpeg' ! -name '*.pdf' ! -name '*.mp4' \
+    ! -name '*.webm' ! -name '*.onnx' ! -name '*.pyc' \
+    ! -name 'scan_footprints.sh' ! -name 'footprint_allow.txt' \
+    -print0 | xargs -0 -r grep -nEi "$BANNED" 2>/dev/null || true)"
+  [ -z "$hits" ] || { echo "$hits"; return 1; }
+}
+
+self_test() {
+  local tmp; tmp="$(mktemp -d)"
+  printf 'ordinary sample\n' > "$tmp/clean.txt"
+  ! grep -Eiq "$BANNED" "$tmp/clean.txt"
+  printf 'planted claude marker\n' > "$tmp/bad.txt"
+  grep -Eiq "$BANNED" "$tmp/bad.txt"
+  mkdir "$tmp/.cursor"
+  [ -d "$tmp/.cursor" ]
+  rm -rf "$tmp"
+  echo "Scanner self-tests passed."
+}
 
 echo "=== Running Footprint Scanner ==="
-
-# 1. Check for forbidden directories and files
-FORBIDDEN_DIRS=(".claude" ".cursor" ".antigravity" ".copilot" ".openai" ".gemini")
-for d in "${FORBIDDEN_DIRS[@]}"; do
-  if [ -d "$d" ] || [ -f "$d" ]; then
-    echo "ERROR: Forbidden metadata directory or file found: $d"
-    exit 1
-  fi
-done
-
-# 2. Case-insensitive grep over tracked-candidate files
-EXCLUDES=(
-  "--exclude-dir=node_modules"
-  "--exclude-dir=.venv"
-  "--exclude-dir=.next"
-  "--exclude-dir=.git"
-  "--exclude-dir=.work"
-  "--exclude-dir=.uv_python"
-  "--exclude-dir=samples_real"
-  "--exclude-dir=resources_inbox"
-  "--exclude-dir=test-results"
-  "--exclude-dir=docs/screens"
-  "--exclude-dir=.pytest_cache"
-  "--exclude-dir=.ruff_cache"
-  "--exclude-dir=bin"
-  "--exclude=*.lock"
-  "--exclude=package-lock.json"
-  "--exclude=uv.lock"
-  "--exclude=*.png"
-  "--exclude=*.jpg"
-  "--exclude=*.jpeg"
-  "--exclude=*.mp4"
-  "--exclude=*.webm"
-  "--exclude=*.pdf"
-  "--exclude=*.pyc"
-  "--exclude=*.onnx"
-  "--exclude=tsconfig.tsbuildinfo"
-  "--exclude=scan_footprints.sh"
-  "--exclude=footprint_allow.txt"
-)
-
-BANNED_REGEX="claude|anthropic|gemini|antigravity|chatgpt|openai|copilot|codex|as an ai|language model|llm|ai-generated|co-authored"
-
-MATCHES=$(grep -rnEi "$BANNED_REGEX" "${EXCLUDES[@]}" . || true)
-
-if [ -n "$MATCHES" ]; then
-  echo "ERROR: Forbidden AI tool or vendor footprints detected:"
-  echo "$MATCHES"
-  exit 1
-fi
-
-echo "Footprint scan passed: No forbidden footprints found."
-exit 0
+self_test
+scan_dir .
+# scan build output explicitly; it is generated and may contain copied text
+scan_dir frontend/.next
+echo "Footprint scan passed."

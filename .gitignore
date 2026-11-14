@@ -56,3 +56,10 @@ credentials/
 # Frontend generated files
 frontend/test-results/
 frontend/tsconfig.tsbuildinfo
+
+# Local-only benchmark footage
+samples_real/
+
+deploy/.env
+deploy/backups/
+dist/

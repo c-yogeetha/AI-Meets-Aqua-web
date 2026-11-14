@@ -145,7 +145,7 @@ export default function Navbar() {
                     Active Alerts
                   </span>
                   <Link
-                    href="/settings"
+                    href="/app/settings"
                     onClick={() => setOpenAlerts(false)}
                     className="text-xs text-aqua hover:underline flex items-center gap-1"
                   >
@@ -195,7 +195,7 @@ export default function Navbar() {
 
           {/* Analyse CTA button */}
           <Link
-            href="/analyse"
+            href="/app/analyse"
             className="btn-gold px-4 py-2 rounded-xl text-sm font-semibold flex items-center gap-1.5 shadow-gold-glow"
           >
             <Sparkles className="w-4 h-4 text-abyss" />

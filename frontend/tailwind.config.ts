@@ -41,6 +41,15 @@ const config: Config = {
         "aqua-glow": "0 0 25px rgba(79, 209, 197, 0.25)",
         "gold-glow": "0 0 25px rgba(232, 162, 58, 0.35)",
       },
+      keyframes: {
+        "loader-progress": {
+          "0%": { transform: "scaleX(0)" },
+          "100%": { transform: "scaleX(1)" },
+        },
+      },
+      animation: {
+        "loader-progress": "loader-progress 1.4s ease-out forwards",
+      },
     },
   },
   plugins: [],

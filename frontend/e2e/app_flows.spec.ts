@@ -210,7 +210,9 @@ test.describe("Application Shell & App Pages Suite (E-APP)", () => {
     const seedRes = await page.request.post("/api/v1/demo/seed");
     expect(seedRes.ok()).toBe(true);
     const seedData = await seedRes.json();
-    const jobId = seedData.result_ids[0];
+    // The history endpoint is newest-first and paginated; select the newest
+    // seeded result so it is guaranteed to be on the first history page.
+    const jobId = seedData.result_ids[seedData.result_ids.length - 1];
 
     await page.goto("/app/history");
     await expect(page.getByRole("heading", { name: "Historical Records & Insights" })).toBeVisible();

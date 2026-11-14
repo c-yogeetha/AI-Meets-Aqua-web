@@ -205,7 +205,7 @@ test.describe("Gate 3: Home & Public Navigation Suite", () => {
     // 3. Navigate to About
     await page.click('[data-testid="nav-about"]');
     await expect(page).toHaveURL(/\/about/);
-    await expect(page.locator("h1")).toContainText("Non-Invasive Aquatic Bio-Telemetry");
+    await expect(page.locator("h1")).toContainText("Non-Invasive Aquatic Kinematic Telemetry");
 
     // 4. Test mobile viewport drawer
     await page.setViewportSize({ width: 390, height: 844 });

@@ -640,6 +640,10 @@ export interface components {
              * @default 0
              */
             id_switch_estimate: number;
+            /** Preprocess */
+            preprocess?: {
+                [key: string]: unknown;
+            };
         };
         /** DetectorsMap */
         DetectorsMap: {
@@ -951,6 +955,21 @@ export interface components {
              * @default 0
              */
             height: number;
+            /**
+             * Glare Frac
+             * @default 0
+             */
+            glare_frac: number;
+            /**
+             * Bubble Rate
+             * @default 0
+             */
+            bubble_rate: number;
+            /**
+             * Surface Band Frac
+             * @default 0
+             */
+            surface_band_frac: number;
         };
         /** ResultResponse */
         ResultResponse: {
@@ -1147,6 +1166,13 @@ export interface components {
             uptime_s: number;
             /** Disk Free Mb */
             disk_free_mb: number;
+            /**
+             * Onnx Eligible
+             * @default false
+             */
+            onnx_eligible: boolean;
+            /** Onnx Reason */
+            onnx_reason?: string | null;
         };
         /** TankCreate */
         TankCreate: {

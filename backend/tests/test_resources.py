@@ -8,18 +8,20 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-import cv2
-import docx
-import numpy as np
-import pptx
-import pytest
-import yaml
-from fastapi.testclient import TestClient
-from reportlab.pdfgen import canvas
-from scripts.ingest_resources import run_ingestion
+# noqa: E402 - repository root is added before application imports in this test.
 
-from app.config import Settings
-from app.main import app
+import cv2  # noqa: E402
+import docx  # noqa: E402
+import numpy as np  # noqa: E402
+import pptx  # noqa: E402
+import pytest  # noqa: E402
+import yaml  # noqa: E402
+from fastapi.testclient import TestClient  # noqa: E402
+from reportlab.pdfgen import canvas  # noqa: E402
+from scripts.ingest_resources import run_ingestion  # noqa: E402
+
+from app.config import Settings  # noqa: E402
+from app.main import app  # noqa: E402
 
 
 @pytest.fixture
@@ -62,7 +64,7 @@ def resource_fixture_inbox(tmp_path: Path) -> Path:
     # 5. Footage MP4 (copy from samples)
     video_path = inbox / "footage" / "short_clip.mp4"
     video_path.parent.mkdir(parents=True)
-    sample_mp4 = Path("samples/calm.mp4")
+    sample_mp4 = Path(__file__).resolve().parents[2] / "samples" / "calm.mp4"
     if sample_mp4.exists():
         shutil.copy2(sample_mp4, video_path)
     else:
@@ -356,7 +358,7 @@ def test_b_res03_resource_endpoints(tmp_path: Path, monkeypatch: pytest.MonkeyPa
 
 def test_b_res04_large_video_preview(tmp_path: Path):
     """B-RES04: Videos over max_local_mb get a generated preview under 6 MB."""
-    sample_mp4 = Path("samples/calm.mp4")
+    sample_mp4 = Path(__file__).resolve().parents[2] / "samples" / "calm.mp4"
     if not sample_mp4.exists():
         pytest.skip("samples/calm.mp4 not present")
 

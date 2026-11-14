@@ -8,7 +8,7 @@
 
 In ornamental aquaculture and fish farming, stress is the primary precursor to disease outbreaks and mortality. Traditional monitoring relies on manual visual checks or post-mortem laboratory examinations, by which point intervention is often too late.
 
-Matsya transforms standard 10 to 30 second aquarium video clips into objective behavioral kinematic indicators. By segmenting and tracking individual fish swimming trajectories, measuring vertical water column distribution, detecting erratic turning angles, and evaluating social schooling proximity against established aquatic husbandry guidelines, the platform computes an instantaneous Fish Stress Index (FSI), visualizes individual trajectory overlays, and generates prioritized tank care recommendations.
+Matsya processes aquarium video into rule-based behavioural indicators and individual trajectory visualisations. Its project-selected stress score is not clinically validated and is not a veterinary diagnosis. By segmenting and tracking individual fish swimming trajectories, measuring vertical water column distribution, detecting erratic turning angles, and evaluating social spacing using project-configured thresholds, the platform computes a rule-based project stress indicator, visualizes individual trajectory overlays, and generates prioritized tank care recommendations.
 
 ---
 
@@ -16,7 +16,7 @@ Matsya transforms standard 10 to 30 second aquarium video clips into objective b
 
 ```mermaid
 graph TD
-    User([Aquaculture Caretaker]) <-->|Browser / Mobile| FE[Next.js 14 Frontend<br/>App Router + Tailwind CSS]
+    User([Aquaculture Caretaker]) <-->|Browser / Mobile| FE[Next.js 15 Frontend<br/>App Router + Tailwind CSS]
     FE <-->|REST API + OpenAPI 3.1| BE[FastAPI Backend Server<br/>Port 8000]
     
     subgraph Data Layer
@@ -42,6 +42,10 @@ graph TD
 ```
 
 ---
+
+## Supported operating envelope and limitations
+
+The intended evaluation envelope is goldfish, fixed camera, 1–6 fish, 10–90 second footage, at least 480p, and reasonably clear water. Reflections, bubbles, surface shimmer, colour cast, flicker, decor, occlusion, fish colour/pattern and camera motion can reduce detection reliability. The stress score is a rule-based behavioural indicator with project-selected thresholds; expert validation is not available.
 
 ## Core Capabilities
 
@@ -95,10 +99,10 @@ Matsya enforces automated verification across backend algorithms, schema contrac
 ### Verification Breakdown
 Detailed test execution results are documented in `docs/TEST_REPORT.md` and accessible in the application at `/validation`.
 
-- **Backend Suites**: 131 automated tests covering API endpoints, fused classical detector algorithms, scoring logic, PDF generation, and tenant scoping.
-- **Backend Line Coverage**: 90% statement coverage across core pipeline modules.
-- **Frontend Static Analysis**: Zero TypeScript compiler errors and zero ESLint warnings.
-- **End-to-End Tests**: Automated Playwright browser test coverage spanning upload flows, job execution, report downloads, and responsive navigation.
+- **Backend Suites**: The current suite is run with pytest; generated results are recorded in docs/TEST_REPORT.md.
+- **Backend Line Coverage**: Reported only when a valid coverage XML is produced by the verification script.
+- **Frontend Static Analysis**: TypeScript, lint, and production build checks run in the verification script.
+- **End-to-End Tests**: Playwright workflows are part of the production-like verification path.
 
 ---
 
@@ -108,9 +112,9 @@ The system supports interchangeable computer-vision backends, controlled via the
 
 | Mode | Environment | Description |
 | :--- | :--- | :--- |
-| **`auto`** (Default) | `export ANALYZER=auto` | Automatically uses ONNX neural network weights if available; gracefully falls back to classical baseline detector. |
+| **`auto`** (Default) | `export ANALYZER=auto` | Uses ONNX only when its hold-out evaluation gate passes; otherwise falls back to the classical baseline detector. |
 | **`baseline`** | `export ANALYZER=baseline` | Tri-cue classical background subtraction (MOG2) with hue clustering and watershed splitting. Requires no GPU. |
-| **`onnx`** | `export ANALYZER=onnx` | Ultralytics YOLOv8n exported ONNX model running via OpenCV DNN inference. |
+| **`onnx`** | `export ANALYZER=onnx` | OpenCV DNN ONNX inference; model eligibility requires hold-out evidence and no model is shipped without it. |
 | **`mock`** | `export ANALYZER=mock` | Deterministic synthetic kinematics generator for rapid testing and demo seeding. Displays transparent "Demo data" UI badge. |
 
 ---

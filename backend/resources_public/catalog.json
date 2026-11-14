@@ -1,13 +1,14 @@
 [
   {
     "id": "49215f5e3130",
-    "title": "Trajectory Kinematics Sample",
-    "description": "Tabular dataset of extracted goldfish coordinates, velocities and turn angles",
+    "title": "Synthetic Trajectory Kinematics Sample",
+    "description": "Synthetic 30-row demonstration table of generated fish coordinates, speed, turn angle and depth ratio; not measured aquarium footage.",
     "category": "datasets",
     "type": "csv",
     "tags": [
       "datasets",
-      "csv"
+      "csv",
+      "synthetic"
     ],
     "author": "Matsya Project Team",
     "year": 2026,
@@ -218,13 +219,14 @@
   },
   {
     "id": "78a1a3f6abde",
-    "title": "Calm Swimming Baseline",
-    "description": "Baseline 20s recording of calm goldfish swimming in a rectangular tank",
+    "title": "Synthetic Calm Swimming Clip",
+    "description": "Procedurally generated 20-second baseline clip for software testing; not recorded from a live aquarium.",
     "category": "footage",
     "type": "video",
     "tags": [
       "footage",
-      "video"
+      "video",
+      "synthetic"
     ],
     "author": "Matsya Project Team",
     "year": 2026,
@@ -245,39 +247,15 @@
     }
   },
   {
-    "id": "d7703508222f",
-    "title": "Kinematic Trajectory Quantification in Carassius auratus",
-    "description": "Non-invasive computer vision tracking provides objective metrics for evaluating stress behaviors",
-    "category": "literature",
-    "type": "pdf",
-    "tags": [
-      "literature",
-      "pdf"
-    ],
-    "author": "Matsya Project Team",
-    "year": 2026,
-    "size_bytes": 1620,
-    "duration_s": null,
-    "dimensions": null,
-    "source_url": null,
-    "external_url": null,
-    "featured": true,
-    "has_file": true,
-    "has_preview": true,
-    "has_thumb": true,
-    "metadata": {
-      "page_count": 1
-    }
-  },
-  {
     "id": "4f8d89c9985a",
     "title": "Matsya: Aquatic Behaviour Analysis Pipeline",
-    "description": "Presentation slide deck introducing Matsya vision, architecture, and results",
+    "description": "Internal one-slide project presentation covering the Matsya analysis pipeline.",
     "category": "presentations",
     "type": "slides",
     "tags": [
       "presentations",
-      "slides"
+      "slides",
+      "project-material"
     ],
     "author": "Matsya Project Team",
     "year": 2026,
@@ -296,28 +274,5 @@
         "Slide 1: Matsya: Aquatic Behaviour Analysis Pipeline"
       ]
     }
-  },
-  {
-    "id": "ext998877665",
-    "title": "High-Speed Multi-Angle Goldfish Dataset",
-    "description": "Multi-angle high-speed tank video dataset stored in cloud repository",
-    "category": "datasets",
-    "type": "video",
-    "tags": [
-      "datasets",
-      "external"
-    ],
-    "author": "Matsya Research Group",
-    "year": 2026,
-    "size_bytes": 0,
-    "duration_s": null,
-    "dimensions": null,
-    "source_url": null,
-    "external_url": "https://drive.google.com/drive/folders/matsya-external-dataset",
-    "featured": false,
-    "has_file": false,
-    "has_preview": false,
-    "has_thumb": false,
-    "metadata": {}
   }
 ]

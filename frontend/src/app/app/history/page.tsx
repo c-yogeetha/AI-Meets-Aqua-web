@@ -362,7 +362,7 @@ export default function HistoryPage() {
                   Upload a tank video or load sample demo footage to evaluate fish behaviour.
                 </p>
                 <div className="flex items-center justify-center gap-3">
-                  <Link href="/analyse" className="btn-gold px-4 py-2 rounded-xl text-xs font-semibold">
+                  <Link href="/app/analyse" className="btn-gold px-4 py-2 rounded-xl text-xs font-semibold">
                     Analyse a Video
                   </Link>
                   <button

@@ -59,6 +59,11 @@ class ProxyHandler(BaseHTTPRequestHandler):
                     if k.lower() not in ("transfer-encoding", "connection", "server", "content-length"):
                         self.send_header(k, v)
                 self.send_header("Content-Length", str(len(resp_body)))
+                self.send_header("X-Content-Type-Options", "nosniff")
+                self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
+                self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+                self.send_header("X-Frame-Options", "DENY")
+                self.send_header("Content-Security-Policy", "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; form-action 'self'")
                 self.send_header("Server", "Matsya-Proxy")
                 self.send_header("Connection", "close")
                 self.end_headers()

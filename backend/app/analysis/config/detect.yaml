@@ -62,3 +62,11 @@ tracking:
   centroid_weight: 0.5
   size_weight: 0.2
   hue_hist_weight: 0.3
+
+preprocessing_quality:
+  enabled: true
+  colour_cast: {enabled: true, min_gain: 0.7, max_gain: 1.4}
+  flicker: {enabled: true, window: 15}
+  glare: {enabled: true, percentile: 99, saturation_max: 60, min_area: 40, dilate_px: 7, max_fraction: 0.25}
+  surface_band: {enabled: true, max_height_fraction: 0.18, variance_threshold: 120.0}
+  bubbles: {enabled: true, min_area_fraction: 0.00002, max_area_fraction: 0.003, min_circularity: 0.7, brightness_margin: 12, upward_velocity_min: 0.0, stable_seconds: 1.0}

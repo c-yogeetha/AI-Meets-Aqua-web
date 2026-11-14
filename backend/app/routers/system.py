@@ -10,6 +10,7 @@ import yaml
 from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 
+from app.analysis.detectors import get_detector_status, resolve_analyzer_mode
 from app.auth import get_current_owner_id
 from app.config import settings
 from app.db import get_db
@@ -33,15 +34,8 @@ SERVER_START_TIME = time.time()
 
 
 def check_onnx_available() -> bool:
-    model_path = settings.models_path / "goldfish.onnx"
-    if not model_path.exists():
-        return False
-    try:
-        import cv2
-        net = cv2.dnn.readNetFromONNX(str(model_path))
-        return not net.empty()
-    except Exception:
-        return False
+    status = get_detector_status().get("onnx", {})
+    return bool(status.get("available"))
 
 
 def check_external_available() -> bool:
@@ -53,14 +47,7 @@ def check_external_available() -> bool:
 
 
 def resolve_active_mode() -> str:
-    requested = settings.ANALYZER
-    if requested == "auto":
-        if check_onnx_available():
-            return "onnx"
-        if check_external_available() and settings.AI_MODULE != "ai.pipeline":
-            return "external"
-        return "baseline"
-    return requested
+    return resolve_analyzer_mode(settings.ANALYZER)
 
 
 @router.get("/health", summary="Health Check")
@@ -71,7 +58,10 @@ def health_check():
 
 @router.get("/api/v1/system/status", response_model=SystemStatusResponse, summary="System Status")
 def system_status(db: Session = Depends(get_db)):
-    onnx_ok = check_onnx_available()
+    detector_status = get_detector_status()
+    onnx_ok = bool(detector_status.get("onnx", {}).get("available"))
+    onnx_eligible = bool(detector_status.get("onnx", {}).get("eligible"))
+    onnx_reason = detector_status.get("onnx", {}).get("reason")
     external_ok = check_external_available()
     active_mode = resolve_active_mode()
 
@@ -105,6 +95,8 @@ def system_status(db: Session = Depends(get_db)):
         ),
         uptime_s=round(uptime, 1),
         disk_free_mb=disk_free_mb,
+        onnx_eligible=onnx_eligible,
+        onnx_reason=onnx_reason,
     )
 
 
@@ -272,14 +264,16 @@ def get_overview(request: Request, db: Session = Depends(get_db)):
                 key = (s.get("behaviour"), s.get("action"))
                 if key not in seen_suggestions and s.get("priority") in ("high", "medium"):
                     seen_suggestions.add(key)
-                    recommended_actions.append({
-                        "priority": s.get("priority"),
-                        "behaviour": s.get("behaviour"),
-                        "cause": s.get("cause"),
-                        "action": s.get("action"),
-                        "tank_name": tank_name_map.get(r.tank_id, "Tank"),
-                        "job_id": r.job_id,
-                    })
+                    recommended_actions.append(
+                        {
+                            "priority": s.get("priority"),
+                            "behaviour": s.get("behaviour"),
+                            "cause": s.get("cause"),
+                            "action": s.get("action"),
+                            "tank_name": tank_name_map.get(r.tank_id, "Tank"),
+                            "job_id": r.job_id,
+                        }
+                    )
                     if len(recommended_actions) >= 5:
                         break
         except Exception:

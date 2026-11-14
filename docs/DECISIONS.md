@@ -65,13 +65,13 @@ Declare all behavioral thresholds, scoring formulas, and care suggestions in `co
 
 ---
 
-## ADR-05: Next.js 14 (App Router) + Tailwind CSS + Lucide Icons
+## ADR-05: Next.js 15 (App Router) + Tailwind CSS + Lucide Icons
 
 ### Context
 The presentation requires an intuitive interface, inspired by modern design sensibilities (deep ocean theme, high contrast, smooth transitions, depth meters, and full responsiveness).
 
 ### Decision
-Use **Next.js 14** (App Router) with **Tailwind CSS 3.4**, React Query (@tanstack/react-query), and Lucide React icons.
+Use **Next.js 15.5.29** (App Router) with **Tailwind CSS 3.4**, React Query (@tanstack/react-query), and Lucide React icons.
 
 ### Rationale & Trade-offs
 - Full SSR/SSG capabilities with zero-client footprint where possible.

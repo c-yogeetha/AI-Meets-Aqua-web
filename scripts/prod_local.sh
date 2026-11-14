@@ -6,13 +6,22 @@ cd "$REPO_ROOT"
 
 echo "=== Running Production-like Local Smoke Stack ==="
 
+VENV="${MATSYA_VENV:-/tmp/matsya-baseline-venv}"
+if [ ! -x "$VENV/bin/python" ] || [ ! -x "$VENV/bin/uvicorn" ]; then
+  echo "Missing isolated Python environment: $VENV" >&2
+  exit 1
+fi
+export MATSYA_VENV="$VENV"
+
 # Build standalone frontend
 echo "Building Next.js standalone distribution..."
 cd frontend
 npm run build
 # Copy static and public to standalone
-cp -r public .next/standalone/public
-cp -r .next/static .next/standalone/.next/static
+rm -rf .next/standalone/public .next/standalone/.next/static
+cp -a public .next/standalone/public
+mkdir -p .next/standalone/.next
+cp -a .next/static .next/standalone/.next/static
 cd "$REPO_ROOT"
 
 # Clean up any leftover ports
@@ -22,7 +31,7 @@ fuser -k 8080/tcp 2>/dev/null || true
 
 # Start backend uvicorn on port 8000
 echo "Starting FastAPI backend on 127.0.0.1:8000..."
-PYTHONPATH=backend backend/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 1 &
+PYTHONPATH=backend DATA_DIR=/tmp/matsya-prod-local ANALYZER=baseline "$VENV/bin/uvicorn" app.main:app --host 127.0.0.1 --port 8000 --workers 1 &
 BACKEND_PID=$!
 
 # Start standalone Node server on port 3000
@@ -37,7 +46,7 @@ if command -v caddy &>/dev/null; then
   PROXY_PID=$!
 else
   echo "Starting local reverse proxy on port 8080..."
-  backend/.venv/bin/python scripts/local_proxy.py &
+  "$VENV/bin/python" scripts/local_proxy.py &
   PROXY_PID=$!
 fi
 
@@ -57,6 +66,9 @@ trap cleanup EXIT
 # Wait for health check on port 8080
 echo "Waiting for services to become healthy on http://127.0.0.1:8080..."
 for i in {1..30}; do
+  if ! kill -0 "$BACKEND_PID" 2>/dev/null; then echo "Backend process exited before readiness" >&2; exit 1; fi
+  if ! kill -0 "$FRONTEND_PID" 2>/dev/null; then echo "Frontend process exited before readiness" >&2; exit 1; fi
+  if ! kill -0 "$PROXY_PID" 2>/dev/null; then echo "Proxy process exited before readiness" >&2; exit 1; fi
   if curl -sf http://127.0.0.1:8080/health >/dev/null && curl -sf http://127.0.0.1:8080/ >/dev/null; then
     echo "Services are ready!"
     break
@@ -92,7 +104,7 @@ fi
 # Run Playwright download and critical flows against proxy
 echo "Running Playwright E2E smoke tests against http://127.0.0.1:8080..."
 cd frontend
-PROD_URL="http://127.0.0.1:8080" npx playwright test --project=prod e2e/download.spec.ts e2e/resources.spec.ts
+PLAYWRIGHT_JSON_REPORT="../test-results/e2e-prod-smoke.json" PROD_URL="http://127.0.0.1:8080" npx playwright test --project=prod e2e/download.spec.ts e2e/resources.spec.ts e2e/plan_v2_download.spec.ts
 cd "$REPO_ROOT"
 
 echo "=== Production Local Smoke Stack Succeeded! ==="

@@ -1690,6 +1690,11 @@
             "type": "integer",
             "title": "Id Switch Estimate",
             "default": 0
+          },
+          "preprocess": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Preprocess"
           }
         },
         "type": "object",
@@ -2389,6 +2394,21 @@
             "type": "integer",
             "title": "Height",
             "default": 0
+          },
+          "glare_frac": {
+            "type": "number",
+            "title": "Glare Frac",
+            "default": 0.0
+          },
+          "bubble_rate": {
+            "type": "number",
+            "title": "Bubble Rate",
+            "default": 0.0
+          },
+          "surface_band_frac": {
+            "type": "number",
+            "title": "Surface Band Frac",
+            "default": 0.0
           }
         },
         "type": "object",
@@ -2870,6 +2890,22 @@
           "disk_free_mb": {
             "type": "integer",
             "title": "Disk Free Mb"
+          },
+          "onnx_eligible": {
+            "type": "boolean",
+            "title": "Onnx Eligible",
+            "default": false
+          },
+          "onnx_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Onnx Reason"
           }
         },
         "type": "object",

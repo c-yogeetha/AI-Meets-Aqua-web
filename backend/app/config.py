@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     MIN_DURATION_S: float = 3.0
     JOB_TIMEOUT_S: float = 300.0
     MAX_QUEUE: int = 5
+    MIN_FREE_DISK_GB: float = 2.0
     UPLOADS_PER_HOUR_PER_IP: int = 20
     RETENTION_DAYS: int = 30
     TRASH_RETENTION_DAYS: int = 7

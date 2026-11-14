@@ -34,7 +34,6 @@ export default function ReportsPage() {
     try {
       setDownloadingId(item.id);
       await downloadFile(`/api/v1/results/${item.id}/report.pdf`, `matsya-report-${item.id.slice(0, 8)}.pdf`);
-      showToast("PDF report downloaded", "success");
     } catch {
       showToast("Failed to download PDF report", "danger");
     } finally {

@@ -1,4 +1,7 @@
+import shutil
+import time
 import uuid
+from collections import defaultdict, deque
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, File, Form, Request, UploadFile, status
@@ -18,6 +21,7 @@ router = APIRouter(prefix="/api/v1/videos", tags=["Videos"])
 
 ALLOWED_EXTENSIONS = {".mp4", ".mov", ".avi", ".mkv", ".webm"}
 ALLOWED_VIEWS = {"side", "front", "top"}
+_UPLOAD_TIMES: dict[str, deque[float]] = defaultdict(deque)
 
 
 @router.post("", response_model=VideoUploadResponse, status_code=status.HTTP_202_ACCEPTED, summary="Upload a tank video and start analysis")
@@ -40,7 +44,26 @@ async def upload_video(
     if not tank:
         raise AppError(status_code=404, code="tank_not_found", message=f"Tank '{tank_id}' not found.")
 
-    # 2. Extension check
+    # 2. Disk guard and per-IP admission control.
+    try:
+        _, _, free_bytes = shutil.disk_usage(settings.data_path)
+    except OSError:
+        free_bytes = 0
+    min_free_bytes = int(settings.MIN_FREE_DISK_GB * 1024 * 1024 * 1024)
+    if free_bytes < min_free_bytes:
+        raise AppError(status_code=507, code="disk_low", message="Server storage is low. Please retry after older analyses have been cleaned up.")
+    now_mono = time.monotonic()
+    client_ip = request.client.host if request.client else "unknown"
+    recent_uploads = _UPLOAD_TIMES[client_ip]
+    while recent_uploads and now_mono - recent_uploads[0] >= 3600:
+        recent_uploads.popleft()
+    if len(recent_uploads) >= settings.UPLOADS_PER_HOUR_PER_IP:
+        raise AppError(status_code=429, code="upload_rate_limited", message="Upload limit reached. Please retry later.")
+    queue_len = db.query(Job).filter(Job.status.in_(["queued", "processing"])).count()
+    if queue_len >= settings.MAX_QUEUE:
+        raise AppError(status_code=429, code="queue_full", message="The analysis queue is full. Please retry when a slot is available.")
+
+    # 3. Extension and file-header checks.
     filename = file.filename or "video.mp4"
     ext = Path(filename).suffix.lower()
     if ext not in ALLOWED_EXTENSIONS:
@@ -50,7 +73,7 @@ async def upload_video(
             message=f"Unsupported video format '{ext}'. Allowed formats: {', '.join(sorted(ALLOWED_EXTENSIONS))}",
         )
 
-    # 3. View check
+    # 4. View check
     view_clean = view.lower().strip()
     if view_clean not in ALLOWED_VIEWS:
         raise AppError(
@@ -59,7 +82,7 @@ async def upload_video(
             message=f"Invalid camera view '{view}'. Allowed: side, front, top",
         )
 
-    # 4. Optional fields validation
+    # 5. Optional fields validation
     parsed_temp = None
     if water_temp_c is not None and str(water_temp_c).strip() != "":
         try:
@@ -87,7 +110,16 @@ async def upload_video(
         except ValueError:
             raise AppError(status_code=422, code="invalid_fed_hours", message="Hours since last feeding must be between 0 and 72.")
 
-    # 5. Stream to disk and enforce MAX_UPLOAD_MB
+    # 6. Reject declared oversize bodies before allocating upload storage.
+    declared_length = request.headers.get("content-length")
+    if declared_length:
+        try:
+            if int(declared_length) > settings.MAX_UPLOAD_MB * 1024 * 1024 + 1024 * 1024:
+                raise AppError(status_code=413, code="file_too_large", message=f"Uploaded file exceeds maximum permitted size of {settings.MAX_UPLOAD_MB} MB.")
+        except ValueError:
+            raise AppError(status_code=400, code="invalid_content_length", message="Content-Length header is invalid.")
+
+    # 7. Stream to disk and enforce MAX_UPLOAD_MB
     video_id = str(uuid.uuid4())
     stored_path = get_upload_file_path(video_id, ext)
     stored_path.parent.mkdir(parents=True, exist_ok=True)
@@ -114,7 +146,21 @@ async def upload_video(
             stored_path.unlink()
         raise
 
-    # 6. Verify with OpenCV
+    # 8. Reject files with unsupported container signatures before decode.
+    try:
+        with open(stored_path, "rb") as source:
+            header = source.read(64)
+        valid_signature = (
+            header.startswith(b"\x00\x00\x00") and b"ftyp" in header[:16]
+        ) or header.startswith(b"\x1aE\xdf\xa3") or header.startswith(b"RIFF")
+        if not valid_signature:
+            stored_path.unlink(missing_ok=True)
+            raise AppError(status_code=422, code="not_a_video", message="Uploaded file does not have a recognised video container signature.")
+    except OSError as exc:
+        stored_path.unlink(missing_ok=True)
+        raise AppError(status_code=422, code="not_a_video", message="Uploaded video could not be read.") from exc
+
+    # 9. Verify with OpenCV
     try:
         meta = get_video_metadata(str(stored_path))
     except Exception:
@@ -122,7 +168,7 @@ async def upload_video(
             stored_path.unlink()
         raise AppError(status_code=422, code="not_a_video", message="Uploaded file could not be decoded as a valid video.")
 
-    # 7. Duration check
+    # 10. Duration check
     if meta["duration_s"] > settings.MAX_DURATION_S:
         if stored_path.exists():
             stored_path.unlink()
@@ -132,7 +178,7 @@ async def upload_video(
             message=f"Video duration ({meta['duration_s']}s) exceeds maximum limit of {settings.MAX_DURATION_S}s.",
         )
 
-    # 8. Record in DB
+    # 11. Record in DB
     sanitized_name = sanitize_filename(filename)
     video_rec = Video(
         id=video_id,
@@ -162,6 +208,7 @@ async def upload_video(
     db.add(job_rec)
     db.commit()
     db.refresh(job_rec)
+    recent_uploads.append(now_mono)
 
     # Submit to worker pool
     submit_job(job_rec.id)

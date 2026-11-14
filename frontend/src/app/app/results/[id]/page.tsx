@@ -78,7 +78,6 @@ export default function ResultPage() {
       setIsDownloadingPdf(true);
       const filename = `matsya-report-${result.job_id.slice(0, 8)}.pdf`;
       await downloadFile(`/api/v1/results/${result.job_id}/report.pdf`, filename);
-      showToast("PDF report downloaded successfully", "success");
     } catch (err: unknown) {
       const msg = err instanceof ApiError ? err.message : "Failed to download PDF report";
       showToast(msg, "danger");

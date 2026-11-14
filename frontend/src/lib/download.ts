@@ -28,47 +28,48 @@ export function parseFilenameFromContentDisposition(header: string | null, fallb
 
 export async function downloadFile(path: string, fallbackName: string): Promise<boolean> {
   const url = apiUrl(path);
+  let objectUrl: string | null = null;
   try {
-    const res = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-    });
-
+    const res = await fetch(url, { method: "GET", credentials: "include" });
     if (!res.ok) {
       let errorMessage = `Download failed (HTTP ${res.status})`;
       try {
         const errJson = await res.json();
-        if (errJson && errJson.error && errJson.error.message) {
-          errorMessage = errJson.error.message;
-        }
+        if (errJson?.error?.message) errorMessage = errJson.error.message;
       } catch {
-        // Not a JSON error envelope
+        // Error response was not a JSON envelope.
       }
       showToast(errorMessage, "danger");
       return false;
     }
 
-    const disposition = res.headers.get("content-disposition");
-    const filename = parseFilenameFromContentDisposition(disposition, fallbackName);
-
+    const filename = parseFilenameFromContentDisposition(
+      res.headers.get("content-disposition"),
+      fallbackName,
+    );
     const blob = await res.blob();
-    const objectUrl = URL.createObjectURL(blob);
+    if (blob.size === 0) throw new Error("The server returned an empty download.");
 
+    objectUrl = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = objectUrl;
     anchor.download = filename;
+    anchor.rel = "noopener";
     anchor.style.display = "none";
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
 
-    setTimeout(() => {
-      URL.revokeObjectURL(objectUrl);
-    }, 10000);
-
+    // The download event is not observable from a plain anchor in all browsers.
+    // Revoke after a conservative delay; mobile fallback is provided by the UI
+    // path if the browser blocks a blob download.
+    window.setTimeout(() => {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    }, 15000);
     showToast(`Downloaded ${filename}`, "success");
     return true;
   } catch (err: unknown) {
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
     const message = err instanceof Error ? err.message : "Network error during download";
     showToast(message, "danger");
     return false;

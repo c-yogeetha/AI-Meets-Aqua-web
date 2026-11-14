@@ -435,3 +435,31 @@ def test_b_a24_performance_budget(tmp_path: Path, samples_dir: Path):
 
     assert elapsed < 60.0
     print(f"\n[B-A24 Performance] 20s clip analyzed in {elapsed:.2f}s (budget: 60s)")
+
+
+def test_b_pp_preprocessor_never_mutates_original_and_respects_disabled_mode():
+    from app.analysis.preprocess import Preprocessor
+
+    frame = np.zeros((120, 200, 3), dtype=np.uint8)
+    frame[30:70, 60:100] = (20, 120, 240)
+    original = frame.copy()
+    disabled = Preprocessor({"preprocessing_quality": {"enabled": False}}).process(frame, 0.0)
+    assert np.array_equal(frame, original)
+    assert np.array_equal(disabled.detection_frame, original)
+    enabled = Preprocessor({"preprocessing_quality": {"enabled": True}}, fps=10.0)
+    result = enabled.process(frame, 0.0)
+    assert np.array_equal(frame, original)
+    assert result.detection_frame.shape == original.shape
+    assert result.foreground_exclusion_mask.shape == original.shape[:2]
+
+
+def test_b_pp_glare_mask_detects_bright_low_saturation_region():
+    from app.analysis.preprocess import Preprocessor
+
+    frame = np.full((160, 240, 3), (80, 100, 130), dtype=np.uint8)
+    cv2.ellipse(frame, (170, 60), (24, 16), 0, 0, 360, (255, 255, 255), -1)
+    config = {"preprocessing_quality": {"enabled": True, "glare": {"enabled": True, "min_area": 20, "dilate_px": 7}}}
+    result = Preprocessor(config).process(frame, 0.0)
+    assert result.flags["glare"] is True
+    assert result.flags["glare_frac"] > 0
+    assert np.count_nonzero(result.foreground_exclusion_mask) > 0

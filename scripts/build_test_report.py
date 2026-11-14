@@ -37,6 +37,11 @@ CATEGORIES = [
     ("Owner Scoping & Isolation", "B-OWN"),
     ("Data Retention & Cleanup", "B-RET"),
     ("Resource Catalog & Endpoints", "B-RES"),
+    ("Environment & Report Integrity", "B-ENV"),
+    ("Preprocessing", "B-PP"),
+    ("Detector Gate", "B-DET"),
+    ("Featured Analyses", "B-FEAT"),
+    ("Upload Limits", "B-LIM"),
     ("OpenAPI Schema Contract", "B-CT"),
     ("End-to-End User Workflows", "E-"),
 ]
@@ -96,19 +101,20 @@ def parse_backend_junit(xml_path: str) -> list[dict]:
     return cases
 
 
-def parse_coverage_xml(cov_path: str) -> float:
+def parse_coverage_xml(cov_path: str) -> float | None:
+    """Return measured line coverage, or None when no valid coverage report exists."""
     if not os.path.exists(cov_path):
-        return 93.0
+        return None
     try:
         tree = ET.parse(cov_path)
         root = tree.getroot()
         rate = float(root.get("line-rate", 0.0))
         return round(rate * 100, 1)
-    except Exception:
-        return 93.0
+    except (ET.ParseError, OSError, TypeError, ValueError):
+        return None
 
 
-def parse_playwright_json(json_path: str) -> list[dict]:
+def parse_playwright_json(json_path: str, browser_suite: str = "e2e") -> list[dict]:
     cases = []
     if not os.path.exists(json_path):
         return cases
@@ -138,7 +144,7 @@ def parse_playwright_json(json_path: str) -> list[dict]:
                     "title": title,
                     "status": "passed" if status == "expected" or status == "passed" else "failed",
                     "duration_s": round(duration, 3),
-                    "suite": "e2e",
+                    "suite": browser_suite,
                 })
             for sub in suite.get("suites", []):
                 walk_suites(sub)
@@ -155,18 +161,25 @@ def main():
     backend_xml = os.path.join(root_dir, "test-results", "backend.xml")
     cov_xml = os.path.join(root_dir, "test-results", "coverage.xml")
     e2e_json = os.path.join(root_dir, "test-results", "e2e.json")
+    firefox_json = os.path.join(root_dir, "test-results", "e2e-firefox.json")
     out_md = os.path.join(root_dir, "docs", "TEST_REPORT.md")
     out_json = os.path.join(root_dir, "frontend", "public", "test-results.json")
     out_json_data = os.path.join(root_dir, "frontend", "public", "data", "test-results.json")
 
     backend_cases = parse_backend_junit(backend_xml)
     coverage_pct = parse_coverage_xml(cov_xml)
-    e2e_cases = parse_playwright_json(e2e_json)
+    chromium_cases = parse_playwright_json(e2e_json, "e2e-chromium")
+    firefox_cases = parse_playwright_json(firefox_json, "e2e-firefox")
+    e2e_cases = chromium_cases + firefox_cases
 
     all_cases = backend_cases + e2e_cases
 
     # Compute summaries
     total = len(all_cases)
+    backend_total = len(backend_cases)
+    backend_passed = sum(1 for c in backend_cases if c["status"] == "passed")
+    backend_failed = sum(1 for c in backend_cases if c["status"] == "failed")
+    backend_skipped = sum(1 for c in backend_cases if c["status"] == "skipped")
     passed = sum(1 for c in all_cases if c["status"] == "passed")
     failed = sum(1 for c in all_cases if c["status"] == "failed")
     skipped = sum(1 for c in all_cases if c["status"] == "skipped")
@@ -201,6 +214,10 @@ def main():
             "passed": passed,
             "failed": failed,
             "skipped": skipped,
+            "backend_total": backend_total,
+            "backend_passed": backend_passed,
+            "backend_failed": backend_failed,
+            "backend_skipped": backend_skipped,
             "coverage_percent": coverage_pct,
         },
         "categories": cat_summary,
@@ -224,9 +241,9 @@ def main():
     md_lines = [
         "# Matsya - Test Verification Report",
         "",
-        f"**Generated:** {now_iso}  ",
-        f"**Environment:** {env['os']} | Python {env['python']} | Node {env['node']}  ",
-        f"**Git Commit:** `{env['commit'][:10]}`  ",
+        f"**Generated:** {now_iso}",
+        f"**Environment:** {env['os']} | Python {env['python']} | Node {env['node']}",
+        f"**Git Commit:** `{env['commit'][:10]}`",
         f"**All P0 cases passing:** **{all_p0_pass}**  ",
         "",
         "## 1. Executive Summary",
@@ -236,7 +253,7 @@ def main():
         f"| **Total Tests** | {total} | >= 90 | PASS |",
         f"| **Passed** | {passed} | 100% of P0 | PASS |",
         f"| **Failed** | {failed} | 0 | PASS |",
-        f"| **Backend Line Coverage** | {coverage_pct}% | >= 80% | PASS |",
+        f"| **Backend Line Coverage** | {str(coverage_pct) + chr(37) if coverage_pct is not None else 'Not measured'} | >= 80% | {'PASS' if coverage_pct is not None and coverage_pct >= 80 else 'NOT MEASURED'} |",
         "",
         "## 2. Category Pass Rates",
         "",
@@ -257,7 +274,7 @@ def main():
     ])
 
     for c in all_cases:
-        status_badge = "Passed" if c["status"] == "passed" else "Failed"
+        status_badge = {"passed": "Passed", "failed": "Failed", "skipped": "Skipped"}.get(c["status"], "Unknown")
         md_lines.append(f"| `{c['id']}` | {c['suite']} | {c['title']} | {status_badge} | {c['duration_s']}s |")
 
     os.makedirs(os.path.dirname(out_md), exist_ok=True)

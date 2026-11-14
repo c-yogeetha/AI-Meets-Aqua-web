@@ -14,6 +14,8 @@ def test_b_sys01_system_status(client: TestClient):
     assert "baseline" in data["detectors"]
     assert "onnx" in data["detectors"]
     assert "external" in data["detectors"]
+    assert "onnx_eligible" in data
+    assert "onnx_reason" in data
     assert "queue_length" in data
     assert "limits" in data
     assert "disk_free_mb" in data

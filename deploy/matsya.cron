@@ -1,0 +1,6 @@
+# Copy to /etc/cron.d/matsya and replace MATSYA_ROOT with the release directory.
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+MATSYA_ROOT=/opt/matsya
+0 * * * * root cd $MATSYA_ROOT && docker compose --env-file deploy/.env -f deploy/docker-compose.prod.yml exec -T backend python /srv/scripts/purge_retention.py >> /var/log/matsya-retention.log 2>&1
+0 2 * * * root cd $MATSYA_ROOT && deploy/backup.sh >> /var/log/matsya-backup.log 2>&1

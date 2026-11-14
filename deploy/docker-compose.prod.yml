@@ -4,11 +4,22 @@ services:
     build:
       context: ..
       dockerfile: deploy/backend.Dockerfile
+      network: host
+      args:
+        http_proxy: ${http_proxy:-}
+        https_proxy: ${https_proxy:-}
+        no_proxy: ${no_proxy:-}
+    platform: ${TARGETPLATFORM:-linux/amd64}
     env_file: .env
     environment:
       DATA_DIR: /data
+      ANALYZER: ${ANALYZER:-auto}
+      OMP_NUM_THREADS: "2"
+      OPENCV_NUM_THREADS: "2"
     volumes:
       - matsya-data:/data
+    mem_limit: 8g
+    cpus: 2.0
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4).status == 200 else 1)"]
@@ -16,18 +27,34 @@ services:
       timeout: 6s
       retries: 5
       start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
   frontend:
     build:
       context: ..
       dockerfile: deploy/frontend.Dockerfile
+      network: host
       args:
+        http_proxy: ${http_proxy:-}
+        https_proxy: ${https_proxy:-}
+        no_proxy: ${no_proxy:-}
         NEXT_PUBLIC_DRIVE_URL: ${NEXT_PUBLIC_DRIVE_URL:-}
         NEXT_PUBLIC_CONTACT_EMAIL: ${NEXT_PUBLIC_CONTACT_EMAIL:-}
         NEXT_PUBLIC_INDEXABLE: ${NEXT_PUBLIC_INDEXABLE:-0}
+    mem_limit: 1g
+    cpus: 0.5
     restart: unless-stopped
     depends_on:
       backend:
         condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
   caddy:
     image: caddy:2
     ports:
@@ -35,6 +62,8 @@ services:
       - "443:443"
     environment:
       SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    mem_limit: 256m
+    cpus: 0.25
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data
@@ -43,6 +72,11 @@ services:
       - frontend
       - backend
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 volumes:
   matsya-data:
   caddy-data:

@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Validation Page Suite (E-VAL)", () => {
-  test("E-VAL01: /validation tabs separate software tests from detection benchmark; missing benchmark file shows honest empty state without fabricated numbers", async ({
+  test("E-VAL01: /validation separates software tests from unlabelled stand-in footage without claiming goldfish accuracy", async ({
     page,
   }) => {
     await page.goto("/validation");
@@ -24,16 +24,11 @@ test.describe("Validation Page Suite (E-VAL)", () => {
     // 2. Switch to Tab 2: Detection Benchmark
     await page.getByTestId("tab-benchmark").click();
 
-    // In the absence of real footage benchmarks, honest empty state is shown
-    await expect(
-      page.getByText("Benchmark not yet run on real footage")
-    ).toBeVisible();
-    await expect(
-      page.getByText("Matsya adheres strictly to honest reporting principles")
-    ).toBeVisible();
-
-    // Ensure no benchmark table or invented accuracy appears in honest state
-    await expect(page.locator('[data-testid="benchmark-table"]')).not.toBeVisible();
+    // The only available footage is a general aquarium stand-in, not a goldfish-labelled sample.
+    await expect(page.getByTestId("benchmark-scope")).toContainText("General aquarium stand-in");
+    await expect(page.getByTestId("benchmark-scope")).toContainText("not a goldfish benchmark");
+    await expect(page.locator('[data-testid="benchmark-table"]')).toBeVisible();
+    await expect(page.getByText("Not measured").first()).toBeVisible();
 
     // 3. Switch to Tab 3: Supported Conditions Envelope
     await page.getByTestId("tab-limitations").click();

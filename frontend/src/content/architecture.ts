@@ -15,7 +15,7 @@ export const ARCHITECTURE_NODES: ArchitectureNode[] = [
     id: "node-frontend",
     name: "Web Interface",
     layer: "frontend",
-    technology: "Next.js 14, React 18, Tailwind CSS",
+    technology: "Next.js 15, React 18, Tailwind CSS",
     fileLocation: "frontend/src/app",
     status: "implemented",
     description: "Responsive web client providing public science documentation and research dashboard. Communicates exclusively via same-origin /api/v1/ endpoints.",

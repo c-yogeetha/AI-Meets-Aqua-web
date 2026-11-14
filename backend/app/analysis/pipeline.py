@@ -102,6 +102,7 @@ def run_pipeline(
         fish_expected=goldfish_count,
         fish_tracked=fish_tracked,
         fish_median_px=fish_median_px,
+        preprocess_metrics=detection_stats.get("preprocess", {}),
     )
 
     if reliability["level"] == "low":
@@ -172,6 +173,7 @@ def run_pipeline(
         "frames_processed": detection_stats.get("frames_processed", len(tracks.frames)),
         "frames_with_detections_pct": detection_stats.get("frames_with_detections_pct", 0.0),
         "id_switch_estimate": detection_stats.get("id_switch_estimate", 0),
+        "preprocess": detection_stats.get("preprocess", {}),
     }
 
     result_payload = {

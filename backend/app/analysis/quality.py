@@ -164,6 +164,7 @@ def compute_reliability(
     fish_tracked: int,
     fish_median_px: float,
     sharp_min: float = 40.0,
+    preprocess_metrics: Dict[str, Any] | None = None,
 ) -> Dict[str, Any]:
     """Calculate transparent reliability rating (0 to 100), discrete level, deduction reasons and tips.
 
@@ -175,14 +176,26 @@ def compute_reliability(
     reasons: List[str] = []
     tips: List[str] = []
     score = 100
+    preprocess_metrics = preprocess_metrics or {}
+    glare_frac = float(preprocess_metrics.get("glare_frac", 0.0))
+    bubble_rate = float(preprocess_metrics.get("bubble_rate", 0.0))
+    surface_band_frac = float(preprocess_metrics.get("surface_band_frac", 0.0))
 
     # If zero fish tracked
     if fish_tracked == 0:
+        no_fish_reasons = ["No goldfish detected"]
+        no_fish_tips = ["Ensure goldfish are present and clearly visible in the video frame"]
+        if preprocess_metrics.get("strong_glare"):
+            no_fish_reasons.append("Strong glare covers much of the tank")
+            no_fish_tips.append("Turn off the tank light or film from an angle that avoids reflections")
+        if bubble_rate >= 5.0:
+            no_fish_reasons.append("Heavy bubbles are present in the footage")
+            no_fish_tips.append("Reduce aeration bubbles during recording or film from a clearer viewing angle")
         return {
             "level": "low",
             "score": 0,
-            "reasons": ["No goldfish detected"],
-            "tips": ["Ensure goldfish are present and clearly visible in the video frame"],
+            "reasons": no_fish_reasons,
+            "tips": no_fish_tips,
             "metrics": {
                 "brightness": probe_metrics.get("brightness", 0.0),
                 "contrast": probe_metrics.get("contrast", 0.0),
@@ -195,6 +208,9 @@ def compute_reliability(
                 "fps": probe_metrics.get("fps", 0.0),
                 "width": probe_metrics.get("width", 0),
                 "height": probe_metrics.get("height", 0),
+                "glare_frac": round(glare_frac, 5),
+                "bubble_rate": round(bubble_rate, 3),
+                "surface_band_frac": round(surface_band_frac, 5),
             },
         }
 
@@ -267,6 +283,17 @@ def compute_reliability(
         reasons.append(f"Low contrast footage ({round(contrast, 1)} < 18)")
         tips.append("Improve tank lighting and contrast against the background")
 
+    # Glare and bubble deductions are explicitly bounded.
+    if preprocess_metrics.get("strong_glare"):
+        score -= 10
+        reasons.append("Strong glare covers much of the tank")
+        tips.append("Turn off the tank light or film from an angle that avoids reflections")
+    elif glare_frac > 0.0:
+        score -= min(10, int(round(glare_frac * 40)))
+    if bubble_rate >= 5.0:
+        score -= 5
+        reasons.append("Heavy bubbles are present in the footage")
+        tips.append("Reduce aeration bubbles during recording or film from a clearer viewing angle")
     # Clamp score
     score = max(0, min(100, score))
 
@@ -294,5 +321,8 @@ def compute_reliability(
             "fps": probe_metrics.get("fps", 0.0),
             "width": probe_metrics.get("width", 0),
             "height": probe_metrics.get("height", 0),
+            "glare_frac": round(glare_frac, 5),
+            "bubble_rate": round(bubble_rate, 3),
+            "surface_band_frac": round(surface_band_frac, 5),
         },
     }

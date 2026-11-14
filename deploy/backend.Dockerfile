@@ -7,6 +7,7 @@ COPY backend/requirements.txt /srv/backend/requirements.txt
 RUN pip install --no-cache-dir -r /srv/backend/requirements.txt
 COPY backend/ /srv/backend/
 COPY scripts/make_sample_videos.py /srv/scripts/make_sample_videos.py
+COPY scripts/purge_retention.py /srv/scripts/purge_retention.py
 RUN python /srv/scripts/make_sample_videos.py --out /srv/samples
 RUN useradd -m app && mkdir -p /data && chown -R app:app /data /srv
 USER app

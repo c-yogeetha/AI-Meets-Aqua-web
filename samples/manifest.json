@@ -174,5 +174,89 @@
       ],
       "reliability_reason_contains": "small"
     }
+  },
+  "glare_spot.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "synthetic": true,
+    "expect": {
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "glare_sweep.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "synthetic": true,
+    "expect": {
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "bubbles_light.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "synthetic": true,
+    "expect": {
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "bubbles_heavy.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "synthetic": true,
+    "expect": {
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "green_cast.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "synthetic": true,
+    "expect": {
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "flicker.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "synthetic": true,
+    "expect": {
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
+  },
+  "glare_bubbles_combined.mp4": {
+    "fish_count": 3,
+    "view": "side",
+    "synthetic": true,
+    "expect": {
+      "level_in": [
+        "Normal",
+        "Moderate",
+        "High"
+      ]
+    }
   }
 }

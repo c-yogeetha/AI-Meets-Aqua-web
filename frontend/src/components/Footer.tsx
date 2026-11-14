@@ -42,22 +42,22 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/analyse" className="hover:text-aqua transition-colors">
+                <Link href="/app/analyse" className="hover:text-aqua transition-colors">
                   Analyse Tank Video
                 </Link>
               </li>
               <li>
-                <Link href="/history" className="hover:text-aqua transition-colors">
+                <Link href="/app/history" className="hover:text-aqua transition-colors">
                   History & Recycle Bin
                 </Link>
               </li>
               <li>
-                <Link href="/testing" className="hover:text-aqua transition-colors">
+                <Link href="/validation" className="hover:text-aqua transition-colors">
                   System Testing & Verification
                 </Link>
               </li>
               <li>
-                <Link href="/settings" className="hover:text-aqua transition-colors">
+                <Link href="/app/settings" className="hover:text-aqua transition-colors">
                   Alert Preferences
                 </Link>
               </li>

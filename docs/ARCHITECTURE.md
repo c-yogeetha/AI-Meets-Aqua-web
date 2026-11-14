@@ -16,7 +16,7 @@ In domestic and commercial aquaculture, **stress** is the leading precursor to t
 
 ```mermaid
 graph TD
-    User([Aquaculture Caretaker]) <-->|Browser / Mobile| FE[Next.js 14 Frontend<br/>App Router + Tailwind CSS]
+    User([Aquaculture Caretaker]) <-->|Browser / Mobile| FE[Next.js 15 Frontend<br/>App Router + Tailwind CSS]
     FE <-->|REST API + OpenAPI 3.1| BE[FastAPI Backend Server<br/>Port 8000]
     
     subgraph Data Layer

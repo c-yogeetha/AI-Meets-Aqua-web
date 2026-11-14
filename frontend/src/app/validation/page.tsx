@@ -28,7 +28,7 @@ interface TestReport {
     passed: number;
     failed: number;
     skipped: number;
-    coverage_percent: number;
+    coverage_percent: number | null;
   };
   categories: {
     name: string;
@@ -47,24 +47,29 @@ interface TestReport {
 
 interface BenchmarkResult {
   clip_name: string;
-  expected_fish: number;
+  expected_fish: number | null;
   detected_fish: number;
-  coverage_pct: number;
-  reliability_score: number;
-  processing_fps: number;
-  ground_truth_label?: string;
-  predicted_label?: string;
-  match?: boolean;
+  coverage_pct: number | null;
+  reliability_score: number | null;
+  reliability_level?: string | null;
+  runtime_s?: number | null;
+  processing_fps?: number | null;
+  ground_truth_label?: string | null;
+  predicted_label?: string | null;
+  match?: boolean | null;
+  error?: string | null;
 }
 
 interface BenchmarkReport {
   generated_at: string;
   dataset_version: string;
+  data_scope?: string;
   aggregate: {
     total_clips: number;
-    fish_count_accuracy_pct: number;
-    mean_coverage_pct: number;
-    mean_reliability_score: number;
+    labelled_clips?: number;
+    fish_count_accuracy_pct: number | null;
+    mean_coverage_pct: number | null;
+    mean_reliability_score: number | null;
   };
   results: BenchmarkResult[];
 }
@@ -267,9 +272,9 @@ export default function ValidationPage() {
                     data-testid="test-coverage"
                     className="font-mono text-3xl font-extrabold text-aqua"
                   >
-                    {report.summary.coverage_percent}%
+                    {report.summary.coverage_percent == null ? "Not measured" : String(report.summary.coverage_percent) + "%"}
                   </span>
-                  <span className="text-[11px] text-aqua/80 block mt-1">Exceeds &gt;= 80% threshold</span>
+                  <span className="text-[11px] text-aqua/80 block mt-1">Measured line coverage only</span>
                 </div>
               </div>
 
@@ -418,8 +423,14 @@ export default function ValidationPage() {
               </div>
             </div>
           ) : (
-            /* Real Benchmark Table */
+            /* Benchmarked footage with provenance-aware metrics */
             <div className="space-y-6">
+              {benchmark.data_scope && (
+                <div data-testid="benchmark-scope" className="hairline-panel p-4 border-warn/40 bg-warn/5 text-xs text-ink-2 space-y-1">
+                  <strong className="text-warn">{benchmark.data_scope}</strong>
+                  <p>Unlabelled stand-in footage is not a goldfish benchmark. Count accuracy and goldfish recall are not measured. Frame hit rate is the share of sampled frames with at least one track; it is not object recall.</p>
+                </div>
+              )}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div className="hairline-panel p-4 bg-trench/30">
                   <span className="text-[11px] font-mono text-ink-3 block">Clips Evaluated</span>
@@ -427,15 +438,15 @@ export default function ValidationPage() {
                 </div>
                 <div className="hairline-panel p-4 bg-trench/30">
                   <span className="text-[11px] font-mono text-ink-3 block">Count Accuracy</span>
-                  <span className="font-mono text-2xl text-ok font-bold">{benchmark.aggregate.fish_count_accuracy_pct}%</span>
+                  <span className="font-mono text-2xl text-ok font-bold">{benchmark.aggregate.fish_count_accuracy_pct == null ? "Not measured" : String(benchmark.aggregate.fish_count_accuracy_pct) + "%"}</span>
                 </div>
                 <div className="hairline-panel p-4 bg-trench/30">
-                  <span className="text-[11px] font-mono text-ink-3 block">Mean Track Coverage</span>
-                  <span className="font-mono text-2xl text-aqua font-bold">{benchmark.aggregate.mean_coverage_pct}%</span>
+                  <span className="text-[11px] font-mono text-ink-3 block">Mean Frame Hit Rate</span>
+                  <span className="font-mono text-2xl text-aqua font-bold">{benchmark.aggregate.mean_coverage_pct == null ? "Not measured" : String(benchmark.aggregate.mean_coverage_pct) + "%"}</span>
                 </div>
                 <div className="hairline-panel p-4 bg-trench/30">
                   <span className="text-[11px] font-mono text-ink-3 block">Mean Reliability</span>
-                  <span className="font-mono text-2xl text-gold font-bold">{benchmark.aggregate.mean_reliability_score}/100</span>
+                  <span className="font-mono text-2xl text-gold font-bold">{benchmark.aggregate.mean_reliability_score == null ? "Not measured" : String(benchmark.aggregate.mean_reliability_score) + "/100"}</span>
                 </div>
               </div>
 
@@ -447,9 +458,9 @@ export default function ValidationPage() {
                         <th className="py-2.5 px-4">Clip</th>
                         <th className="py-2.5 px-4">Expected Fish</th>
                         <th className="py-2.5 px-4">Detected Fish</th>
-                        <th className="py-2.5 px-4">Coverage</th>
+                        <th className="py-2.5 px-4">Frame Hit Rate</th>
                         <th className="py-2.5 px-4">Reliability</th>
-                        <th className="py-2.5 px-4">FPS</th>
+                        <th className="py-2.5 px-4">Runtime</th>
                         <th className="py-2.5 px-4">Label Match</th>
                       </tr>
                     </thead>
@@ -457,13 +468,15 @@ export default function ValidationPage() {
                       {benchmark.results.map((r, idx) => (
                         <tr key={idx} className="hover:bg-white/5">
                           <td className="py-2 px-4 text-ink font-semibold">{r.clip_name}</td>
-                          <td className="py-2 px-4 text-ink-2">{r.expected_fish}</td>
+                          <td className="py-2 px-4 text-ink-2">{r.expected_fish == null ? "Not measured" : r.expected_fish}</td>
                           <td className="py-2 px-4 text-ink-2">{r.detected_fish}</td>
-                          <td className="py-2 px-4 text-aqua">{r.coverage_pct}%</td>
-                          <td className="py-2 px-4 text-gold">{r.reliability_score}</td>
-                          <td className="py-2 px-4 text-ink-3">{r.processing_fps}</td>
+                          <td className="py-2 px-4 text-aqua">{r.coverage_pct == null ? "Not measured" : String(r.coverage_pct) + "%"}</td>
+                          <td className="py-2 px-4 text-gold">{r.reliability_score == null ? "Not measured" : r.reliability_score}</td>
+                          <td className="py-2 px-4 text-ink-3">{r.runtime_s == null ? "Not measured" : String(r.runtime_s) + "s"}</td>
                           <td className="py-2 px-4">
-                            {r.match ? (
+                            {r.match == null || !r.ground_truth_label || r.ground_truth_label === "unknown" ? (
+                              <span className="text-ink-3">Not measured</span>
+                            ) : r.match ? (
                               <span className="text-ok font-semibold">Matched</span>
                             ) : (
                               <span className="text-warn font-semibold">Deviation</span>

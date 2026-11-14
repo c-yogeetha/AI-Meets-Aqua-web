@@ -137,6 +137,9 @@ class ReliabilityMetrics(BaseModel):
     fps: float = 0.0
     width: int = 0
     height: int = 0
+    glare_frac: float = 0.0
+    bubble_rate: float = 0.0
+    surface_band_frac: float = 0.0
 
 
 class ReliabilityInfo(BaseModel):
@@ -152,6 +155,7 @@ class DetectionStats(BaseModel):
     frames_processed: int = 0
     frames_with_detections_pct: float = 0.0
     id_switch_estimate: int = 0
+    preprocess: Dict[str, Any] = Field(default_factory=dict)
 
 
 class ResultResponse(BaseModel):
@@ -290,6 +294,8 @@ class SystemStatusResponse(BaseModel):
     limits: SystemLimits
     uptime_s: float
     disk_free_mb: int
+    onnx_eligible: bool = False
+    onnx_reason: Optional[str] = None
 
 
 # Config / Scoring Schemas

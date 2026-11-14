@@ -9,7 +9,7 @@ export default defineConfig({
   timeout: 60000,
   reporter: [
     ["list"],
-    ["json", { outputFile: path.resolve(__dirname, "../test-results/e2e.json") }],
+    ["json", { outputFile: path.resolve(__dirname, process.env.PLAYWRIGHT_JSON_REPORT || "../test-results/e2e.json") }],
   ],
   use: {
     baseURL: process.env.BASE_URL || "http://127.0.0.1:3000",
@@ -23,6 +23,10 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
     {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
+    {
       name: "prod",
       use: {
         ...devices["Desktop Chrome"],
@@ -33,15 +37,15 @@ export default defineConfig({
   webServer: [
     {
       command:
-        "cd ../backend && MPLCONFIGDIR=/tmp/matplotlib ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 SINGLE_USER_MODE=1 DATA_DIR=/tmp/aqua-e2e .venv/bin/uvicorn app.main:app --port 8000 --host 127.0.0.1",
+        "cd ../backend && MPLCONFIGDIR=/tmp/matplotlib ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 SINGLE_USER_MODE=1 DATA_DIR=/tmp/aqua-e2e /tmp/matsya-baseline-venv/bin/uvicorn app.main:app --port 8000 --host 127.0.0.1",
       url: "http://127.0.0.1:8000/health",
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: Boolean(process.env.PROD_URL),
       timeout: 60000,
     },
     {
-      command: "npm run start -- -p 3000 -H 127.0.0.1",
+      command: "rm -rf .next/standalone/public .next/standalone/.next/static && cp -a public .next/standalone/public && mkdir -p .next/standalone/.next && cp -a .next/static .next/standalone/.next/static && PORT=3000 HOSTNAME=127.0.0.1 node .next/standalone/server.js",
       url: "http://127.0.0.1:3000",
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer: Boolean(process.env.PROD_URL),
       timeout: 60000,
     },
   ],

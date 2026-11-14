@@ -3,48 +3,38 @@
 import React, { useEffect, useState } from "react";
 
 export function Loader() {
-  const [visible, setVisible] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const [ready, setReady] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Check prefers-reduced-motion
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem("matsya_loader_seen") === "1";
+    } catch {
+      // Session storage may be disabled.
+    }
+
+    setReady(true);
+    if (reducedMotion || seen) {
       setVisible(false);
       return;
     }
 
-    // Check if shown in this session
-    try {
-      if (sessionStorage.getItem("matsya_loader_seen") === "1") {
-        setVisible(false);
-        return;
+    setVisible(true);
+    const hideTimer = window.setTimeout(() => {
+      setVisible(false);
+      try {
+        sessionStorage.setItem("matsya_loader_seen", "1");
+      } catch {
+        // The intro is still complete for this page load.
       }
-    } catch {
-      // Ignore storage errors
-    }
+    }, 1600);
 
-    // Progress animation over ~1.4s
-    const startTime = performance.now();
-    const duration = 1400;
-
-    const interval = setInterval(() => {
-      const elapsed = performance.now() - startTime;
-      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
-      setProgress(pct);
-
-      if (pct >= 100) {
-        clearInterval(interval);
-        try {
-          sessionStorage.setItem("matsya_loader_seen", "1");
-        } catch {}
-        setTimeout(() => setVisible(false), 200);
-      }
-    }, 30);
-
-    return () => clearInterval(interval);
+    return () => window.clearTimeout(hideTimer);
   }, []);
 
-  if (!visible) return null;
+  if (!ready || !visible) return null;
 
   return (
     <div
@@ -86,13 +76,13 @@ export function Loader() {
         {/* Progress bar */}
         <div className="w-full h-[2px] bg-hair rounded-full overflow-hidden mb-3">
           <div
-            className="h-full bg-aqua transition-all duration-75 ease-out"
-            style={{ width: `${progress}%` }}
+            className="h-full bg-aqua animate-loader-progress"
+            style={{ width: "100%" }}
           />
         </div>
 
         <div className="font-mono text-[11px] text-ink-3 tabular-nums">
-          {progress}%
+          DESCENDING
         </div>
       </div>
     </div>

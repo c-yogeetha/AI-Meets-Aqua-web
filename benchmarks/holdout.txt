@@ -1,0 +1,2 @@
+# Clip-level hold-out is not created until multiple labelled goldfish clips are available.
+# The CC0 general-aquarium stand-in is not a goldfish-labelled sample and is not trainable.
