@@ -63,3 +63,8 @@ samples_real/
 deploy/.env
 deploy/backups/
 dist/
+# Externally downloaded ML checkpoints (obtain separately; do not commit binaries)
+backend/models/external/**/*.pt
+
+# Local external model files
+backend/models/external/fishial-v26/
