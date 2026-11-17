@@ -70,3 +70,19 @@ def test_wrong_sample_field_is_reported_as_skip():
 
     assert helpers["sample_to_yolo_lines"](sample, "Goldfish") is None
     assert helpers["REASONS"] == {"no detections field": 1}
+
+
+def test_candidate_b_keeps_400_image_gate_when_goldfish_only_is_small():
+    notebook = json.loads(
+        (ROOT / "training/matsya_detector_training.ipynb").read_text(
+            encoding="utf-8"
+        )
+    )
+    source = "".join(notebook["cells"][5].get("source", []))
+    assert (
+        'validate_yolo_dir(root, CFG["min_train_images"] '
+        'if root.name.startswith("B_") else 5)'
+    ) in source
+    assert 'min_train_images = 5    if SMOKE else 400' in "".join(
+        notebook["cells"][1].get("source", [])
+    )
