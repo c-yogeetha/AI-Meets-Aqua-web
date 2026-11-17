@@ -1,0 +1,41 @@
+[
+  {
+    "id": "49215f5e3130",
+    "title": "Synthetic Trajectory Kinematics Sample",
+    "description": "Synthetic 30-row demonstration table of generated fish coordinates, speed, turn angle and depth ratio; not measured aquarium footage.",
+    "category": "datasets",
+    "type": "csv",
+    "year": 2026,
+    "sizeBytes": 887,
+    "fileUrl": "/showcase/resources/49215f5e3130.csv",
+    "thumbUrl": "/showcase/resources/49215f5e3130.png",
+    "previewUrl": null,
+    "synthetic": true
+  },
+  {
+    "id": "78a1a3f6abde",
+    "title": "Synthetic Calm Swimming Clip",
+    "description": "Procedurally generated 20-second baseline clip for software testing; not recorded from a live aquarium.",
+    "category": "footage",
+    "type": "video",
+    "year": 2026,
+    "sizeBytes": 986335,
+    "fileUrl": "/showcase/resources/78a1a3f6abde.mp4",
+    "thumbUrl": "/showcase/resources/78a1a3f6abde.png",
+    "previewUrl": "/showcase/resources/preview-78a1a3f6abde.mp4",
+    "synthetic": true
+  },
+  {
+    "id": "4f8d89c9985a",
+    "title": "Matsya: Aquatic Behaviour Analysis Pipeline",
+    "description": "Internal one-slide project presentation covering the Matsya analysis pipeline.",
+    "category": "presentations",
+    "type": "slides",
+    "year": 2026,
+    "sizeBytes": 28262,
+    "fileUrl": "/showcase/resources/4f8d89c9985a.pptx",
+    "thumbUrl": "/showcase/resources/4f8d89c9985a.png",
+    "previewUrl": null,
+    "synthetic": false
+  }
+]

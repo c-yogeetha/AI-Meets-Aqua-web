@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, FileText, Video, Table, BookOpen } from "lucide-react";
+import resourceData from "@/data/showcase-resources.json";
+import type { ShowcaseResource } from "@/lib/showcase-types";
 
 export interface ResourceItem {
   id: string;
@@ -20,6 +22,17 @@ export function EvidenceSection() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_SHOWCASE === "1") {
+      const local = (resourceData as ShowcaseResource[]).slice(0, 4).map((item) => ({
+        id: item.id, title: item.title, category: item.category,
+        type: item.type, description: item.description,
+        date: item.year ? String(item.year) : "Project resource",
+        download_url: item.fileUrl || undefined,
+      }));
+      setResources(local);
+      setLoading(false);
+      return;
+    }
     fetch("/api/v1/resources?featured=true")
       .then((res) => (res.ok ? res.json() : []))
       .then((data) => {

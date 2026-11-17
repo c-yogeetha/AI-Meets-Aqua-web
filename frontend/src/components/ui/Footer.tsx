@@ -79,27 +79,27 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/app/analyse" className="hover:text-aqua transition-colors">
+              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/analyse"} className="hover:text-aqua transition-colors">
                 Analyse Video
               </Link>
             </li>
             <li>
-              <Link href="/app/tanks" className="hover:text-aqua transition-colors">
+              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/tanks"} className="hover:text-aqua transition-colors">
                 Tank Management
               </Link>
             </li>
             <li>
-              <Link href="/app/history" className="hover:text-aqua transition-colors">
+              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/history"} className="hover:text-aqua transition-colors">
                 Analysis History
               </Link>
             </li>
             <li>
-              <Link href="/app/insights" className="hover:text-aqua transition-colors">
+              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/insights"} className="hover:text-aqua transition-colors">
                 FSI Insights
               </Link>
             </li>
             <li>
-              <Link href="/app/settings" className="hover:text-aqua transition-colors">
+              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/settings"} className="hover:text-aqua transition-colors">
                 Settings
               </Link>
             </li>
@@ -117,12 +117,11 @@ export function Footer() {
             Atria Institute of Technology, Bengaluru.
           </p>
           <div className="pt-2">
-            <Link
-              href="/api/docs"
-              className="text-xs font-mono text-aqua hover:underline"
-            >
-              API Reference (OpenAPI) &rarr;
-            </Link>
+            {process.env.NEXT_PUBLIC_SHOWCASE === "1" ? (
+              <a href="/openapi.json" className="text-xs font-mono text-aqua hover:underline">API schema (OpenAPI) &rarr;</a>
+            ) : (
+              <Link href="/api/docs" className="text-xs font-mono text-aqua hover:underline">API schema (OpenAPI) &rarr;</Link>
+            )}
           </div>
         </div>
       </div>

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "synthetic-calm-swimming",
+    "title": "Calm swimming — synthetic demonstration",
+    "kind": "synthetic",
+    "badge": "Synthetic demonstration",
+    "description": "A procedurally generated aquarium clip and illustrative result snapshot for software demonstration. The frames, trajectories and score are synthetic; they are not measurements from a live tank and do not validate the detector.",
+    "tankName": "Main Observation Tank",
+    "createdAt": "2026-11-12T14:10:01.697176Z",
+    "score": 40,
+    "level": "Moderate",
+    "fishCount": 3,
+    "analysisTimeSeconds": 7.2,
+    "videoUrl": "/showcase/synthetic-calm-swimming/annotated.mp4",
+    "pdfUrl": "/showcase/synthetic-calm-swimming/report.pdf",
+    "posterUrl": "/showcase/synthetic-calm-swimming/poster.jpg",
+    "creator": null,
+    "sourceUrl": null,
+    "license": null,
+    "attribution": null
+  }
+]

@@ -25,6 +25,7 @@ export default function HomePage() {
   const [systemStatus, setSystemStatus] = useState<SystemStatusResponse | null>(null);
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_SHOWCASE === "1") return;
     api
       .getSystemStatus()
       .then(setSystemStatus)
@@ -32,6 +33,7 @@ export default function HomePage() {
   }, []);
 
   const handleTrySample = async () => {
+    if (process.env.NEXT_PUBLIC_SHOWCASE === "1") { router.push("/app"); return; }
     try {
       setSeeding(true);
       showToast("Loading pre-analyzed demo footage...", "info");
@@ -152,11 +154,11 @@ export default function HomePage() {
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
-                href="/app/analyse"
+                href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/analyse"}
                 data-testid="cta-analyse"
                 className="btn-primary-gold text-sm font-mono uppercase tracking-wider py-2.5 px-6"
               >
-                <span>Analyse a video</span>
+                <span>{process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "Explore analyses" : "Analyse a video"}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <button
@@ -167,7 +169,7 @@ export default function HomePage() {
                 className="btn-secondary-aqua text-sm font-mono uppercase tracking-wider py-2.5 px-6 flex items-center gap-1.5"
               >
                 <Play className="w-3.5 h-3.5" />
-                <span>{seeding ? "Loading..." : "Try a sample"}</span>
+                <span>{seeding ? "Loading..." : process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "Browse showcase" : "Try a sample"}</span>
               </button>
             </div>
           </div>

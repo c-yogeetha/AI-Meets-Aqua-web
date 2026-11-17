@@ -1,5 +1,16 @@
 import { defineConfig, devices } from "@playwright/test";
 import path from "path";
+import { existsSync } from "node:fs";
+
+const pythonCandidates = [
+  process.env.MATSYA_PYTHON,
+  path.resolve(__dirname, "../.venv/bin/python"),
+  "/tmp/matsya-baseline-venv/bin/python",
+  "python3",
+].filter((candidate): candidate is string => Boolean(candidate));
+const pythonExecutable = pythonCandidates.find((candidate) =>
+  candidate.includes("/") ? existsSync(candidate) : true,
+) || "python3";
 
 export default defineConfig({
   testDir: "./e2e",
@@ -37,7 +48,7 @@ export default defineConfig({
   webServer: [
     {
       command:
-        "cd ../backend && MPLCONFIGDIR=/tmp/matplotlib ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 SINGLE_USER_MODE=1 DATA_DIR=/tmp/aqua-e2e /tmp/matsya-baseline-venv/bin/uvicorn app.main:app --port 8000 --host 127.0.0.1",
+        `cd ../backend && MPLCONFIGDIR=/tmp/matplotlib ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 SINGLE_USER_MODE=1 DATA_DIR=/tmp/aqua-e2e ${JSON.stringify(pythonExecutable)} -m uvicorn app.main:app --port 8000 --host 127.0.0.1`,
       url: "http://127.0.0.1:8000/health",
       reuseExistingServer: Boolean(process.env.PROD_URL),
       timeout: 60000,

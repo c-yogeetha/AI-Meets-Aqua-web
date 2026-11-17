@@ -13,6 +13,7 @@ export default function HowItWorksPage() {
   const [systemStatus, setSystemStatus] = useState<SystemStatusResponse | null>(null);
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_SHOWCASE === "1") return;
     api
       .getSystemStatus()
       .then(setSystemStatus)
@@ -41,13 +42,15 @@ export default function HowItWorksPage() {
             <div className="font-mono text-xs uppercase tracking-wider text-aqua">Interactive Architecture</div>
             <h2 className="font-serif text-2xl font-medium text-ink mt-0.5">Subsystem Topology</h2>
           </div>
-          <Link
-            href="/api/docs"
-            className="text-xs font-mono uppercase tracking-wider text-aqua hover:underline flex items-center gap-1"
-          >
-            <span>API reference (OpenAPI)</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </Link>
+          {process.env.NEXT_PUBLIC_SHOWCASE === "1" ? (
+            <a href="/openapi.json" className="text-xs font-mono uppercase tracking-wider text-aqua hover:underline flex items-center gap-1">
+              <span>API schema (OpenAPI)</span><ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          ) : (
+            <Link href="/api/docs" className="text-xs font-mono uppercase tracking-wider text-aqua hover:underline flex items-center gap-1">
+              <span>API reference (OpenAPI)</span><ExternalLink className="w-3.5 h-3.5" />
+            </Link>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">

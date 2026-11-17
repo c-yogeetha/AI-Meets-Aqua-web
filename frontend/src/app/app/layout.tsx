@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AppSidebar } from "@/components/app/AppSidebar";
 import { AppTopbar } from "@/components/app/AppTopbar";
 
@@ -10,6 +12,33 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  if (process.env.NEXT_PUBLIC_SHOWCASE === "1") {
+    const isGallery = pathname === "/app" || pathname === "/app/";
+    const isFeaturedResult = /^\/app\/results\/[a-z0-9-]+\/?$/.test(pathname || "");
+    const liveUrl = process.env.NEXT_PUBLIC_LIVE_APP_URL;
+    return (
+      <div className="min-h-screen bg-abyss text-ink">
+        <div role="status" data-testid="showcase-read-only-banner" className="border-b border-aqua/30 bg-lagoon/20 px-4 py-3 text-center text-xs text-ink-2">
+          <span className="font-semibold text-aqua">Read-only showcase.</span> Uploading, tank changes and deleting analyses are disabled here.
+          {liveUrl ? (
+            <a href={liveUrl} className="ml-2 inline-flex items-center font-semibold text-aqua underline underline-offset-4">Open live app →</a>
+          ) : (
+            <span className="ml-2 text-ink-3">The owner has not configured the live app URL.</span>
+          )}
+        </div>
+        {isGallery || isFeaturedResult ? children : (
+          <main className="max-w-2xl mx-auto px-6 py-20 text-center space-y-4">
+            <h1 className="font-serif text-3xl text-ink">This feature is available in the live app.</h1>
+            <p className="text-sm text-ink-2">The static showcase is read-only. It cannot accept uploads, create or edit tanks, or delete results.</p>
+            {liveUrl ? <a href={liveUrl} className="btn-primary-gold inline-flex px-5 py-3 text-xs font-mono uppercase tracking-wider">Open live app</a> : <p className="text-xs text-ink-3">Live app URL is not configured.</p>}
+            <div><Link href="/app" className="text-xs font-mono text-aqua hover:underline">Return to featured analyses</Link></div>
+          </main>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen w-full bg-abyss text-ink overflow-hidden font-sans">

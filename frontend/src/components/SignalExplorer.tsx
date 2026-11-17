@@ -21,6 +21,7 @@ export function SignalExplorer() {
   const [scoringConfig, setScoringConfig] = useState<ScoringConfigResponse | null>(null);
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_SHOWCASE === "1") return;
     let mounted = true;
     api
       .getScoringConfig()

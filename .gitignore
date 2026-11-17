@@ -68,3 +68,16 @@ backend/models/external/**/*.pt
 
 # Local external model files
 backend/models/external/fishial-v26/
+
+# Matsya independent annotation pack outputs (source split/README/config are tracked)
+annotation/test_frames/
+annotation/tune_unlabelled/
+annotation/labelstudio_import.json
+annotation/frames_manifest.csv
+annotation/pack_summary.json
+annotation/matsya_blind_test_pack.zip
+data/labelled_test_yolo/
+
+# Generated showcase staging and public mirrors (rebuilt by scripts/build_showcase.sh)
+frontend/public/showcase/
+frontend/public/openapi.json

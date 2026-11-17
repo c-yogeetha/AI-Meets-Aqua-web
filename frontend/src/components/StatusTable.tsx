@@ -9,6 +9,7 @@ export function StatusTable() {
   const [items, setItems] = useState<StatusItem[]>(SYSTEM_STATUS_ITEMS);
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_SHOWCASE === "1") return;
     let mounted = true;
     api
       .getSystemStatus()

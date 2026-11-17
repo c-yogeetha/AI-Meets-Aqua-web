@@ -8,7 +8,7 @@ The recommended live app target is an Oracle Cloud Always Free Ampere A1 VM, siz
 
 The full app runs as a Docker Compose stack: Caddy, Next.js standalone, FastAPI, and persistent SQLite/media storage. Caddy provisions HTTPS when SITE_ADDRESS is a real hostname pointing to the VM. Do not use :80 for the public HTTPS deployment.
 
-The repository checkout itself is not a permanent public host. A static showcase build is not enabled in this release.
+The permanent public layer is a static export. Build it with `./scripts/build_showcase.sh`; the self-contained output is `dist/showcase/`. Publish that directory to a static host. It contains public pages, the read-only analysis gallery, generated result snapshot pages, resource files, PDF reports and annotated videos from `backend/featured/`. It does not include the live API or any upload endpoint. Set `NEXT_PUBLIC_LIVE_APP_URL` to the owner-controlled HTTPS address when building so the showcase can link to the live layer. Keep `NEXT_PUBLIC_INDEXABLE=0` until the owner approves search indexing.
 
 ## 2. Owner prerequisites
 
@@ -88,6 +88,14 @@ Keep at least seven dated backups. A server-level cron should call the backup sc
 - [ ] Security headers are present.
 - [ ] Backup and restore test completed.
 - [ ] Phone Safari / Android Chrome download checks completed.
+
+## 7. Static showcase build and publication
+
+From the repository root, add only cleared featured snapshots under `backend/featured/<slug>/` (see `backend/featured/README.md`), then run:
+
+    NEXT_PUBLIC_INDEXABLE=0 NEXT_PUBLIC_LIVE_APP_URL=https://<owner-live-host> ./scripts/build_showcase.sh
+
+The script validates attribution and required PDF/video assets, stages the resource library, builds a static export and checks that every featured media URL exists. Publish the contents of `dist/showcase/` as the static website root. The showcase is read-only; uploads and deletion remain in the live app. If there is no owner-controlled live HTTPS address yet, omit `NEXT_PUBLIC_LIVE_APP_URL`; the static page displays a clear unconfigured message rather than a false link.
 
 ## 7. Constraints and fallback
 

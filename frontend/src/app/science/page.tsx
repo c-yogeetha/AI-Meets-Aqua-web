@@ -9,6 +9,7 @@ export default function SciencePage() {
   const [config, setConfig] = useState<ScoringConfigResponse | null>(null);
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_SHOWCASE === "1") return;
     api
       .getScoringConfig()
       .then(setConfig)
@@ -137,9 +138,9 @@ export default function SciencePage() {
       <section id="scoring" className="space-y-6 scroll-mt-24">
         <div className="space-y-2">
           <div className="font-mono text-xs uppercase tracking-wider text-aqua">Pillar 02</div>
-          <h2 className="font-serif text-3xl font-medium text-ink">Active Scoring Configuration</h2>
+          <h2 className="font-serif text-3xl font-medium text-ink">{process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "Documented Default Configuration" : "Active Scoring Configuration"}</h2>
           <p className="text-xs text-ink-3">
-            Dynamic parameters retrieved directly from <code className="text-aqua">/api/v1/config/scoring</code>.
+            {process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "Documented defaults shown; this static archive does not query a live service." : <>Dynamic parameters retrieved directly from <code className="text-aqua">/api/v1/config/scoring</code>.</>}
           </p>
         </div>
 

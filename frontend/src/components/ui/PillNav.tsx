@@ -111,7 +111,7 @@ export function PillNav() {
 
           {/* Right Action Buttons */}
           <div className="hidden sm:flex items-center gap-4 shrink-0">
-            {driveUrl && (
+            {driveUrl && process.env.NEXT_PUBLIC_SHOWCASE !== "1" && (
               <a
                 href={driveUrl}
                 target="_blank"
@@ -188,7 +188,7 @@ export function PillNav() {
                 </Link>
               );
             })}
-            {driveUrl && (
+            {driveUrl && process.env.NEXT_PUBLIC_SHOWCASE !== "1" && (
               <a
                 href={driveUrl}
                 target="_blank"
