@@ -5,7 +5,7 @@ from typing import Any, Callable, Dict, Optional
 
 from app.analysis.detectors import resolve_analyzer_mode
 from app.analysis.external import run_external_analysis
-from app.analysis.quality import compute_reliability, probe_video_quality
+from app.analysis.quality import compute_reliability, probe_track_plausibility, probe_video_quality
 from app.analysis.render import render_annotated_video
 from app.analysis.scoring import score_tracks
 from app.analysis.suggestions import generate_suggestions
@@ -14,6 +14,29 @@ from app.analysis.tracks_mock import generate_mock_tracks
 from app.analysis.tracks_onnx import run_onnx_tracking
 from app.analysis.video_io import get_video_metadata
 from app.config import settings
+
+
+def _detector_validation_info(analyzer: str) -> Dict[str, Any]:
+    """Return conservative validation metadata for a result.
+
+    Selecting ONNX is not itself evidence of end-to-end validation. In
+    particular, the ONNX tracking runtime must be verified against the
+    independent hold-out set before results can be presented as validated.
+    """
+    if analyzer == "mock":
+        return {
+            "validated_for_footage": False,
+            "status": "synthetic",
+            "message": "Synthetic sample data; not a real footage analysis",
+            "score_label": "Indicative score",
+        }
+
+    return {
+        "validated_for_footage": False,
+        "status": "not_validated",
+        "message": "Detector has not completed independent end-to-end validation for this footage type",
+        "score_label": "Indicative score",
+    }
 
 
 def run_pipeline(
@@ -96,6 +119,13 @@ def run_pipeline(
     cov_pct = detection_stats.get("coverage_pct", 0.0)
     fish_median_px = detection_stats.get("fish_median_px", 0.0)
 
+    detection_plausibility = (
+        probe_track_plausibility(video_path, tracks)
+        if analyzer in ("baseline", "onnx") and fish_tracked > 0
+        else {"assessed": False, "implausible": False, "tracks_checked": 0, "implausible_tracks": []}
+    )
+    detection_stats["plausibility"] = detection_plausibility
+
     reliability = compute_reliability(
         probe_metrics=probe_metrics,
         coverage_pct=cov_pct,
@@ -103,6 +133,7 @@ def run_pipeline(
         fish_tracked=fish_tracked,
         fish_median_px=fish_median_px,
         preprocess_metrics=detection_stats.get("preprocess", {}),
+        detection_plausibility=detection_plausibility,
     )
 
     if reliability["level"] == "low":
@@ -174,11 +205,13 @@ def run_pipeline(
         "frames_with_detections_pct": detection_stats.get("frames_with_detections_pct", 0.0),
         "id_switch_estimate": detection_stats.get("id_switch_estimate", 0),
         "preprocess": detection_stats.get("preprocess", {}),
+        "plausibility": detection_stats.get("plausibility", {}),
     }
 
     result_payload = {
         "job_id": job_id,
         "mode": analyzer,
+        "detector_validation": _detector_validation_info(analyzer),
         "tank": {
             "id": meta.get("tank_id", ""),
             "name": meta.get("tank_name", "Demo Tank"),

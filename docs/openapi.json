@@ -1695,10 +1695,48 @@
             "additionalProperties": true,
             "type": "object",
             "title": "Preprocess"
+          },
+          "plausibility": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Plausibility"
           }
         },
         "type": "object",
         "title": "DetectionStats"
+      },
+      "DetectorValidationInfo": {
+        "properties": {
+          "validated_for_footage": {
+            "type": "boolean",
+            "title": "Validated For Footage",
+            "default": false
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "not_validated"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "default": "Detector not validated for this footage type"
+          },
+          "score_label": {
+            "type": "string",
+            "title": "Score Label",
+            "default": "Indicative score"
+          }
+        },
+        "type": "object",
+        "title": "DetectorValidationInfo"
       },
       "DetectorsMap": {
         "properties": {
@@ -2489,6 +2527,9 @@
           },
           "reliability": {
             "$ref": "#/components/schemas/ReliabilityInfo"
+          },
+          "detector_validation": {
+            "$ref": "#/components/schemas/DetectorValidationInfo"
           },
           "detection": {
             "$ref": "#/components/schemas/DetectionStats"

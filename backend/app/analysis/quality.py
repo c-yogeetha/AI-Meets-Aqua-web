@@ -157,6 +157,169 @@ def probe_video_quality(
     }
 
 
+
+def _value(item: Any, key: str, default: Any = None) -> Any:
+    if isinstance(item, dict):
+        return item.get(key, default)
+    return getattr(item, key, default)
+
+
+def assess_track_plausibility(
+    samples: List[Tuple[List[Any], np.ndarray]],
+    frame_width: int,
+    frame_height: int,
+) -> Dict[str, Any]:
+    """Apply the three conservative plausibility rules defined for the product.
+
+    Each sample is (detections, original_bgr_frame). The checks target small
+    edge-locked boxes, boxes with very little fish-like colour, and stationary
+    boxes while the rest of the scene moves. This is not a species classifier
+    or a detector-accuracy metric.
+    """
+    if frame_width <= 0 or frame_height <= 0 or not samples:
+        return {"assessed": False, "implausible": False, "tracks_checked": 0, "implausible_tracks": []}
+
+    observations: Dict[str, List[Dict[str, Any]]] = {}
+    gray_frames: List[np.ndarray] = []
+    sample_boxes: List[Dict[str, List[int]]] = []
+
+    for detections, frame in samples:
+        if frame is None or frame.size == 0:
+            continue
+        if frame.shape[1] != frame_width or frame.shape[0] != frame_height:
+            frame = cv2.resize(frame, (frame_width, frame_height), interpolation=cv2.INTER_AREA)
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        gray_frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+        current_boxes: Dict[str, List[int]] = {}
+        for detection in detections or []:
+            track_id = str(_value(detection, "id", ""))
+            raw_bbox = _value(detection, "bbox", None)
+            if not track_id or raw_bbox is None or len(raw_bbox) != 4:
+                continue
+            x1, y1, x2, y2 = [int(round(float(v))) for v in raw_bbox]
+            x1 = max(0, min(x1, frame_width - 1))
+            y1 = max(0, min(y1, frame_height - 1))
+            x2 = max(x1 + 1, min(x2, frame_width))
+            y2 = max(y1 + 1, min(y2, frame_height))
+            box_w, box_h = x2 - x1, y2 - y1
+            roi = hsv[y1:y2, x1:x2]
+            if roi.size:
+                hue, saturation, value = cv2.split(roi)
+                warm = (((hue <= 45) | (hue >= 165)) & (saturation >= 40) & (value >= 40))
+                light = (saturation < 45) & (value >= 180)
+                colour_fraction = float(np.count_nonzero(warm | light) / (box_w * box_h))
+            else:
+                colour_fraction = 0.0
+            edge = (
+                x1 <= 0.05 * frame_width
+                or y1 <= 0.05 * frame_height
+                or x2 >= 0.95 * frame_width
+                or y2 >= 0.95 * frame_height
+            )
+            current_boxes[track_id] = [x1, y1, x2, y2]
+            observations.setdefault(track_id, []).append({
+                "bbox": [x1, y1, x2, y2],
+                "center": ((x1 + x2) / 2.0, (y1 + y2) / 2.0),
+                "long_side": float(max(box_w, box_h)),
+                "at_edge": bool(edge),
+                "colour_fraction": colour_fraction,
+            })
+        sample_boxes.append(current_boxes)
+
+    def motion_outside_track(track_id: str) -> float:
+        pair_count = 0
+        moving_pairs = 0
+        for idx in range(1, min(len(gray_frames), len(sample_boxes))):
+            previous_box = sample_boxes[idx - 1].get(track_id)
+            current_box = sample_boxes[idx].get(track_id)
+            if previous_box is None or current_box is None:
+                continue
+            diff = cv2.absdiff(gray_frames[idx - 1], gray_frames[idx])
+            moving = diff > 20
+            excluded = np.zeros((frame_height, frame_width), dtype=np.uint8)
+            for box in (previous_box, current_box):
+                x1, y1, x2, y2 = box
+                pad = 3
+                cv2.rectangle(
+                    excluded,
+                    (max(0, x1 - pad), max(0, y1 - pad)),
+                    (min(frame_width - 1, x2 + pad), min(frame_height - 1, y2 + pad)),
+                    255,
+                    -1,
+                )
+            valid = excluded == 0
+            denominator = int(np.count_nonzero(valid))
+            fraction = float(np.count_nonzero(moving & valid) / denominator) if denominator else 0.0
+            pair_count += 1
+            if fraction >= 0.001:
+                moving_pairs += 1
+        return moving_pairs / pair_count if pair_count else 0.0
+
+    implausible_tracks: List[Dict[str, Any]] = []
+    for track_id, rows in observations.items():
+        if len(rows) < 3:
+            continue
+        median_long_side = float(np.median([row["long_side"] for row in rows]))
+        edge_fraction = float(np.mean([row["at_edge"] for row in rows]))
+        low_colour_fraction = float(np.mean([row["colour_fraction"] < 0.08 for row in rows]))
+        first_x, first_y = rows[0]["center"]
+        centre_motion = max(
+            (float(np.hypot(row["center"][0] - first_x, row["center"][1] - first_y)) for row in rows),
+            default=0.0,
+        )
+        moving_elsewhere_fraction = motion_outside_track(track_id)
+        reasons = []
+        if median_long_side < 0.04 * frame_width and edge_fraction > 0.50:
+            reasons.append("small_box_at_frame_edge")
+        if low_colour_fraction > 0.70:
+            reasons.append("insufficient_fish_colour")
+        if centre_motion < 2.0 and moving_elsewhere_fraction > 0.10:
+            reasons.append("stationary_while_other_motion_exists")
+        if reasons:
+            implausible_tracks.append({
+                "track_id": track_id,
+                "reasons": reasons,
+                "median_long_side_px": round(median_long_side, 2),
+                "edge_frame_fraction": round(edge_fraction, 3),
+                "low_colour_frame_fraction": round(low_colour_fraction, 3),
+                "centre_motion_px": round(centre_motion, 2),
+                "motion_elsewhere_frame_fraction": round(moving_elsewhere_fraction, 3),
+            })
+
+    return {
+        "assessed": True,
+        "implausible": bool(implausible_tracks),
+        "tracks_checked": len(observations),
+        "implausible_tracks": implausible_tracks,
+    }
+
+
+def probe_track_plausibility(video_path: str, tracks: Any, max_sample_frames: int = 120) -> Dict[str, Any]:
+    """Sample original frames at tracked timestamps and assess false-positive tracks."""
+    frame_rows = list(_value(tracks, "frames", []) or [])
+    width = int(_value(tracks, "width", 0) or 0)
+    height = int(_value(tracks, "height", 0) or 0)
+    if not frame_rows or width <= 0 or height <= 0:
+        return {"assessed": False, "implausible": False, "tracks_checked": 0, "implausible_tracks": []}
+    indices = np.unique(np.linspace(0, len(frame_rows) - 1, min(len(frame_rows), max_sample_frames)).round().astype(int))
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        return {"assessed": False, "implausible": False, "tracks_checked": 0, "implausible_tracks": [], "error": "video_unreadable_for_plausibility"}
+    samples: List[Tuple[List[Any], np.ndarray]] = []
+    try:
+        for idx in indices:
+            row = frame_rows[int(idx)]
+            timestamp = float(_value(row, "t", 0.0))
+            cap.set(cv2.CAP_PROP_POS_MSEC, max(0.0, timestamp) * 1000.0)
+            ok, frame = cap.read()
+            if ok and frame is not None:
+                samples.append((list(_value(row, "detections", []) or []), frame))
+    finally:
+        cap.release()
+    if not samples:
+        return {"assessed": False, "implausible": False, "tracks_checked": 0, "implausible_tracks": [], "error": "no_plausibility_frames_decoded"}
+    return assess_track_plausibility(samples, width, height)
+
 def compute_reliability(
     probe_metrics: Dict[str, Any],
     coverage_pct: float,
@@ -165,6 +328,7 @@ def compute_reliability(
     fish_median_px: float,
     sharp_min: float = 40.0,
     preprocess_metrics: Dict[str, Any] | None = None,
+    detection_plausibility: Dict[str, Any] | None = None,
 ) -> Dict[str, Any]:
     """Calculate transparent reliability rating (0 to 100), discrete level, deduction reasons and tips.
 
@@ -282,6 +446,11 @@ def compute_reliability(
         score -= 10
         reasons.append(f"Low contrast footage ({round(contrast, 1)} < 18)")
         tips.append("Improve tank lighting and contrast against the background")
+
+    if detection_plausibility and detection_plausibility.get("implausible"):
+        score = min(score, 49)
+        reasons.append("The tracked object does not look like a fish")
+        tips.append("Use a clear clip where the whole fish is visible and keep the camera fixed")
 
     # Glare and bubble deductions are explicitly bounded.
     if preprocess_metrics.get("strong_glare"):

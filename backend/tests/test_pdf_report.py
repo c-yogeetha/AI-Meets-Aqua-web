@@ -76,6 +76,12 @@ def _create_test_result(db, tank_name="Standard Tank", job_id="test-job-pdf", fi
     result_data = {
         "job_id": job_id,
         "mode": "baseline",
+        "detector_validation": {
+            "validated_for_footage": False,
+            "status": "not_validated",
+            "message": "Detector not validated for this footage type",
+            "score_label": "Indicative score",
+        },
         "tank": {"id": tank.id, "name": tank_name, "goldfish_count": fish_count},
         "created_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "analysis_time_s": 4.2,
@@ -159,6 +165,11 @@ def test_b_pdf01_pdf_sample_download(client: TestClient):
     assert resp.headers["content-type"] == "application/pdf"
     assert resp.content.startswith(b"%PDF")
     assert len(resp.content) > 8000
+    pdf_text = "\n".join(page.extract_text() or "" for page in pypdf.PdfReader(io.BytesIO(resp.content)).pages)
+    # Seeded demo samples use synthetic tracks; the unvalidated-footage warning
+    # is reserved for real-footage analysis, not synthetic examples.
+    assert "Detector not validated for this footage type" not in pdf_text
+    assert "Indicative score" in pdf_text
 
     cd = resp.headers.get("content-disposition", "")
     assert "attachment" in cd

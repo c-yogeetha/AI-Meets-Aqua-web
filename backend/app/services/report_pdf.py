@@ -266,6 +266,8 @@ def generate_pdf_report(
     rel_level = sanitize_text(str(reliability_data.get("level", "high")).upper())
     rel_score = reliability_data.get("score", 100)
     rel_reasons = reliability_data.get("reasons", [])
+    detector_validation = result.get("detector_validation", {})
+    detector_validated = detector_validation.get("validated_for_footage") is True
 
     meta_line = (
         f"<b>Tank:</b> {clean_tank_name} &nbsp;|&nbsp; "
@@ -276,6 +278,22 @@ def generate_pdf_report(
     )
     story.append(Paragraph(meta_line, subtitle_style))
     story.append(Spacer(1, 6))
+    if not detector_validated and result.get("mode") != "mock":
+        validation_note = Paragraph(
+            "<b>Detector not validated for this footage type.</b> Results and the score below are indicative only.",
+            ParagraphStyle("DetectorValidationNote", parent=meta_style, textColor=colors.HexColor("#92400E")),
+        )
+        validation_table = Table([[validation_note]], colWidths=[540])
+        validation_table.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#FFFBEB")),
+            ("BOX", (0, 0), (-1, -1), 1, colors.HexColor("#F59E0B")),
+            ("TOPPADDING", (0, 0), (-1, -1), 5),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+            ("LEFTPADDING", (0, 0), (-1, -1), 8),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 8),
+        ]))
+        story.append(validation_table)
+        story.append(Spacer(1, 6))
     story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor("#1E7F8C"), spaceAfter=8))
 
     # Reliability Warning Box if Medium or Low
@@ -305,7 +323,8 @@ def generate_pdf_report(
     level_color = "#3FBF8F" if level == "Normal" else ("#E9B949" if level == "Moderate" else "#E5636A")
     fish_list = result.get("fish", [])
 
-    score_line = f"<b>Overall Tank Score:</b> <font color='{level_color}' size='+2'><b>{tank_score}</b></font> ({level})"
+    score_title = "Overall Tank Score" if detector_validated else "Indicative score"
+    score_line = f"<b>{score_title}:</b> <font color='{level_color}' size='+2'><b>{tank_score}</b></font> ({level})"
     fish_summary = (
         f"<b>Goldfish Tracked:</b> {len(fish_list)} &nbsp;|&nbsp; "
         f"<b>Stressed Fish:</b> {result.get('stressed_count', 0)} &nbsp;|&nbsp; "

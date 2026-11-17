@@ -156,6 +156,14 @@ class DetectionStats(BaseModel):
     frames_with_detections_pct: float = 0.0
     id_switch_estimate: int = 0
     preprocess: Dict[str, Any] = Field(default_factory=dict)
+    plausibility: Dict[str, Any] = Field(default_factory=dict)
+
+
+class DetectorValidationInfo(BaseModel):
+    validated_for_footage: bool = False
+    status: str = "not_validated"
+    message: Optional[str] = "Detector not validated for this footage type"
+    score_label: str = "Indicative score"
 
 
 class ResultResponse(BaseModel):
@@ -174,6 +182,7 @@ class ResultResponse(BaseModel):
     suggestions: List[SuggestionItem]
     warnings: List[str]
     reliability: ReliabilityInfo = Field(default_factory=ReliabilityInfo)
+    detector_validation: DetectorValidationInfo = Field(default_factory=DetectorValidationInfo)
     detection: DetectionStats = Field(default_factory=DetectionStats)
     annotated_video_url: str
     annotated_video_alt_url: Optional[str] = None
