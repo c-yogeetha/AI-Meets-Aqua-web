@@ -14,7 +14,7 @@ This is the v5 fixed Open Images V7 training notebook. The learned detector is a
 
 Open Images V7 human-annotated boxes are the only training labels. The five goldfish clips in `data/split.json`, the two TEST negative-control clips and all TUNE video frames are not used for model training in Round 1. Group boxes and depictions are skipped. Synthetic glare/bubble augmentation is limited to generated copies of training images.
 
-The v2 notebook includes safe parsing for Open Images flags represented as booleans, numeric 1/0/-1 and strings. It prints a sample detection record, skip-reason counts and writes validation exceptions to `last_error.txt`.
+The v2 notebook includes safe parsing for Open Images flags represented as booleans, numeric 1/0/-1 and strings. FiftyOne stores the imported Open Images detection labels on the sample field ground_truth; the notebook adapter reads ground_truth.detections (not sample.detections). The first Colab smoke exposed this field-name mismatch in Cell 4; both the adapter default and the example-record probe are now corrected. It prints a sample detection record, skip-reason counts and writes validation exceptions to last_error.txt.
 
 ## Box CPU reproduction record
 
