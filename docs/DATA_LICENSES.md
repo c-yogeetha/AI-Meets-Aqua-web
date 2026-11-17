@@ -23,4 +23,26 @@ All locally generated demonstration material is synthetic or project-authored. I
 | `frontend/src/app/fonts/GeistMonoVF.woff` | Geist Mono typeface by Vercel in collaboration with basement.studio | SIL Open Font License 1.1 | https://github.com/vercel/geist-font | Font redistribution and embedding subject to OFL; notice retained in `LICENSES/Geist-OFL-1.1.txt` |
 | `frontend/src/app/favicon.ico` | Matsya Project Team | CC0 1.0 Universal | Project-authored application asset | Project favicon |
 
+
+## Public footage used by the independent goldfish benchmark
+
+The following 12 distinct Wikimedia Commons clips form the frozen evaluation corpus in `data/split.json`. The five goldfish clips are TEST-only. Seven additional aquarium clips are split across TEST negative controls and the TUNE pool. Local copies are kept outside Git; no raw videos are included in the release bundle. Source descriptions and licence terms are recorded at each Commons file page.
+
+| Local file | Commons title / creator | Licence | Source URL | Split and restrictions |
+|---|---|---|---|---|
+| `samples_real/public_goldfish_cc_by_sa/comet_goldfish_aquarium_2014.webm` | *Un pez dorado en un acuario.webm* / EEIM | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Un_pez_dorado_en_un_acuario.webm | TEST; comet goldfish aquarium; attribution and share-alike apply |
+| `samples_real/public_goldfish_cc_by_sa/comet_goldfish_mouth_2014.webm` | *Pez de colores (Carassius auratus).webm* / EEIM | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Pez_de_colores_(Carassius_auratus).webm | TEST; comet goldfish close-up; attribution and share-alike apply |
+| `samples_real/public_goldfish_cc_by_sa/goldfish_hakone_2025.webm` | *Goldfish in a bowl - Hakone - 2025 Aug 1.webm* / Nesnad | CC BY-SA 4.0 (also GFDL 1.2+) | https://commons.wikimedia.org/wiki/File:Goldfish_in_a_bowl_-_Hakone_-_2025_Aug_1.webm | TEST; bowl scene; attribution and share-alike apply |
+| `samples_real/public_goldfish_cc_by_sa/goldfish_nagasaki_2023.webm` | *Goldfish-inatank-nagasaki-2023-Jan-27.webm* / Nesnad | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Goldfish-inatank-nagasaki-2023-Jan-27.webm | TEST; goldfish tank; attribution and share-alike apply |
+| `samples_real/public_goldfish_cc_by_sa/goldfish_tierpark_2023.webm` | *Goldfische (Tierpark Bischofswerda).webm* / Fiver, der Hellseher | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Goldfische_(Tierpark_Bischofswerda).webm | TEST; goldfish pond; attribution and share-alike apply |
+| `samples_real/public_goldfish_cc_by_sa/fish06_mexico_2015.webm` | *Fish06.webm* / Abbyvh | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Fish06.webm | TEST negative control; aquarium tank; no non-goldfish boxes |
+| `samples_real/public_goldfish_cc_by_sa/aquarium_plants_brazil_2019.webm` | *Aquário com plantas aquáticas.webm* / Lucas Joahay | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Aqu%C3%A1rio_com_plantas_aqu%C3%A1ticas.webm | TEST negative control; planted aquarium; no non-goldfish boxes |
+| `samples_real/public_goldfish_cc_by_sa/an_aquarium_ghana_2020.webm` | *An acquarium.webm* / Mwintirew | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:An_acquarium.webm | TUNE pool only; not part of TEST metrics |
+| `samples_real/public_goldfish_cc_by_sa/diodon_aquarium_tokyo_2019.webm` | *Diodon hystrix - aquarium in tokyo - 2019 1 8.webm* / Nesnad | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Diodon_hystrix_-_aquarium_in_tokyo_-_2019_1_8.webm | TUNE pool only; not part of TEST metrics |
+| `samples_real/public_goldfish_cc_by_sa/fish1001_2014.webm` | *Fish1001.webm* / Jon Houseman | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Fish1001.webm | TUNE pool only; not part of TEST metrics |
+| `samples_real/public_goldfish_cc_by_sa/fish_in_aquarium_artis_1966.webm` | *Fish in aquarium.webm* / Polygoon-Profilti; Nederlands Instituut voor Beeld en Geluid | CC BY-SA 3.0 Netherlands | https://commons.wikimedia.org/wiki/File:Fish_in_aquarium.webm | TUNE pool only; not part of TEST metrics |
+| `samples_real/public_goldfish_cc_by_sa/flagfish_2024.webm` | *Flagfish.webm* / Wikiedits894 | CC0 1.0 | https://commons.wikimedia.org/wiki/File:Flagfish.webm | TUNE pool only; not part of TEST metrics |
+
+The TEST frames are derived from seven CC BY-SA 4.0 videos. The annotation pack retains these credits and is shared under CC BY-SA 4.0; preserve creator attribution, source links, licence links and the share-alike notice. No video frame is used for detector training. Under the v5 one-second sampling cadence, the generated TEST count is recorded in `annotation/pack_summary.json`; verify it is within the required 80–110-frame range before labelling. Three TEST clips are explicitly classified as fixed-camera tank or planted-tank scenes.
+
 There are currently no owner-labelled goldfish clips, trained model weights, or featured owner analyses in `backend/featured/` or `backend/models/`. No licence or performance claim is implied for those empty directories.

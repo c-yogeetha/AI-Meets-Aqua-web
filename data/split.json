@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "frozen": true,
+  "created_utc": "2026-11-17",
+  "sampling": {
+    "test_frames": "one frame every 2 seconds from t=0; near-duplicates removed; at most 16 per clip; resize long side to 1280 px",
+    "tune_frames": "20 evenly spaced frames per clip, unlabelled; near-duplicates removed; resize long side to 1280 px",
+    "test_label_scope": "goldfish only; non-goldfish species are negative examples"
+  },
+  "test": [
+    {"clip_id":"comet_goldfish_aquarium_2014","file":"samples_real/public_goldfish_cc_by_sa/comet_goldfish_aquarium_2014.webm","category":"goldfish","scene":"aquarium","camera":"mostly_fixed","license":"CC BY-SA 4.0"},
+    {"clip_id":"comet_goldfish_mouth_2014","file":"samples_real/public_goldfish_cc_by_sa/comet_goldfish_mouth_2014.webm","category":"goldfish","scene":"aquarium_closeup","camera":"mostly_fixed","license":"CC BY-SA 4.0"},
+    {"clip_id":"goldfish_hakone_2025","file":"samples_real/public_goldfish_cc_by_sa/goldfish_hakone_2025.webm","category":"goldfish","scene":"bowl","camera":"mostly_fixed","license":"CC BY-SA 4.0"},
+    {"clip_id":"goldfish_nagasaki_2023","file":"samples_real/public_goldfish_cc_by_sa/goldfish_nagasaki_2023.webm","category":"goldfish","scene":"tank","camera":"mostly_fixed","license":"CC BY-SA 4.0"},
+    {"clip_id":"goldfish_tierpark_2023","file":"samples_real/public_goldfish_cc_by_sa/goldfish_tierpark_2023.webm","category":"goldfish","scene":"outdoor_pond","camera":"mostly_fixed","license":"CC BY-SA 4.0"},
+    {"clip_id":"fish06_mexico_2015","file":"samples_real/public_goldfish_cc_by_sa/fish06_mexico_2015.webm","category":"aquarium_negative_control","scene":"tank","camera":"mostly_fixed","license":"CC BY-SA 4.0"},
+    {"clip_id":"aquarium_plants_brazil_2019","file":"samples_real/public_goldfish_cc_by_sa/aquarium_plants_brazil_2019.webm","category":"aquarium_negative_control","scene":"planted_tank","camera":"mostly_fixed","license":"CC BY-SA 4.0"}
+  ],
+  "tune": [
+    {"clip_id":"an_aquarium_ghana_2020","file":"samples_real/public_goldfish_cc_by_sa/an_aquarium_ghana_2020.webm","category":"aquarium","scene":"aquarium","camera":"mostly_fixed","license":"CC BY-SA 4.0"},
+    {"clip_id":"diodon_aquarium_tokyo_2019","file":"samples_real/public_goldfish_cc_by_sa/diodon_aquarium_tokyo_2019.webm","category":"aquarium","scene":"aquarium","camera":"mostly_fixed","license":"CC BY 4.0"},
+    {"clip_id":"fish1001_2014","file":"samples_real/public_goldfish_cc_by_sa/fish1001_2014.webm","category":"aquarium","scene":"aquarium","camera":"mostly_fixed","license":"CC BY-SA 4.0"},
+    {"clip_id":"fish_in_aquarium_artis_1966","file":"samples_real/public_goldfish_cc_by_sa/fish_in_aquarium_artis_1966.webm","category":"aquarium","scene":"historical_aquarium","camera":"mostly_fixed","license":"CC BY-SA 3.0 NL"},
+    {"clip_id":"flagfish_2024","file":"samples_real/public_goldfish_cc_by_sa/flagfish_2024.webm","category":"aquarium","scene":"aquarium","camera":"mostly_fixed","license":"CC0 1.0"}
+  ]
+}
