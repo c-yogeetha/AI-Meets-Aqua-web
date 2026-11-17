@@ -25,6 +25,8 @@ find "$STAGE/$NAME" -type d \( \
   -name .venv -o -name venv -o -name samples_real -o -name resources_inbox -o \
   -name test-results -o -name backups \
 \) -prune -exec rm -rf {} +
+# Generated static-export staging belongs in dist/showcase and its own ZIP, not the live runtime bundle.
+rm -rf "$STAGE/$NAME/frontend/out" "$STAGE/$NAME/frontend/public/showcase" "$STAGE/$NAME/frontend/public/openapi.json"
 find "$STAGE/$NAME" -type f \( \
   -name '.env' -o -name '.env.*' ! -name '.env.example' -o \
   -name '*.pem' -o -name '*.key' -o -name '*.p12' -o -name '*.pfx' -o \
