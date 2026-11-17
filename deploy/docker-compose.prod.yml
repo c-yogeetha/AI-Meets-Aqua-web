@@ -14,12 +14,14 @@ services:
     environment:
       DATA_DIR: /data
       ANALYZER: ${ANALYZER:-auto}
+      MODELS_DIR: /srv/models
       OMP_NUM_THREADS: "2"
       OPENCV_NUM_THREADS: "2"
     volumes:
       - matsya-data:/data
-    mem_limit: 8g
-    cpus: 2.0
+      - ./models:/srv/models:ro
+    mem_limit: 6g
+    cpus: 1.5
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=4).status == 200 else 1)"]

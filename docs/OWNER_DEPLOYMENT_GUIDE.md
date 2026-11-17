@@ -48,10 +48,12 @@ Set conservative operational parameters:
     KEEP_UPLOADS=0
     NEXT_PUBLIC_INDEXABLE=0
 
-Do not place credentials or private keys in the repository. Then run:
+Do not place credentials or private keys in the repository. The production Compose file reserves 1.5 CPU / 6 GB for the backend, 0.5 CPU / 1 GB for the frontend, and 0.25 CPU / 256 MB for Caddy on a 2 OCPU / 12 GB VM. `OMP_NUM_THREADS` and `OPENCV_NUM_THREADS` remain at 2. The backend model directory is mounted read-only from `deploy/models/` into `/srv/models`; it is separate from the container image and defaults to the bundled classical detector until a learned model passes the independent test gate.
 
+Then run:
+
+    ./deploy/bootstrap.sh
     cd deploy
-    docker compose -f docker-compose.prod.yml up -d --build
     docker compose -f docker-compose.prod.yml ps
     docker compose -f docker-compose.prod.yml logs --tail=100
 
@@ -72,6 +74,12 @@ Before every update:
 To update, unpack the new release over a separate working directory, review the changes, then use the manual update procedure in deploy/update.sh. Automatic image updaters are not enabled.
 
 A backup is not proven until it has been restored into a scratch volume. Run the restore procedure on a non-production copy first and verify that a result, its PDF, and its annotated media open.
+
+When the learned detector has passed the independent evaluation gate (precision >= 0.85, hold-out recall >= 0.85, count exact-match >= 70%, and recall greater than the classical detector), swap the two model files without rebuilding the application image:
+
+    ./deploy/swap_model.sh /path/to/goldfish.onnx /path/to/goldfish.json
+
+The metadata JSON must contain the independent `eval` block. The script refuses missing or failing evaluation evidence, copies the two files into the mounted `deploy/models/` directory, restarts only the backend, waits for `/health`, then prints detector availability and eligibility from `/api/v1/system/status`. If the gate is not met, do not copy model files to the server; the classical detector remains active.
 
 Keep at least seven dated backups. A server-level cron should call the backup script nightly and remove backups older than seven days. Confirm the cron log and restore a copy before depending on it.
 
