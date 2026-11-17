@@ -31,7 +31,7 @@ fuser -k 8080/tcp 2>/dev/null || true
 
 # Start backend uvicorn on port 8000
 echo "Starting FastAPI backend on 127.0.0.1:8000..."
-PYTHONPATH=backend DATA_DIR=/tmp/matsya-prod-local ANALYZER=baseline "$VENV/bin/uvicorn" app.main:app --host 127.0.0.1 --port 8000 --workers 1 &
+PYTHONPATH=backend DATA_DIR=/tmp/matsya-prod-local ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 SINGLE_USER_MODE=1 "$VENV/bin/uvicorn" app.main:app --host 127.0.0.1 --port 8000 --workers 1 &
 BACKEND_PID=$!
 
 # Start standalone Node server on port 3000
@@ -104,7 +104,12 @@ fi
 # Run Playwright download and critical flows against proxy
 echo "Running Playwright E2E smoke tests against http://127.0.0.1:8080..."
 cd frontend
-PLAYWRIGHT_JSON_REPORT="../test-results/e2e-prod-smoke.json" PROD_URL="http://127.0.0.1:8080" npx playwright test --project=prod e2e/download.spec.ts e2e/resources.spec.ts e2e/plan_v2_download.spec.ts
+if [[ "${MATSYA_PROD_FULL:-0}" == "1" ]]; then
+  echo "Running the full Chromium suite against the production build through Caddy..."
+  PLAYWRIGHT_JSON_REPORT="../test-results/e2e-prod-full.json" PROD_URL="http://127.0.0.1:8080" npx playwright test --project=prod
+else
+  PLAYWRIGHT_JSON_REPORT="../test-results/e2e-prod-smoke.json" PROD_URL="http://127.0.0.1:8080" npx playwright test --project=prod e2e/download.spec.ts e2e/resources.spec.ts e2e/plan_v2_download.spec.ts
+fi
 cd "$REPO_ROOT"
 
 echo "=== Production Local Smoke Stack Succeeded! ==="
