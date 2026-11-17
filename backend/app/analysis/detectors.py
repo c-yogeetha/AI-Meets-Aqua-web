@@ -35,8 +35,8 @@ def _onnx_gate() -> tuple[bool, str, Dict[str, Any]]:
     required = (
         "precision",
         "holdout_recall",
-        "holdout_coverage_pct",
-        "classical_holdout_coverage_pct",
+        "classical_holdout_recall",
+        "count_exact_match_pct",
         "holdout_clips",
     )
     missing = [key for key in required if key not in evaluation]
@@ -45,26 +45,32 @@ def _onnx_gate() -> tuple[bool, str, Dict[str, Any]]:
     try:
         precision = float(evaluation["precision"])
         recall = float(evaluation["holdout_recall"])
-        learned_coverage = float(evaluation["holdout_coverage_pct"])
-        baseline_coverage = float(evaluation["classical_holdout_coverage_pct"])
+        classical_recall = float(evaluation["classical_holdout_recall"])
+        count_exact_match_pct = float(evaluation["count_exact_match_pct"])
         holdout_clips = int(evaluation["holdout_clips"])
     except (TypeError, ValueError):
         return False, "Evaluation metrics have invalid types", evaluation
     if not all(
         map(
             lambda value: value == value and abs(value) != float("inf"),
-            (precision, recall, learned_coverage, baseline_coverage),
+            (precision, recall, classical_recall, count_exact_match_pct),
         )
     ):
         return False, "Evaluation metrics contain non-finite values", evaluation
+    if not all(0.0 <= value <= 1.0 for value in (precision, recall, classical_recall)):
+        return False, "Precision and recall metrics must be between 0 and 1", evaluation
+    if not 0.0 <= count_exact_match_pct <= 100.0:
+        return False, "Count exact-match rate must be between 0 and 100", evaluation
     if holdout_clips < 1:
         return False, "No hold-out clips were evaluated", evaluation
-    if recall < 0.90:
-        return False, "Hold-out recall is below 0.90", evaluation
+    if recall < 0.85:
+        return False, "Hold-out recall is below 0.85", evaluation
     if precision < 0.85:
         return False, "Hold-out precision is below 0.85", evaluation
-    if learned_coverage < baseline_coverage - 2.0:
-        return False, "Hold-out coverage trails the classical detector by more than 2 points", evaluation
+    if count_exact_match_pct < 70.0:
+        return False, "Count exact-match rate is below 70%", evaluation
+    if recall <= classical_recall:
+        return False, "Hold-out recall does not exceed the classical detector", evaluation
     return True, "Evaluation gate passed", evaluation
 
 
