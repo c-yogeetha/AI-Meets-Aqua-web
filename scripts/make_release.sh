@@ -12,7 +12,7 @@ mkdir -p "$DIST" "$STAGE/$NAME"
 
 # Only include runtime source, deploy configuration, documentation and public assets.
 # Private environment files, working notes, datasets and generated local state are never staged.
-INCLUDE=(backend frontend scripts deploy docs README.md CREDITS.md LICENSE)
+INCLUDE=(backend frontend scripts deploy docs README.md CREDITS.md LICENSE NOTICE)
 for item in "${INCLUDE[@]}"; do
   [ -e "$item" ] || continue
   cp -a "$item" "$STAGE/$NAME/"

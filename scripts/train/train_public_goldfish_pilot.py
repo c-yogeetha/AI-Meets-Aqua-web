@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Small CPU transfer-learning pilot on public goldfish video pseudo-labels.
+"""EXPERIMENTAL — NOT USED BY THE PRODUCT.
 
-The annotations are high-confidence proposals from a generic fish model and are
-not independent ground truth. This experiment is not a release acceptance run.
+Archived CPU transfer-learning pilot on public goldfish video pseudo-labels.
+Its annotations are high-confidence proposals from a generic fish model and are
+not independent ground truth. This is not a release acceptance run.
 """
 from __future__ import annotations
 

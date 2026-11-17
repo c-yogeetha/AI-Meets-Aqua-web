@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create small annotated MP4s from public goldfish clips using the pilot model."""
+"""EXPERIMENTAL — NOT USED BY THE PRODUCT. Create pilot-only annotated MP4s."""
 from __future__ import annotations
 import argparse, json
 from pathlib import Path

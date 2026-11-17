@@ -210,14 +210,15 @@ test.describe("Application Shell & App Pages Suite (E-APP)", () => {
     const seedRes = await page.request.post("/api/v1/demo/seed");
     expect(seedRes.ok()).toBe(true);
     const seedData = await seedRes.json();
-    // The history endpoint is newest-first and paginated; select the newest
-    // seeded result so it is guaranteed to be on the first history page.
-    const jobId = seedData.result_ids[seedData.result_ids.length - 1];
+    // Seeded sample results can be older than the global first history page.
+    // Filter to the seeded tank so the test is independent of other test data.
+    const jobId = seedData.result_ids[0];
 
     await page.goto("/app/history");
     await expect(page.getByRole("heading", { name: "Historical Records & Insights" })).toBeVisible();
+    await page.getByLabel("Filter:").selectOption(seedData.tank_id);
 
-    // History row is visible
+    // History row is visible in the selected tank's records.
     const row = page.getByTestId(`history-row-${jobId}`);
     await expect(row).toBeVisible({ timeout: 10000 });
 

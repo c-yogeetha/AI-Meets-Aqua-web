@@ -1,3 +1,5 @@
+# EXPERIMENTAL — NOT USED BY THE PRODUCT
+
 # Public goldfish footage and detector pilot (2026-11-16)
 
 ## Purpose and status
@@ -36,7 +38,7 @@ A five-epoch CPU transfer-learning experiment was run using 43 training frames /
 - Validation: Hakone 2025.
 - Test: Tierpark 2023.
 
-The annotations are high-confidence proposals from the generic fish detector; they are **pseudo-labels**, not independently hand-corrected ground truth. Training used 320-pixel images, batch size 1, 22 frozen layers, and five epochs. On the pseudo-labelled validation split, the best checkpoint reported P=0.722, R=0.696, mAP50=0.743, mAP50-95=0.484. On the pseudo-labelled test split, it reported P=0.753, R=0.778, mAP50=0.799, mAP50-95=0.464. These values measure agreement with the teacher's boxes and must not be presented as genuine goldfish detection accuracy.
+The annotations are high-confidence proposals from the generic fish detector; they are **pseudo-labels**, not independently hand-corrected ground truth. Training used 320-pixel images, batch size 1, 22 frozen layers, and five epochs. On the pseudo-labelled validation split, the best checkpoint reported P=0.722, R=0.696, mAP50=0.743, mAP50-95=0.484. These validation values measure agreement with the teacher's boxes and must not be presented as genuine goldfish detection accuracy. The previously recorded pseudo-labelled test figures have been removed because no committed evaluation script produced them and they are not reproducible from the retained evidence.
 
 Full-video inference at 5 fps using the fine-tuned pilot produced boxes on:
 
@@ -52,7 +54,7 @@ Box-frame rate is not recall: no independent frame-by-frame ground truth was cre
 
 ## Reproduction
 
-The scripts below were added to the repository:
+The scripts below remain in the repository as archived experimental utilities only; they are not used by the product:
 
 - `scripts/train/train_public_goldfish_pilot.py` — CPU fine-tuning pilot.
 - `scripts/train/infer_public_goldfish.py` — annotated MP4 generation.
