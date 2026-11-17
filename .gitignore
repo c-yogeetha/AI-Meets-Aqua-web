@@ -81,3 +81,10 @@ data/labelled_test_yolo/
 # Generated showcase staging and public mirrors (rebuilt by scripts/build_showcase.sh)
 frontend/public/showcase/
 frontend/public/openapi.json
+
+# Model artifacts are supplied separately after independent evaluation
+training/outputs/
+training/datasets/
+training/runs/
+deploy/models/*.onnx
+deploy/models/goldfish.json
