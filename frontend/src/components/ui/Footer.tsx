@@ -14,7 +14,7 @@ export function Footer() {
             <span className="font-serif text-xl font-semibold text-ink">Matsya</span>
           </div>
           <p className="text-xs text-ink-3 leading-relaxed">
-            Behavioural stress analysis for goldfish using non-invasive classical computer vision.
+            Matsya, an AI Meets Aqua project: behavioural stress analysis for goldfish using non-invasive classical computer vision.
           </p>
           <p className="text-[11px] font-mono text-ink-3 italic">
             Matsya is the Sanskrit word for fish.

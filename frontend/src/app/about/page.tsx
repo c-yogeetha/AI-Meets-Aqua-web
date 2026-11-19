@@ -58,7 +58,7 @@ export default function AboutPage() {
           Non-Invasive Aquatic Kinematic Telemetry
         </h1>
         <p className="text-base text-ink-2 max-w-2xl leading-relaxed">
-          Matsya was engineered to bridge classical computer vision research and practical aquatic animal welfare monitoring without expensive specialized hardware.
+          Matsya, an AI Meets Aqua project, was engineered to bridge classical computer vision research and practical aquatic animal welfare monitoring without expensive specialized hardware.
         </p>
       </div>
 

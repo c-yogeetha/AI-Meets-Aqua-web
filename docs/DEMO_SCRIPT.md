@@ -55,7 +55,7 @@
   > 1. A responsive **Next.js 15** web application providing sub-second interactive feedback.
   > 2. A high-throughput **FastAPI** backend orchestrating an asynchronous analysis queue.
   > 3. An ethologically-grounded **YAML Rules Engine** citing established aquatic literature.
-  > 4. Crucially, a plug-and-play **AI Adapter Boundary**. While deep neural networks (YOLOv8 + DeepSORT) can be plugged in, our platform runs a robust classical computer-vision baseline that decodes frames, segments fish by color kinematics, extracts optical flow trajectories, and calculates Fish Stress Indices in real time."*
+  > 4. Crucially, a plug-and-play **AI Adapter Boundary**. While deep neural networks (e.g. YOLOv8) can be plugged in, our platform runs a robust classical computer-vision baseline that decodes frames, segments fish by color kinematics, extracts optical flow trajectories, and calculates Fish Stress Indices in real time."*
 
 ---
 

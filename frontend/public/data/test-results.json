@@ -1,21 +1,21 @@
 {
-  "generated_at": "2026-11-14T18:34:15.714294+00:00",
+  "generated_at": "2026-11-19T16:05:13.159185+00:00",
   "environment": {
-    "os": "Linux 6.8.0-142-generic",
-    "python": "3.12.3",
-    "node": "v24.21.0",
-    "commit": "36ab6b5e59ca5af91a715d93b5550f9a6eca8f7a"
+    "os": "Linux 6.19.10-300.fc44.x86_64",
+    "python": "3.14.3",
+    "node": "unknown",
+    "commit": "31263c21019b74c9914e44031f84a586ba2f1f96"
   },
   "summary": {
-    "total": 218,
-    "passed": 218,
+    "total": 132,
+    "passed": 132,
     "failed": 0,
     "skipped": 0,
-    "backend_total": 134,
-    "backend_passed": 134,
+    "backend_total": 128,
+    "backend_passed": 128,
     "backend_failed": 0,
     "backend_skipped": 0,
-    "coverage_percent": 88.4
+    "coverage_percent": 86.5
   },
   "categories": [
     {
@@ -63,8 +63,8 @@
     {
       "name": "Video Analysis Integration",
       "prefix": "B-A",
-      "total": 21,
-      "passed": 21
+      "total": 2,
+      "passed": 2
     },
     {
       "name": "Results Verification",
@@ -87,8 +87,8 @@
     {
       "name": "PDF Generation Legacy",
       "prefix": "B-P",
-      "total": 13,
-      "passed": 13
+      "total": 11,
+      "passed": 11
     },
     {
       "name": "Historical Analyses",
@@ -151,12 +151,6 @@
       "passed": 1
     },
     {
-      "name": "Preprocessing",
-      "prefix": "B-PP",
-      "total": 2,
-      "passed": 2
-    },
-    {
       "name": "OpenAPI Schema Contract",
       "prefix": "B-CT",
       "total": 1,
@@ -165,1536 +159,934 @@
     {
       "name": "End-to-End User Workflows",
       "prefix": "E-",
-      "total": 84,
-      "passed": 84
+      "total": 4,
+      "passed": 4
     }
   ],
   "cases": [
     {
-      "id": "B-A01",
-      "title": "a01 to a11 and a12 manifest samples",
-      "status": "passed",
-      "duration_s": 102.216,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A04",
-      "title": "a04 surface gasping views",
-      "status": "passed",
-      "duration_s": 9.566,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A05",
-      "title": "a05 isolated bottom",
-      "status": "passed",
-      "duration_s": 4.344,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A06",
-      "title": "a06 lethargic all",
-      "status": "passed",
-      "duration_s": 4.377,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A07",
-      "title": "a07 white fish",
-      "status": "passed",
-      "duration_s": 4.507,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A08",
-      "title": "a08 two fish overlap",
-      "status": "passed",
-      "duration_s": 4.271,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A09",
-      "title": "a09 plants decoy",
-      "status": "passed",
-      "duration_s": 4.644,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A10",
-      "title": "a10 blank video",
-      "status": "passed",
-      "duration_s": 3.67,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A13",
-      "title": "a13 determinism",
-      "status": "passed",
-      "duration_s": 8.942,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A14",
-      "title": "a14 annotated video faststart",
-      "status": "passed",
-      "duration_s": 4.947,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A15",
-      "title": "a15 webm option",
-      "status": "passed",
-      "duration_s": 9.542,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A16",
-      "title": "a16 keyframes",
-      "status": "passed",
-      "duration_s": 4.506,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A17",
-      "title": "a17 low confidence fish never stressed",
-      "status": "passed",
-      "duration_s": 0.026,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A18",
-      "title": "a18 reliability arithmetic",
-      "status": "passed",
-      "duration_s": 0.018,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A19",
-      "title": "a19 quality metrics synthetic frames",
-      "status": "passed",
-      "duration_s": 0.027,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A20",
-      "title": "a20 dominant color model learning",
-      "status": "passed",
-      "duration_s": 0.018,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A21",
-      "title": "a21 watershed splitting",
-      "status": "passed",
-      "duration_s": 0.018,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A22",
-      "title": "a22 template retention",
-      "status": "passed",
-      "duration_s": 0.015,
-      "suite": "backend"
-    },
-    {
-      "id": "B-A24",
-      "title": "a24 performance budget",
-      "status": "passed",
-      "duration_s": 4.848,
-      "suite": "backend"
-    },
-    {
-      "id": "B-PP",
-      "title": "pp preprocessor never mutates original and respects disabled mode",
-      "status": "passed",
-      "duration_s": 0.021,
-      "suite": "backend"
-    },
-    {
-      "id": "B-PP",
-      "title": "pp glare mask detects bright low saturation region",
-      "status": "passed",
-      "duration_s": 0.024,
-      "suite": "backend"
-    },
-    {
       "id": "B-CT01",
       "title": "ct01 openapi contract no drift",
       "status": "passed",
-      "duration_s": 0.298,
+      "duration_s": 0.111,
       "suite": "backend"
     },
     {
       "id": "B-ENV02",
       "title": "env02 published report matches latest pytest run",
       "status": "passed",
-      "duration_s": 0.027,
+      "duration_s": 0.011,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_real_",
+      "title": "test real detector modes are not marked validated[baseline]",
+      "status": "passed",
+      "duration_s": 0.006,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_real_",
+      "title": "test real detector modes are not marked validated[onnx]",
+      "status": "passed",
+      "duration_s": 0.008,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_mock_",
+      "title": "test mock mode is explicitly synthetic",
+      "status": "passed",
+      "duration_s": 0.005,
       "suite": "backend"
     },
     {
       "id": "B-F01",
       "title": "f01 speed on straight track",
       "status": "passed",
-      "duration_s": 0.03,
+      "duration_s": 0.01,
       "suite": "backend"
     },
     {
       "id": "B-F02",
       "title": "f02 direction change rate",
       "status": "passed",
-      "duration_s": 0.024,
+      "duration_s": 0.009,
       "suite": "backend"
     },
     {
       "id": "B-F03",
       "title": "f03 surface ratio",
       "status": "passed",
-      "duration_s": 0.027,
+      "duration_s": 0.008,
       "suite": "backend"
     },
     {
       "id": "B-F04",
       "title": "f04 bottom ratio and inactivity",
       "status": "passed",
-      "duration_s": 0.024,
+      "duration_s": 0.009,
       "suite": "backend"
     },
     {
       "id": "B-F05",
       "title": "f05 isolation ratio",
       "status": "passed",
-      "duration_s": 0.027,
+      "duration_s": 0.01,
       "suite": "backend"
     },
     {
       "id": "B-F06",
       "title": "f06 single fish isolation",
       "status": "passed",
-      "duration_s": 0.024,
+      "duration_s": 0.014,
       "suite": "backend"
     },
     {
       "id": "B-F07",
       "title": "f07 track with gaps",
       "status": "passed",
-      "duration_s": 0.036,
+      "duration_s": 0.01,
       "suite": "backend"
     },
     {
       "id": "B-F08",
       "title": "f08 zero fish",
       "status": "passed",
-      "duration_s": 0.024,
+      "duration_s": 0.008,
       "suite": "backend"
     },
     {
       "id": "B-F20",
       "title": "f20 explanation sentence",
       "status": "passed",
-      "duration_s": 0.016,
+      "duration_s": 0.008,
       "suite": "backend"
     },
     {
       "id": "B-OWN01",
       "title": "own01 two cookies scoping",
       "status": "passed",
-      "duration_s": 0.091,
+      "duration_s": 0.047,
       "suite": "backend"
     },
     {
       "id": "B-OWN02",
       "title": "own02 another owner media pdf 404",
       "status": "passed",
-      "duration_s": 0.928,
+      "duration_s": 0.734,
       "suite": "backend"
     },
     {
       "id": "B-OWN03",
       "title": "own03 single user mode and cookie attributes",
       "status": "passed",
-      "duration_s": 0.063,
+      "duration_s": 0.032,
       "suite": "backend"
     },
     {
       "id": "B-RET01",
       "title": "ret01 raw upload deleted after success",
       "status": "passed",
-      "duration_s": 0.048,
+      "duration_s": 0.018,
       "suite": "backend"
     },
     {
       "id": "B-RET02",
       "title": "ret02 retention purge removes old outputs except demo",
       "status": "passed",
-      "duration_s": 0.05,
+      "duration_s": 0.02,
       "suite": "backend"
     },
     {
       "id": "B-J05",
       "title": "j05 back to back queue position",
       "status": "passed",
-      "duration_s": 0.051,
+      "duration_s": 0.028,
       "suite": "backend"
     },
     {
       "id": "B-J06",
       "title": "j06 cancel queued and running jobs",
       "status": "passed",
-      "duration_s": 0.056,
+      "duration_s": 0.028,
       "suite": "backend"
     },
     {
       "id": "B-A23",
       "title": "a23 onnx decode nms canned tensor",
       "status": "passed",
-      "duration_s": 0.017,
+      "duration_s": 0.008,
       "suite": "backend"
     },
     {
       "id": "B-H01",
       "title": "h01 health check",
       "status": "passed",
-      "duration_s": 0.038,
+      "duration_s": 0.018,
       "suite": "backend"
     },
     {
       "id": "B-H02",
       "title": "h02 system info",
       "status": "passed",
-      "duration_s": 0.037,
+      "duration_s": 0.019,
       "suite": "backend"
     },
     {
       "id": "B-H03",
       "title": "h03 cors preflight",
       "status": "passed",
-      "duration_s": 0.036,
+      "duration_s": 0.021,
       "suite": "backend"
     },
     {
       "id": "B-H04",
       "title": "h04 openapi endpoints",
       "status": "passed",
-      "duration_s": 0.32,
+      "duration_s": 0.095,
       "suite": "backend"
     },
     {
       "id": "B-H05",
       "title": "h05 unknown route",
       "status": "passed",
-      "duration_s": 0.083,
+      "duration_s": 0.035,
       "suite": "backend"
     },
     {
       "id": "B-HI01",
       "title": "hi01 history paging and filtering",
       "status": "passed",
-      "duration_s": 0.566,
+      "duration_s": 0.513,
       "suite": "backend"
     },
     {
       "id": "B-HI02",
       "title": "hi02 history excludes deleted",
       "status": "passed",
-      "duration_s": 0.594,
+      "duration_s": 0.501,
       "suite": "backend"
     },
     {
       "id": "B-IN01",
       "title": "in01 fsi weighted mean",
       "status": "passed",
-      "duration_s": 0.083,
+      "duration_s": 0.041,
       "suite": "backend"
     },
     {
       "id": "B-IN02",
       "title": "in02 trend labels",
       "status": "passed",
-      "duration_s": 0.094,
+      "duration_s": 0.048,
       "suite": "backend"
     },
     {
       "id": "B-IN03",
       "title": "in03 temperature pattern message",
       "status": "passed",
-      "duration_s": 0.087,
+      "duration_s": 0.039,
       "suite": "backend"
     },
     {
       "id": "B-BN01",
       "title": "bn01 and bn02 delete and restore",
       "status": "passed",
-      "duration_s": 0.642,
+      "duration_s": 0.541,
       "suite": "backend"
     },
     {
       "id": "B-BN03",
       "title": "bn03 and bn04 purge retention",
       "status": "passed",
-      "duration_s": 0.611,
+      "duration_s": 0.544,
       "suite": "backend"
     },
     {
       "id": "B-BN05",
       "title": "bn05 permanent delete",
       "status": "passed",
-      "duration_s": 0.687,
+      "duration_s": 0.5,
       "suite": "backend"
     },
     {
       "id": "B-AL01",
       "title": "al01 to al04 alerts",
       "status": "passed",
-      "duration_s": 5.73,
+      "duration_s": 8.405,
       "suite": "backend"
     },
     {
       "id": "B-D01",
       "title": "d01 demo seed idempotent",
       "status": "passed",
-      "duration_s": 0.555,
+      "duration_s": 0.521,
       "suite": "backend"
     },
     {
       "id": "B-X01",
       "title": "x01 external detect and track",
       "status": "passed",
-      "duration_s": 0.905,
+      "duration_s": 0.933,
       "suite": "backend"
     },
     {
       "id": "B-X03",
       "title": "x03 missing ai module",
       "status": "passed",
-      "duration_s": 0.318,
+      "duration_s": 0.416,
       "suite": "backend"
     },
     {
       "id": "B-X02",
       "title": "x02 external analyze video",
       "status": "passed",
-      "duration_s": 0.485,
+      "duration_s": 0.396,
       "suite": "backend"
     },
     {
       "id": "B-X04",
       "title": "x04 malformed ai output",
       "status": "passed",
-      "duration_s": 0.452,
+      "duration_s": 0.382,
       "suite": "backend"
     },
     {
       "id": "B-J01",
       "title": "j01 and j02 lifecycle and monotonic",
       "status": "passed",
-      "duration_s": 2.018,
+      "duration_s": 1.938,
       "suite": "backend"
     },
     {
       "id": "B-J03",
       "title": "j03 failure path",
       "status": "passed",
-      "duration_s": 0.132,
+      "duration_s": 0.203,
       "suite": "backend"
     },
     {
       "id": "B-J04",
       "title": "j04 unknown job",
       "status": "passed",
-      "duration_s": 0.059,
+      "duration_s": 0.04,
       "suite": "backend"
     },
     {
       "id": "B-J05",
       "title": "j05 timeout",
       "status": "passed",
-      "duration_s": 1.363,
+      "duration_s": 1.365,
       "suite": "backend"
     },
     {
       "id": "B-J06",
       "title": "j06 startup recovery",
       "status": "passed",
-      "duration_s": 0.056,
+      "duration_s": 0.043,
       "suite": "backend"
     },
     {
       "id": "B-J07",
       "title": "j07 sequential processing",
       "status": "passed",
-      "duration_s": 3.478,
+      "duration_s": 3.761,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_model",
+      "title": "test models dir environment setting controls detector discovery",
+      "status": "passed",
+      "duration_s": 0.014,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_broke",
+      "title": "test broken model in configured directory falls back to classical",
+      "status": "passed",
+      "duration_s": 0.014,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_onnx_",
+      "title": "test onnx gate uses v5 independent evaluation thresholds",
+      "status": "passed",
+      "duration_s": 0.013,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_noteb",
+      "title": "test notebook reads open images ground truth field by default",
+      "status": "passed",
+      "duration_s": 0.009,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_strin",
+      "title": "test string zero and unknown minus one flags are not truthy",
+      "status": "passed",
+      "duration_s": 0.012,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_true_",
+      "title": "test true group flag skips the entire image",
+      "status": "passed",
+      "duration_s": 0.012,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_wrong",
+      "title": "test wrong sample field is reported as skip",
+      "status": "passed",
+      "duration_s": 0.008,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_candi",
+      "title": "test candidate b keeps 400 image gate when goldfish only is small",
+      "status": "passed",
+      "duration_s": 0.006,
       "suite": "backend"
     },
     {
       "id": "B-PDF01",
       "title": "pdf01 pdf sample download",
       "status": "passed",
-      "duration_s": 0.762,
+      "duration_s": 0.721,
       "suite": "backend"
     },
     {
       "id": "B-PDF02",
       "title": "pdf02 unicode and unusual tank names",
       "status": "passed",
-      "duration_s": 1.362,
+      "duration_s": 0.832,
       "suite": "backend"
     },
     {
       "id": "B-PDF03",
       "title": "pdf03 zero fish result",
       "status": "passed",
-      "duration_s": 0.26,
+      "duration_s": 0.14,
       "suite": "backend"
     },
     {
       "id": "B-PDF04",
       "title": "pdf04 missing key frames on disk",
       "status": "passed",
-      "duration_s": 0.321,
+      "duration_s": 0.146,
       "suite": "backend"
     },
     {
       "id": "B-PDF05",
       "title": "pdf05 error statuses",
       "status": "passed",
-      "duration_s": 0.332,
+      "duration_s": 0.172,
       "suite": "backend"
     },
     {
       "id": "B-PDF06",
       "title": "pdf06 caching and invalidation",
       "status": "passed",
-      "duration_s": 0.592,
+      "duration_s": 0.316,
       "suite": "backend"
     },
     {
       "id": "B-PDF07",
       "title": "pdf07 timeout returns 503",
       "status": "passed",
-      "duration_s": 0.101,
+      "duration_s": 0.04,
       "suite": "backend"
     },
     {
       "id": "B-PDF08",
       "title": "pdf08 no emoji in extracted text",
       "status": "passed",
-      "duration_s": 0.254,
+      "duration_s": 0.155,
       "suite": "backend"
     },
     {
       "id": "B-PDF09",
       "title": "pdf09 pdf metadata",
       "status": "passed",
-      "duration_s": 0.273,
+      "duration_s": 0.146,
       "suite": "backend"
     },
     {
       "id": "B-PDF10",
       "title": "pdf10 generation performance",
       "status": "passed",
-      "duration_s": 0.267,
+      "duration_s": 0.138,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_corne",
+      "title": "test corner lock on generated frame is implausible",
+      "status": "passed",
+      "duration_s": 0.013,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_movin",
+      "title": "test moving goldfish sized track is not rejected",
+      "status": "passed",
+      "duration_s": 0.01,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_low_c",
+      "title": "test low colour track triggers the documented rule",
+      "status": "passed",
+      "duration_s": 0.008,
+      "suite": "backend"
+    },
+    {
+      "id": "B-test_impla",
+      "title": "test implausible track forces reliability low",
+      "status": "passed",
+      "duration_s": 0.006,
       "suite": "backend"
     },
     {
       "id": "B-RES01",
       "title": "res01 ingestion fixtures",
       "status": "passed",
-      "duration_s": 0.572,
+      "duration_s": 0.566,
       "suite": "backend"
     },
     {
       "id": "B-RES02",
       "title": "res02 idempotency preserves overrides",
       "status": "passed",
-      "duration_s": 0.641,
+      "duration_s": 0.612,
       "suite": "backend"
     },
     {
       "id": "B-RES03",
       "title": "res03 resource endpoints",
       "status": "passed",
-      "duration_s": 0.12,
+      "duration_s": 0.056,
       "suite": "backend"
     },
     {
       "id": "B-RES04",
       "title": "res04 large video preview",
       "status": "passed",
-      "duration_s": 0.425,
+      "duration_s": 0.422,
       "suite": "backend"
     },
     {
       "id": "B-R01",
       "title": "r01 result before done",
       "status": "passed",
-      "duration_s": 0.087,
+      "duration_s": 0.037,
       "suite": "backend"
     },
     {
       "id": "B-R02",
       "title": "r02 result finished",
       "status": "passed",
-      "duration_s": 0.628,
+      "duration_s": 0.525,
       "suite": "backend"
     },
     {
       "id": "B-R03",
       "title": "r03 unknown result",
       "status": "passed",
-      "duration_s": 0.069,
+      "duration_s": 0.029,
       "suite": "backend"
     },
     {
       "id": "B-M01",
       "title": "m01 video range request",
       "status": "passed",
-      "duration_s": 0.582,
+      "duration_s": 0.499,
       "suite": "backend"
     },
     {
       "id": "B-M02",
       "title": "m02 frame endpoint",
       "status": "passed",
-      "duration_s": 0.59,
+      "duration_s": 0.513,
       "suite": "backend"
     },
     {
       "id": "B-M03",
       "title": "m03 frame path traversal",
       "status": "passed",
-      "duration_s": 0.604,
+      "duration_s": 0.495,
       "suite": "backend"
     },
     {
       "id": "B-P01",
       "title": "p01 pdf report",
       "status": "passed",
-      "duration_s": 0.754,
+      "duration_s": 0.641,
       "suite": "backend"
     },
     {
       "id": "B-S01",
       "title": "s01 level from score[0-Normal]",
       "status": "passed",
-      "duration_s": 0.019,
+      "duration_s": 0.009,
       "suite": "backend"
     },
     {
       "id": "B-S01",
       "title": "s01 level from score[34-Normal]",
       "status": "passed",
-      "duration_s": 0.016,
+      "duration_s": 0.006,
       "suite": "backend"
     },
     {
       "id": "B-S01",
       "title": "s01 level from score[35-Moderate]",
       "status": "passed",
-      "duration_s": 0.016,
+      "duration_s": 0.006,
       "suite": "backend"
     },
     {
       "id": "B-S01",
       "title": "s01 level from score[59-Moderate]",
       "status": "passed",
-      "duration_s": 0.019,
+      "duration_s": 0.007,
       "suite": "backend"
     },
     {
       "id": "B-S01",
       "title": "s01 level from score[60-High]",
       "status": "passed",
-      "duration_s": 0.016,
+      "duration_s": 0.005,
       "suite": "backend"
     },
     {
       "id": "B-S01",
       "title": "s01 level from score[100-High]",
       "status": "passed",
-      "duration_s": 0.015,
+      "duration_s": 0.01,
       "suite": "backend"
     },
     {
       "id": "B-S02",
       "title": "s02 fish score sum and clamp",
       "status": "passed",
-      "duration_s": 0.019,
+      "duration_s": 0.008,
       "suite": "backend"
     },
     {
       "id": "B-S03",
       "title": "s03 stressed threshold",
       "status": "passed",
-      "duration_s": 0.02,
+      "duration_s": 0.009,
       "suite": "backend"
     },
     {
       "id": "B-S04",
       "title": "s04 tank formula max plus spread",
       "status": "passed",
-      "duration_s": 0.02,
+      "duration_s": 0.008,
       "suite": "backend"
     },
     {
       "id": "B-S05",
       "title": "s05 tank formula mean max blend",
       "status": "passed",
-      "duration_s": 0.014,
+      "duration_s": 0.005,
       "suite": "backend"
     },
     {
       "id": "B-S06",
       "title": "s06 top view disables vertical flags",
       "status": "passed",
-      "duration_s": 0.021,
+      "duration_s": 0.009,
       "suite": "backend"
     },
     {
       "id": "B-S07",
       "title": "s07 lethargic all fish inactive",
       "status": "passed",
-      "duration_s": 0.022,
+      "duration_s": 0.008,
       "suite": "backend"
     },
     {
       "id": "B-S08",
       "title": "s08 configurable threshold",
       "status": "passed",
-      "duration_s": 0.018,
+      "duration_s": 0.007,
       "suite": "backend"
     },
     {
       "id": "B-S09",
       "title": "s09 timeline windows",
       "status": "passed",
-      "duration_s": 0.026,
+      "duration_s": 0.015,
       "suite": "backend"
     },
     {
       "id": "B-G01",
       "title": "g01 all flags have rules and ordered",
       "status": "passed",
-      "duration_s": 0.036,
+      "duration_s": 0.012,
       "suite": "backend"
     },
     {
       "id": "B-G02",
       "title": "g02 fish placeholder replacement",
       "status": "passed",
-      "duration_s": 0.025,
+      "duration_s": 0.009,
       "suite": "backend"
     },
     {
       "id": "B-G03",
       "title": "g03 context rules",
       "status": "passed",
-      "duration_s": 0.025,
+      "duration_s": 0.009,
       "suite": "backend"
     },
     {
       "id": "B-G04",
       "title": "g04 all clear when no flags",
       "status": "passed",
-      "duration_s": 0.025,
+      "duration_s": 0.01,
       "suite": "backend"
     },
     {
       "id": "B-G05",
       "title": "g05 rules yaml schema",
       "status": "passed",
-      "duration_s": 0.026,
+      "duration_s": 0.01,
       "suite": "backend"
     },
     {
       "id": "B-G06",
       "title": "g06 safe condition evaluator",
       "status": "passed",
-      "duration_s": 0.018,
+      "duration_s": 0.005,
       "suite": "backend"
     },
     {
       "id": "B-SYS01",
       "title": "sys01 system status",
       "status": "passed",
-      "duration_s": 0.054,
+      "duration_s": 0.163,
       "suite": "backend"
     },
     {
       "id": "B-SYS02",
       "title": "sys02 scoring config",
       "status": "passed",
-      "duration_s": 0.2,
+      "duration_s": 0.022,
       "suite": "backend"
     },
     {
       "id": "B-SYS03",
       "title": "sys03 overview seeded data",
       "status": "passed",
-      "duration_s": 0.554,
+      "duration_s": 0.504,
       "suite": "backend"
     },
     {
       "id": "B-SYS04",
       "title": "sys04 docs and openapi urls",
       "status": "passed",
-      "duration_s": 0.333,
+      "duration_s": 0.097,
       "suite": "backend"
     },
     {
       "id": "B-SYS05",
       "title": "sys05 trailing slash 404 not 307",
       "status": "passed",
-      "duration_s": 0.087,
+      "duration_s": 0.029,
       "suite": "backend"
     },
     {
       "id": "B-SYS06",
       "title": "sys06 timestamps end with z",
       "status": "passed",
-      "duration_s": 0.591,
+      "duration_s": 0.521,
       "suite": "backend"
     },
     {
       "id": "B-SYS07",
       "title": "sys07 media urls root relative",
       "status": "passed",
-      "duration_s": 0.548,
+      "duration_s": 0.555,
       "suite": "backend"
     },
     {
       "id": "B-SYS08",
       "title": "sys08 error envelopes",
       "status": "passed",
-      "duration_s": 0.088,
+      "duration_s": 0.053,
       "suite": "backend"
     },
     {
       "id": "B-T01",
       "title": "t01 create tank valid",
       "status": "passed",
-      "duration_s": 0.061,
+      "duration_s": 0.033,
       "suite": "backend"
     },
     {
       "id": "B-T02",
       "title": "t02 invalid tanks[bad payload0]",
       "status": "passed",
-      "duration_s": 0.051,
+      "duration_s": 0.041,
       "suite": "backend"
     },
     {
       "id": "B-T02",
       "title": "t02 invalid tanks[bad payload1]",
       "status": "passed",
-      "duration_s": 0.081,
+      "duration_s": 0.033,
       "suite": "backend"
     },
     {
       "id": "B-T02",
       "title": "t02 invalid tanks[bad payload2]",
       "status": "passed",
-      "duration_s": 0.056,
+      "duration_s": 0.023,
       "suite": "backend"
     },
     {
       "id": "B-T02",
       "title": "t02 invalid tanks[bad payload3]",
       "status": "passed",
-      "duration_s": 0.062,
+      "duration_s": 0.024,
       "suite": "backend"
     },
     {
       "id": "B-T02",
       "title": "t02 invalid tanks[bad payload4]",
       "status": "passed",
-      "duration_s": 0.063,
+      "duration_s": 0.054,
       "suite": "backend"
     },
     {
       "id": "B-T03",
       "title": "t03 list tanks",
       "status": "passed",
-      "duration_s": 0.086,
+      "duration_s": 0.028,
       "suite": "backend"
     },
     {
       "id": "B-T04",
       "title": "t04 get tank 404",
       "status": "passed",
-      "duration_s": 0.05,
+      "duration_s": 0.026,
       "suite": "backend"
     },
     {
       "id": "B-T05",
       "title": "t05 delete tank cascades",
       "status": "passed",
-      "duration_s": 0.09,
+      "duration_s": 0.036,
       "suite": "backend"
     },
     {
       "id": "B-T06",
       "title": "t06 tank name special characters",
       "status": "passed",
-      "duration_s": 0.057,
+      "duration_s": 0.022,
       "suite": "backend"
     },
     {
       "id": "B-U01",
       "title": "u01 valid upload",
       "status": "passed",
-      "duration_s": 0.083,
+      "duration_s": 0.054,
       "suite": "backend"
     },
     {
       "id": "B-U02",
       "title": "u02 unknown tank id",
       "status": "passed",
-      "duration_s": 0.063,
+      "duration_s": 0.032,
       "suite": "backend"
     },
     {
       "id": "B-U03",
       "title": "u03 wrong extension",
       "status": "passed",
-      "duration_s": 0.074,
+      "duration_s": 0.051,
       "suite": "backend"
     },
     {
       "id": "B-U04",
       "title": "u04 not a video",
       "status": "passed",
-      "duration_s": 0.072,
+      "duration_s": 0.06,
       "suite": "backend"
     },
     {
       "id": "B-U05",
       "title": "u05 oversize",
       "status": "passed",
-      "duration_s": 0.075,
+      "duration_s": 0.067,
       "suite": "backend"
     },
     {
       "id": "B-U06",
       "title": "u06 duration limit",
       "status": "passed",
-      "duration_s": 0.072,
+      "duration_s": 0.057,
       "suite": "backend"
     },
     {
       "id": "B-U07",
       "title": "u07 path traversal filename",
       "status": "passed",
-      "duration_s": 0.079,
+      "duration_s": 0.111,
       "suite": "backend"
     },
     {
       "id": "B-U08",
       "title": "u08 missing fields",
       "status": "passed",
-      "duration_s": 0.046,
+      "duration_s": 0.037,
       "suite": "backend"
     },
     {
       "id": "B-U09",
       "title": "u09 invalid view and temp",
       "status": "passed",
-      "duration_s": 0.204,
+      "duration_s": 0.118,
       "suite": "backend"
     },
     {
       "id": "B-U10",
       "title": "u10 optional fields saved",
       "status": "passed",
-      "duration_s": 0.087,
+      "duration_s": 0.073,
       "suite": "backend"
     },
     {
-      "id": "E-APP01",
-      "title": "E-APP01: Overview renders with summary strip, tank cards, and navigation",
-      "status": "passed",
-      "duration_s": 0.709,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP02",
-      "title": "E-APP02: Tank CRUD: create, edit, and delete with confirm",
-      "status": "passed",
-      "duration_s": 1.376,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP03",
-      "title": "E-APP03: Complete analyse flow with calm.mp4 finishes with score, gauge, and PDF button",
-      "status": "passed",
-      "duration_s": 27.595,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP04",
-      "title": "E-APP04: Invalid file type and oversized upload show inline errors without hang",
-      "status": "passed",
-      "duration_s": 0.569,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP05",
-      "title": "E-APP05: Simulated failure hook shows failure panel and retry button",
-      "status": "passed",
-      "duration_s": 0.825,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP08",
-      "title": "E-APP08: Results timeline and key moments click seeks video",
-      "status": "passed",
-      "duration_s": 0.747,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP10",
-      "title": "E-APP10: History filters, delete, bin tab, and restore",
-      "status": "passed",
-      "duration_s": 1.084,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP11",
-      "title": "E-APP11: Insights displays FSI value, trend chart, and formula explanation",
-      "status": "passed",
-      "duration_s": 0.654,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP12",
-      "title": "E-APP12: Alerts displays list, filter, and mark all read",
-      "status": "passed",
-      "duration_s": 0.461,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP13",
-      "title": "E-APP13: Settings persists toggles after reload and shows system diagnostics",
-      "status": "passed",
-      "duration_s": 0.751,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP16",
-      "title": "E-APP16: Result error states: 404 and 410 deleted",
-      "status": "passed",
-      "duration_s": 1.695,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-01",
-      "title": "E-01: Homepage loads and renders its primary CTA",
-      "status": "passed",
-      "duration_s": 0.622,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-02",
-      "title": "E-02: Desktop depth rail updates as the page scrolls",
-      "status": "passed",
-      "duration_s": 0.885,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-03",
-      "title": "E-03: Public analysis CTA enters the current /app route",
-      "status": "passed",
-      "duration_s": 2.206,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-04",
-      "title": "E-04: FAQ accordion exposes the current behavioural-indicator explanation",
-      "status": "passed",
-      "duration_s": 2.073,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-05",
-      "title": "E-05: Tank form validates empty names on the current route",
-      "status": "passed",
-      "duration_s": 0.682,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-06",
-      "title": "E-06: Tank creation succeeds on the current route",
-      "status": "passed",
-      "duration_s": 0.673,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-07",
-      "title": "E-07: Reduced motion skips the intro loader",
-      "status": "passed",
-      "duration_s": 0.674,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-08",
-      "title": "E-08: Unknown route shows the not-found page",
-      "status": "passed",
-      "duration_s": 0.361,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-09",
-      "title": "E-09: Homepage has no critical accessibility violations",
-      "status": "passed",
-      "duration_s": 2.199,
-      "suite": "e2e-chromium"
-    },
-    {
       "id": "E-DL01",
       "title": "E-DL01: Click Download PDF triggers browser download with valid file and no navigation",
       "status": "passed",
-      "duration_s": 2.474,
+      "duration_s": 3.133,
       "suite": "e2e-chromium"
     },
     {
       "id": "E-DL02",
       "title": "E-DL02: Tank names in Devanagari, emoji and 120 characters download valid PDF",
       "status": "passed",
-      "duration_s": 0.731,
+      "duration_s": 0.994,
       "suite": "e2e-chromium"
     },
     {
       "id": "E-DL03",
       "title": "E-DL03: Server error shows error toast, does not navigate, re-enables button",
       "status": "passed",
-      "duration_s": 2.481,
+      "duration_s": 2.785,
       "suite": "e2e-chromium"
     },
     {
       "id": "E-DL05",
       "title": "E-DL05: Media elements on result page respond 200 or 206",
       "status": "passed",
-      "duration_s": 2.378,
+      "duration_s": 2.802,
       "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-HOME01",
-      "title": "E-HOME01: Loader appears once per session and disappears; second visit skips; reduced motion skips",
-      "status": "passed",
-      "duration_s": 3.456,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-HOME02",
-      "title": "E-HOME02: Hero text, CTA links, and hero video paused when scrolled away",
-      "status": "passed",
-      "duration_s": 3.125,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-HOME03",
-      "title": "E-HOME03: Signal explorer click and keyboard arrows change panel; thresholds equal API",
-      "status": "passed",
-      "duration_s": 2.503,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-HOME04",
-      "title": "E-HOME04: Drawn timeline contains nodes linking to how-it-works chapters",
-      "status": "passed",
-      "duration_s": 2.402,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-HOME05",
-      "title": "E-HOME05: Status table values equal the system status API",
-      "status": "passed",
-      "duration_s": 2.489,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-HOME06",
-      "title": "E-HOME06: Sample result section renders Gauge, fish rows, chart from sample json",
-      "status": "passed",
-      "duration_s": 2.415,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-HOME07",
-      "title": "E-HOME07: Drive link behavior when unset vs set",
-      "status": "passed",
-      "duration_s": 0.549,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-NAV01",
-      "title": "E-NAV01: Public pill nav reaches pages; active state correct; mobile drawer behaves correctly",
-      "status": "passed",
-      "duration_s": 2.958,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-QA01",
-      "title": "E-QA01: Viewport responsive test and no horizontal overflow",
-      "status": "passed",
-      "duration_s": 4.066,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-PDF",
-      "title": "E-PDF-01: sample result downloads a parseable PDF",
-      "status": "passed",
-      "duration_s": 2.493,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-PDF",
-      "title": "E-PDF-02: result PDF endpoint sends safe attachment headers",
-      "status": "passed",
-      "duration_s": 0.156,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-SCI01",
-      "title": "E-SCI01: /science shows rules table from API, anchors work, and formulas visible",
-      "status": "passed",
-      "duration_s": 0.407,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-HOW01",
-      "title": "E-HOW01: /how-it-works architecture diagram clicking nodes opens side panel; analyzer table shows active mode",
-      "status": "passed",
-      "duration_s": 0.479,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-ABT01",
-      "title": "E-ABT01: /about shows team, institution, milestones with evidence links, and maturity table",
-      "status": "passed",
-      "duration_s": 0.382,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-NAV03",
-      "title": "E-NAV03: Legacy routes redirect permanently",
-      "status": "passed",
-      "duration_s": 0.982,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-RES01",
-      "title": "E-RES01: /resources displays catalog, supports search, category/type filters, sort, preview drawer, and external links",
-      "status": "passed",
-      "duration_s": 2.803,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-RES02",
-      "title": "E-RES02: Empty library state is designed and helpful",
-      "status": "passed",
-      "duration_s": 0.935,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-VAL01",
-      "title": "E-VAL01: /validation separates software tests from unlabelled stand-in footage without claiming goldfish accuracy",
-      "status": "passed",
-      "duration_s": 0.597,
-      "suite": "e2e-chromium"
-    },
-    {
-      "id": "E-APP01",
-      "title": "E-APP01: Overview renders with summary strip, tank cards, and navigation",
-      "status": "passed",
-      "duration_s": 2.048,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP02",
-      "title": "E-APP02: Tank CRUD: create, edit, and delete with confirm",
-      "status": "passed",
-      "duration_s": 1.817,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP03",
-      "title": "E-APP03: Complete analyse flow with calm.mp4 finishes with score, gauge, and PDF button",
-      "status": "passed",
-      "duration_s": 27.717,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP04",
-      "title": "E-APP04: Invalid file type and oversized upload show inline errors without hang",
-      "status": "passed",
-      "duration_s": 0.785,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP05",
-      "title": "E-APP05: Simulated failure hook shows failure panel and retry button",
-      "status": "passed",
-      "duration_s": 1.139,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP08",
-      "title": "E-APP08: Results timeline and key moments click seeks video",
-      "status": "passed",
-      "duration_s": 0.991,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP10",
-      "title": "E-APP10: History filters, delete, bin tab, and restore",
-      "status": "passed",
-      "duration_s": 1.363,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP11",
-      "title": "E-APP11: Insights displays FSI value, trend chart, and formula explanation",
-      "status": "passed",
-      "duration_s": 0.838,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP12",
-      "title": "E-APP12: Alerts displays list, filter, and mark all read",
-      "status": "passed",
-      "duration_s": 0.694,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP13",
-      "title": "E-APP13: Settings persists toggles after reload and shows system diagnostics",
-      "status": "passed",
-      "duration_s": 1.842,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-APP16",
-      "title": "E-APP16: Result error states: 404 and 410 deleted",
-      "status": "passed",
-      "duration_s": 2.073,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-01",
-      "title": "E-01: Homepage loads and renders its primary CTA",
-      "status": "passed",
-      "duration_s": 0.806,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-02",
-      "title": "E-02: Desktop depth rail updates as the page scrolls",
-      "status": "passed",
-      "duration_s": 1.084,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-03",
-      "title": "E-03: Public analysis CTA enters the current /app route",
-      "status": "passed",
-      "duration_s": 2.481,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-04",
-      "title": "E-04: FAQ accordion exposes the current behavioural-indicator explanation",
-      "status": "passed",
-      "duration_s": 2.456,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-05",
-      "title": "E-05: Tank form validates empty names on the current route",
-      "status": "passed",
-      "duration_s": 0.877,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-06",
-      "title": "E-06: Tank creation succeeds on the current route",
-      "status": "passed",
-      "duration_s": 0.999,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-07",
-      "title": "E-07: Reduced motion skips the intro loader",
-      "status": "passed",
-      "duration_s": 0.774,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-08",
-      "title": "E-08: Unknown route shows the not-found page",
-      "status": "passed",
-      "duration_s": 0.561,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-09",
-      "title": "E-09: Homepage has no critical accessibility violations",
-      "status": "passed",
-      "duration_s": 3.829,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-DL01",
-      "title": "E-DL01: Click Download PDF triggers browser download with valid file and no navigation",
-      "status": "passed",
-      "duration_s": 3.202,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-DL02",
-      "title": "E-DL02: Tank names in Devanagari, emoji and 120 characters download valid PDF",
-      "status": "passed",
-      "duration_s": 0.926,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-DL03",
-      "title": "E-DL03: Server error shows error toast, does not navigate, re-enables button",
-      "status": "passed",
-      "duration_s": 2.995,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-DL05",
-      "title": "E-DL05: Media elements on result page respond 200 or 206",
-      "status": "passed",
-      "duration_s": 2.966,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-HOME01",
-      "title": "E-HOME01: Loader appears once per session and disappears; second visit skips; reduced motion skips",
-      "status": "passed",
-      "duration_s": 4.132,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-HOME02",
-      "title": "E-HOME02: Hero text, CTA links, and hero video paused when scrolled away",
-      "status": "passed",
-      "duration_s": 3.503,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-HOME03",
-      "title": "E-HOME03: Signal explorer click and keyboard arrows change panel; thresholds equal API",
-      "status": "passed",
-      "duration_s": 2.86,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-HOME04",
-      "title": "E-HOME04: Drawn timeline contains nodes linking to how-it-works chapters",
-      "status": "passed",
-      "duration_s": 2.738,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-HOME05",
-      "title": "E-HOME05: Status table values equal the system status API",
-      "status": "passed",
-      "duration_s": 2.591,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-HOME06",
-      "title": "E-HOME06: Sample result section renders Gauge, fish rows, chart from sample json",
-      "status": "passed",
-      "duration_s": 3.122,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-HOME07",
-      "title": "E-HOME07: Drive link behavior when unset vs set",
-      "status": "passed",
-      "duration_s": 0.845,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-NAV01",
-      "title": "E-NAV01: Public pill nav reaches pages; active state correct; mobile drawer behaves correctly",
-      "status": "passed",
-      "duration_s": 3.41,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-QA01",
-      "title": "E-QA01: Viewport responsive test and no horizontal overflow",
-      "status": "passed",
-      "duration_s": 6.95,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-PDF",
-      "title": "E-PDF-01: sample result downloads a parseable PDF",
-      "status": "passed",
-      "duration_s": 3.058,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-PDF",
-      "title": "E-PDF-02: result PDF endpoint sends safe attachment headers",
-      "status": "passed",
-      "duration_s": 0.287,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-SCI01",
-      "title": "E-SCI01: /science shows rules table from API, anchors work, and formulas visible",
-      "status": "passed",
-      "duration_s": 0.584,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-HOW01",
-      "title": "E-HOW01: /how-it-works architecture diagram clicking nodes opens side panel; analyzer table shows active mode",
-      "status": "passed",
-      "duration_s": 0.735,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-ABT01",
-      "title": "E-ABT01: /about shows team, institution, milestones with evidence links, and maturity table",
-      "status": "passed",
-      "duration_s": 0.706,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-NAV03",
-      "title": "E-NAV03: Legacy routes redirect permanently",
-      "status": "passed",
-      "duration_s": 1.858,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-RES01",
-      "title": "E-RES01: /resources displays catalog, supports search, category/type filters, sort, preview drawer, and external links",
-      "status": "passed",
-      "duration_s": 3.893,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-RES02",
-      "title": "E-RES02: Empty library state is designed and helpful",
-      "status": "passed",
-      "duration_s": 1.221,
-      "suite": "e2e-firefox"
-    },
-    {
-      "id": "E-VAL01",
-      "title": "E-VAL01: /validation separates software tests from unlabelled stand-in footage without claiming goldfish accuracy",
-      "status": "passed",
-      "duration_s": 0.896,
-      "suite": "e2e-firefox"
     }
   ]
 }

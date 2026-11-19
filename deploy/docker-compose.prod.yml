@@ -19,7 +19,7 @@ services:
       OPENCV_NUM_THREADS: "2"
     volumes:
       - matsya-data:/data
-      - ./models:/srv/models:ro
+      - ../backend/models:/srv/backend/models:ro
     mem_limit: 6g
     cpus: 1.5
     restart: unless-stopped

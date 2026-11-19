@@ -1,0 +1,18 @@
+- title: Synthetic Trajectory Kinematics Sample
+  type: csv
+  description: Synthetic 30-row demonstration table of generated fish coordinates,
+    speed, turn angle and depth ratio; not measured aquarium footage.
+  external_link: ''
+  public: true
+- title: Synthetic Calm Swimming Clip
+  type: video
+  description: Procedurally generated 20-second baseline clip for software testing;
+    not recorded from a live aquarium.
+  external_link: ''
+  public: true
+- title: 'Matsya: Aquatic Behaviour Analysis Pipeline'
+  type: slides
+  description: Internal one-slide project presentation covering the Matsya analysis
+    pipeline.
+  external_link: ''
+  public: true

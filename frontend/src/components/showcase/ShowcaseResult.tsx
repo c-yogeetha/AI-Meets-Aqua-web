@@ -25,7 +25,7 @@ export default function ShowcaseResult({ item }: { item: ShowcaseEntry }) {
           <div className="hairline-panel p-4"><div className="text-[10px] uppercase font-mono text-ink-3">Analysis time</div><div className="text-lg font-mono text-ink mt-2">{item.analysisTimeSeconds != null ? `${item.analysisTimeSeconds.toFixed(1)} s` : "—"}</div></div>
         </section>
 
-        <p className="text-xs text-ink-3 leading-relaxed">Scores in this archive are historical output snapshots and are shown as indicative. They are not a validated stress measure or a veterinary diagnosis.</p>
+        <p className="text-xs text-ink-3 leading-relaxed">Scores in this archive are historical output snapshots and are shown as indicative. They are not a validated stress measure and not a clinical diagnosis.</p>
         {item.videoUrl && (
           <section className="space-y-3">
             <h2 className="font-serif text-2xl">Annotated video</h2>

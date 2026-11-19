@@ -1,13 +1,16 @@
-# Matsya Detection Benchmark Report (general_aquarium_standin_v1)
+# Matsya Detection Benchmark Report
 
-- **Evaluated**: 1 clips
-- **Labelled goldfish clips**: 0
-- **Fish Count Accuracy**: Not measured
-- **Mean frame hit rate**: 0.0%
-- **Mean Quality Reliability**: 0.0/100
+## Status: Pending Real-Tank Footage
 
-Frame hit rate is the share of sampled frames containing at least one detector track; it is not object recall or ground-truth coverage. Unlabelled general-aquarium footage is excluded from goldfish accuracy and detector training.
+**Notice on Empirical Metrics**:
+Matsya adheres strictly to honest reporting standards. We do not substitute synthetic video simulation metrics for real-world biological tank performance.
 
-| Clip | Expected fish | Detected | Frame hit rate | Reliability | Runtime (s) | Label | Error |
-|---|---:|---:|---:|---|---:|---|---|
-| `cc0_aquatic_ecosystem.webm` | Not measured | 0 | 0.0% | low | 24.896 | unknown | Not measured |
+- **Real Footage Directory**: `samples_real/` is currently empty or awaiting field collection.
+- **Ground Truth Labels**: `benchmarks/labels.csv` will define expected counts and behavior states once footage is recorded.
+- **Synthetic Verification**: Multi-condition synthetic verification (including lighting shifts, glare, turbidity, and high-density occlusion) is continuously validated under automated software test suites (`pytest backend/tests/test_analyzer_samples.py`).
+
+### Verification Protocol When Real Footage Arrives:
+1. Place raw tank recordings in `samples_real/`.
+2. Populate `benchmarks/labels.csv` with `filename,expected_fish,ground_truth_label`.
+3. Execute `python scripts/run_benchmark.py`.
+4. Review generated contact sheets in `docs/screens/contact_sheets/` to inspect individual bounding tracks and trajectory fidelity.

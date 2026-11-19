@@ -30,13 +30,16 @@ def export_openapi() -> Path:
 
 
 def generate_typescript_types(openapi_path: Path) -> None:
-    bin_path = FRONTEND_DIR / "node_modules" / ".bin" / "openapi-typescript"
+    cli_path = FRONTEND_DIR / "node_modules" / "openapi-typescript" / "bin" / "cli.js"
+    node_bin = Path("/tmp/nodejs/bin/node")
+    if not node_bin.exists():
+        node_bin = Path("node")
     out_ts = FRONTEND_DIR / "src" / "lib" / "api-types.ts"
-    if not bin_path.exists():
+    if not cli_path.exists():
         print("Warning: openapi-typescript not found in node_modules, skipping TS generation")
         return
 
-    cmd = [str(bin_path), str(openapi_path), "-o", str(out_ts)]
+    cmd = [str(node_bin), str(cli_path), str(openapi_path), "-o", str(out_ts)]
     res = subprocess.run(cmd, cwd=str(FRONTEND_DIR), capture_output=True, text=True)
     if res.returncode != 0:
         print(f"Error generating TS types: {res.stderr}")

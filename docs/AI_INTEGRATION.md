@@ -2,7 +2,7 @@
 
 Welcome to the **AI Meets Aqua** integration guide for the AI/ML research team.
 
-This document describes the interface boundary between the web platform (backend pipeline, job worker, database, UI) and the neural network models developed by the AI group (e.g., YOLOv8 object detection, DeepSORT multi-object tracking, 3D ConvNets).
+This document describes the interface boundary between the web platform (backend pipeline, job worker, database, UI) and the neural network models developed by the AI group (e.g., YOLOv8 object detection, Centroid / Hungarian multi-object tracking, 3D ConvNets).
 
 ---
 
@@ -30,7 +30,7 @@ The platform is designed around a decoupled, modular pipeline. When implementing
                                   |                                    |
                                   |   detect_and_track(video, cb)      |
                                   |     - YOLOv8 Fish Detector         |
-                                  |     - DeepSORT Multi-Object Tracker|
+                                  |     - Hungarian / Template-Match Multi-Object Tracker|
                                   +------------------------------------+
 ```
 
@@ -126,12 +126,12 @@ def analyze_video(video_path: str, meta: dict, progress_cb=None, out_dir: str = 
 
 ---
 
-## 3. Reference Implementation: YOLOv8 + DeepSORT
+## 3. Reference Implementation: YOLOv8 + Centroid Tracker
 
 Below is a minimal, complete reference skeleton for `ai/pipeline.py`:
 
 ```python
-"""Reference AI Pipeline combining YOLOv8 and DeepSORT."""
+"""Reference AI Pipeline combining YOLOv8 and Centroid / Hungarian Tracking."""
 import cv2
 from typing import Callable, Optional
 
@@ -147,7 +147,7 @@ def detect_and_track(video_path: str, progress_cb: Optional[Callable[[str, int],
         progress_cb("detecting", 10)
 
     # Example: model = YOLO("yolov8n-fish.pt")
-    # tracker = DeepSort()
+    # tracker = CentroidTracker()
 
     frames = []
     frame_idx = 0

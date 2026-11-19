@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 from app.analysis.quality import assess_track_plausibility, compute_reliability
-from app.analysis.types import Detection, FrameDetections
+from app.analysis.types import Detection
 
 
 def _synthetic_samples(track_boxes, moving_fish=True):

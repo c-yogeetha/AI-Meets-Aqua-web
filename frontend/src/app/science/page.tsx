@@ -48,7 +48,7 @@ export default function SciencePage() {
             <strong>Not a clinical pathology diagnosis:</strong> Matsya detects biomechanical anomalies that frequently correlate with environmental or physiological stress. It does not identify specific pathogens, bacterial strains, or biochemical parameters.
           </p>
           <p>
-            <strong>Threshold status:</strong> Current thresholds were calibrated by the project engineering team against controlled synthetic and reference aquarium footage; they have not undergone multi-center clinical validation.
+            <strong>Threshold status:</strong> Default thresholds selected by the project team for demonstration; not clinically validated.
           </p>
           <p>
             <strong>Elevation requirement:</strong> Vertical depth analysis (surface gasping and substrate resting) requires a side or front elevation camera angle. Top-down camera angles cannot evaluate depth metrics.

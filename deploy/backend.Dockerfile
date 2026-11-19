@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 MPLBACKEND=Agg MPLCONFIGDIR=/tmp/mpl
-RUN apt-get update && apt-get install -y --no-install-recommends libglib2.0-0 poppler-utils \
+RUN apt-get update && apt-get install -y --no-install-recommends libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /srv
 COPY backend/requirements.txt /srv/backend/requirements.txt

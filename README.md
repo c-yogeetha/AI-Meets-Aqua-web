@@ -71,6 +71,10 @@ The intended evaluation envelope is goldfish, fixed camera, 1–6 fish, 10–90 
 
 ### 2. Setup
 ```bash
+# Clone the repository
+git clone https://github.com/c-yogeetha/AI-Meets-Aqua-web.git
+cd AI-Meets-Aqua-web
+
 # Set up Python virtual environment and backend dependencies
 python3 -m venv backend/.venv
 backend/.venv/bin/pip install -r backend/requirements.txt
