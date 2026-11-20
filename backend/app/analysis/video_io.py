@@ -1,11 +1,126 @@
 import os
+import re
 import subprocess
 import tempfile
 from pathlib import Path
-from typing import Dict, Generator, Tuple
+from typing import Any, Dict, Generator, Optional, Tuple
 
 import cv2
 import imageio_ffmpeg
+
+
+def probe_video_stream(video_path: str) -> Dict[str, Any]:
+    """Probe video streams, returning codec, resolution, fps, rotation."""
+    try:
+        ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+        res = subprocess.run(
+            [ffmpeg_exe, "-i", video_path],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=15,
+        )
+        err = res.stderr or ""
+    except Exception:
+        err = ""
+
+    has_video = False
+    codec = "unknown"
+    width = 0
+    height = 0
+    fps = 0.0
+    rotation = 0
+
+    for line in err.splitlines():
+        if "Stream #" in line and "Video:" in line:
+            has_video = True
+            parts = line.split("Video:")[1].split(",")
+            codec = parts[0].strip().split()[0].lower()
+            dim_match = re.search(r"(\d{2,5})x(\d{2,5})", line)
+            if dim_match:
+                width = int(dim_match.group(1))
+                height = int(dim_match.group(2))
+            fps_match = re.search(r"([\d\.]+)\s+fps", line)
+            if fps_match:
+                fps = float(fps_match.group(1))
+        if "rotate" in line.lower() or "rotation" in line.lower():
+            rot_match = re.search(r"rotate\s*:\s*(\d+)", line, re.IGNORECASE)
+            if rot_match:
+                rotation = int(rot_match.group(1))
+
+    return {
+        "has_video": has_video,
+        "codec": codec,
+        "width": width,
+        "height": height,
+        "fps": fps,
+        "rotation": rotation,
+    }
+
+
+def normalize_video_on_ingest(input_path: str) -> str:
+    """Normalize video: transcode if not H.264/VP8/VP9/MPEG-4, long side > 1280, or rotation tag.
+
+    Leaves compliant files completely untouched.
+    """
+    probe = probe_video_stream(input_path)
+    if not probe["has_video"] or probe["width"] <= 0 or probe["height"] <= 0:
+        return input_path
+
+    is_compliant_codec = probe["codec"] in ("h264", "vp8", "vp9", "mpeg4")
+    needs_transcode = (
+        not is_compliant_codec
+        or max(probe["width"], probe["height"]) > 1280
+        or probe["fps"] > 25.5
+        or probe["rotation"] != 0
+    )
+
+    if not needs_transcode:
+        return input_path
+
+    # Transcode into a normalized mp4 next to input
+    inp = Path(input_path)
+    norm_path = inp.parent / f"{inp.stem}_norm.mp4"
+
+    try:
+        ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+        scale_filter = "scale='if(gt(max(iw,ih),1280),if(gte(iw,ih),1280,-2),iw)':'if(gt(max(iw,ih),1280),if(gt(ih,iw),1280,-2),ih)'"
+        cmd = [
+            ffmpeg_exe,
+            "-y",
+            "-i",
+            input_path,
+            "-vf",
+            scale_filter,
+            "-r",
+            "25",
+            "-c:v",
+            "libx264",
+            "-pix_fmt",
+            "yuv420p",
+            "-preset",
+            "veryfast",
+            "-crf",
+            "26",
+            "-an",
+            str(norm_path),
+        ]
+        res = subprocess.run(cmd, capture_output=True, timeout=120)
+        if res.returncode == 0 and norm_path.exists() and norm_path.stat().st_size > 0:
+            # Replace original input with normalized copy
+            # Keep original only if it was already small (< 5 MB), else unlink
+            if inp.stat().st_size > 5 * 1024 * 1024:
+                try:
+                    inp.unlink()
+                except OSError:
+                    pass
+            norm_path.replace(inp)
+            return str(inp)
+    except Exception:
+        if norm_path.exists():
+            norm_path.unlink(missing_ok=True)
+
+    return input_path
 
 
 def transcode_with_ffmpeg(input_path: str, output_path: str) -> bool:

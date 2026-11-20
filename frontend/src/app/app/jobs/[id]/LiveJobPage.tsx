@@ -30,6 +30,8 @@ export default function JobProgressPage() {
   const router = useRouter();
   const jobId = typeof params?.id === "string" ? params.id : "";
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [lastProgressChangeTime, setLastProgressChangeTime] = useState(0);
+  const [lastProgressVal, setLastProgressVal] = useState(0);
 
   const {
     data: job,
@@ -48,6 +50,14 @@ export default function JobProgressPage() {
       return 1500;
     },
   });
+
+  // Track progress updates for responsiveness
+  useEffect(() => {
+    if (job?.progress !== undefined && job.progress !== lastProgressVal) {
+      setLastProgressVal(job.progress);
+      setLastProgressChangeTime(elapsedSeconds);
+    }
+  }, [job?.progress, lastProgressVal, elapsedSeconds]);
 
   // Track elapsed seconds
   useEffect(() => {
@@ -185,8 +195,13 @@ export default function JobProgressPage() {
               <p className="text-xs text-foam/70 max-w-md mx-auto">
                 Our computer vision pipeline is tracking goldfish paths, measuring velocity, and checking behavioural indicators.
               </p>
+              {elapsedSeconds - lastProgressChangeTime > 20 && !isDone && !isFailed && (
+                <div data-testid="job-long-wait-message" className="mt-3 p-2.5 rounded-lg bg-aqua/10 border border-aqua/30 text-aqua text-[11px] max-w-md mx-auto">
+                  Large video: still working, about {Math.max(1, Math.ceil((100 - progressPercent) / 30))} minute{Math.ceil((100 - progressPercent) / 30) > 1 ? "s" : ""} left.
+                </div>
+              )}
               {elapsedSeconds > 90 && (
-                <div className="mt-3 p-2.5 rounded-lg bg-warn/10 border border-warn/30 text-warn text-[11px] max-w-md mx-auto">
+                <div className="mt-2 p-2.5 rounded-lg bg-warn/10 border border-warn/30 text-warn text-[11px] max-w-md mx-auto">
                   Analysis is taking longer than usual. High-resolution videos or dense schooling may require additional processing time.
                 </div>
               )}

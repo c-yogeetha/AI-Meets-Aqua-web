@@ -7,7 +7,7 @@ from pathlib import Path
 from fastapi import APIRouter, Depends, File, Form, Request, UploadFile, status
 from sqlalchemy.orm import Session
 
-from app.analysis.video_io import get_video_metadata
+from app.analysis.video_io import get_video_metadata, normalize_video_on_ingest
 from app.auth import get_current_owner_id
 from app.config import settings
 from app.db import get_db
@@ -160,7 +160,14 @@ async def upload_video(
         stored_path.unlink(missing_ok=True)
         raise AppError(status_code=422, code="not_a_video", message="Uploaded video could not be read.") from exc
 
-    # 9. Verify with OpenCV
+    # 9. Normalise video format and dimensions if needed (HEVC, phone rotation, >1280px, >25fps)
+    try:
+        stored_path_str = normalize_video_on_ingest(str(stored_path))
+        stored_path = Path(stored_path_str)
+    except Exception:
+        pass
+
+    # 10. Verify with OpenCV
     try:
         meta = get_video_metadata(str(stored_path))
     except Exception:
@@ -168,7 +175,7 @@ async def upload_video(
             stored_path.unlink()
         raise AppError(status_code=422, code="not_a_video", message="Uploaded file could not be decoded as a valid video.")
 
-    # 10. Duration check
+    # 11. Duration check
     if meta["duration_s"] > settings.MAX_DURATION_S:
         if stored_path.exists():
             stored_path.unlink()
