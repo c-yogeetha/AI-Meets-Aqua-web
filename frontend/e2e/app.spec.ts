@@ -11,32 +11,46 @@ test.describe("Current application shell smoke", () => {
     expect(errors).toEqual([]);
   });
 
-  test("E-02: Desktop depth rail updates as the page scrolls", async ({ page }) => {
+  test("E-02: Public hero rendered with primary Try Now action opening in new tab", async ({ page, context }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
-    const rail = page.getByTestId("depth-rail");
-    await expect(rail).toBeAttached();
-    const before = await rail.innerText();
-    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight / 2));
-    await page.waitForTimeout(250);
-    const after = await rail.innerText();
-    expect(after).not.toBe(before);
+    const cta = page.getByTestId("cta-analyse");
+    await expect(cta).toBeVisible();
+    await expect(cta).toHaveAttribute("target", "_blank");
+    await expect(cta).toHaveAttribute("rel", "noopener noreferrer");
+
+    const [newPage] = await Promise.all([
+      context.waitForEvent("page"),
+      cta.click(),
+    ]);
+    await newPage.waitForLoadState("domcontentloaded");
+    await expect(newPage).toHaveURL(/\/app\/analyse/);
+    await expect(newPage.getByRole("heading", { name: "Analyse Tank Video" })).toBeVisible();
+    await newPage.close();
   });
 
-  test("E-03: Public analysis CTA enters the current /app route", async ({ page }) => {
+  test("E-03: Floating pill navigation Try Now opens application in new tab", async ({ page, context }) => {
     await page.goto("/");
-    await page.getByTestId("cta-analyse").click();
-    await expect(page).toHaveURL(/\/app\/analyse/);
-    await expect(page.getByRole("heading", { name: "Analyse Tank Video" })).toBeVisible();
+    const navTryNow = page.getByTestId("nav-try-now");
+    await expect(navTryNow).toBeVisible();
+    await expect(navTryNow).toHaveAttribute("target", "_blank");
+    await expect(navTryNow).toHaveAttribute("rel", "noopener noreferrer");
+
+    const [newPage] = await Promise.all([
+      context.waitForEvent("page"),
+      navTryNow.click(),
+    ]);
+    await newPage.waitForLoadState("domcontentloaded");
+    await expect(newPage).toHaveURL(/\/app\/analyse/);
+    await newPage.close();
   });
 
-  test("E-04: FAQ accordion exposes the current behavioural-indicator explanation", async ({ page }) => {
+  test("E-04: Solution pipeline exposes 6 core processing stages", async ({ page }) => {
     await page.goto("/");
-    const trigger = page.getByTestId("faq-trigger-0");
-    await expect(trigger).toHaveAttribute("aria-expanded", "false");
-    await trigger.click();
-    await expect(trigger).toHaveAttribute("aria-expanded", "true");
-    await expect(page.getByText(/Matsya quantifies five core behavioural stress indicators/)).toBeVisible();
+    const features = page.locator("#features");
+    await expect(features).toBeVisible();
+    await expect(page.getByText("Upload Clip")).toBeVisible();
+    await expect(page.getByText("Suggestions")).toBeVisible();
   });
 
   test("E-05: Tank form validates empty names on the current route", async ({ page }) => {

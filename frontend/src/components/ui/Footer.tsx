@@ -74,34 +74,70 @@ export function Footer() {
           <div className="font-mono text-xs uppercase tracking-wider text-ink">Application</div>
           <ul className="space-y-2 text-xs">
             <li>
-              <Link href="/app" className="hover:text-aqua transition-colors">
+              <a
+                href="/app"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Dashboard Overview (opens in a new tab)"
+                className="hover:text-aqua transition-colors"
+              >
                 Dashboard Overview
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/analyse"} className="hover:text-aqua transition-colors">
+              <a
+                href="/app/analyse"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Analyse Video (opens in a new tab)"
+                className="hover:text-aqua transition-colors"
+              >
                 Analyse Video
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/tanks"} className="hover:text-aqua transition-colors">
+              <a
+                href="/app/tanks"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Tank Management (opens in a new tab)"
+                className="hover:text-aqua transition-colors"
+              >
                 Tank Management
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/history"} className="hover:text-aqua transition-colors">
+              <a
+                href="/app/history"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Analysis History (opens in a new tab)"
+                className="hover:text-aqua transition-colors"
+              >
                 Analysis History
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/insights"} className="hover:text-aqua transition-colors">
+              <a
+                href="/app/insights"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="FSI Insights (opens in a new tab)"
+                className="hover:text-aqua transition-colors"
+              >
                 FSI Insights
-              </Link>
+              </a>
             </li>
             <li>
-              <Link href={process.env.NEXT_PUBLIC_SHOWCASE === "1" ? "/app" : "/app/settings"} className="hover:text-aqua transition-colors">
+              <a
+                href="/app/settings"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Settings (opens in a new tab)"
+                className="hover:text-aqua transition-colors"
+              >
                 Settings
-              </Link>
+              </a>
             </li>
           </ul>
         </div>
@@ -128,11 +164,24 @@ export function Footer() {
 
       {/* Disclaimer strip */}
       <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-hair flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-ink-3">
-        <p className="prose-readable">
-          Disclaimer: Behavioural indicators to support caretaker decisions; not a clinical diagnosis.
-        </p>
+        <div className="flex flex-wrap items-center gap-4">
+          <p className="prose-readable">
+            Disclaimer: Behavioural indicators to support caretaker decisions; not a clinical diagnosis.
+          </p>
+          <a
+            href="https://github.com/c-yogeetha/AI-Meets-Aqua-web"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-aqua hover:underline"
+          >
+            GitHub Repository
+          </a>
+          <Link href="/resources" className="text-aqua hover:underline">
+            Data Attributions & Licenses
+          </Link>
+        </div>
         <p className="font-mono shrink-0">
-          Matsya Project &copy; {new Date().getFullYear()}
+          Matsya Project &copy; {new Date().getFullYear()} (MIT License)
         </p>
       </div>
     </footer>

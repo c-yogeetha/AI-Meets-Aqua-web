@@ -118,8 +118,12 @@ export default function ValidationPage() {
         if (!res.ok) throw new Error("Benchmark not found");
         return res.json();
       })
-      .then((data: BenchmarkReport) => {
-        setBenchmark(data);
+      .then((data: BenchmarkReport & { available?: boolean }) => {
+        if (!data || data.available === false || !data.aggregate || !Array.isArray(data.results)) {
+          setBenchmark(null);
+        } else {
+          setBenchmark(data);
+        }
         setBenchmarkLoading(false);
       })
       .catch(() => {

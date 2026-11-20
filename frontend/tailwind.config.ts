@@ -9,16 +9,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        abyss: "var(--abyss)",
-        trench: "var(--trench)",
+        ink: "var(--ink)",
         deep: "var(--deep)",
-        current: "var(--current)",
-        lagoon: "var(--lagoon)",
+        azure: "var(--azure)",
+        turquoise: "var(--turquoise)",
         aqua: "var(--aqua)",
         foam: "var(--foam)",
+        mist: "var(--mist)",
+        sand: "var(--sand)",
+        white: "var(--white)",
+        abyss: "var(--abyss)",
+        trench: "var(--trench)",
+        current: "var(--current)",
+        lagoon: "var(--lagoon)",
         paper: "var(--paper)",
         gold: "var(--gold)",
-        ink: "var(--ink)",
         "ink-2": "var(--ink-2)",
         "ink-3": "var(--ink-3)",
         ok: "var(--ok)",
@@ -29,8 +34,8 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
-        display: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
-        serif: ["var(--font-fraunces)", "Fraunces", "Georgia", "serif"],
+        display: ["var(--font-display)", "Instrument Serif", "Cormorant Garamond", "Georgia", "serif"],
+        serif: ["var(--font-display)", "Instrument Serif", "Cormorant Garamond", "Georgia", "serif"],
         mono: ["var(--font-jetbrains-mono)", "JetBrains Mono", "monospace"],
       },
       borderRadius: {

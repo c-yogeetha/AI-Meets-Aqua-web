@@ -22,7 +22,7 @@ test.describe("Gate 3: Home & Public Navigation Suite", () => {
     await reducedMotionPage.close();
   });
 
-  test("E-HOME02: Hero text, CTA links, and hero video paused when scrolled away", async ({ page }) => {
+  test("E-HOME02: Hero text, CTA links, and redesigned hero structure", async ({ page }) => {
     await page.goto("/");
     const loader = page.locator('[data-testid="loader"]');
     if ((await loader.count()) > 0) {
@@ -32,30 +32,19 @@ test.describe("Gate 3: Home & Public Navigation Suite", () => {
     // Hero title check
     const title = page.locator('[data-testid="hero-title"]');
     await expect(title).toBeVisible();
-    await expect(title).toContainText("The first sign of stress is in how they swim.");
+    await expect(title).toContainText("Notice what they can't tell you.");
 
     // CTA links check
     const ctaAnalyse = page.locator('[data-testid="cta-analyse"]');
     await expect(ctaAnalyse).toBeVisible();
     await expect(ctaAnalyse).toHaveAttribute("href", "/app/analyse");
+    await expect(ctaAnalyse).toHaveAttribute("target", "_blank");
 
     const ctaSample = page.locator('[data-testid="cta-sample"]');
     await expect(ctaSample).toBeVisible();
-
-    // Video check: video element exists in Figure 1
-    const video = page.locator("figure video");
-    await expect(video).toBeAttached();
-
-    // Scroll far down to FAQ
-    await page.locator("#faq").scrollIntoViewIfNeeded();
-    await page.waitForTimeout(600);
-
-    // When scrolled off screen, observer pauses video
-    const isPaused = await video.evaluate((el: HTMLVideoElement) => el.paused);
-    expect(isPaused).toBe(true);
   });
 
-  test("E-HOME03: Signal explorer click and keyboard arrows change panel; thresholds equal API", async ({
+  test("E-HOME03: Dynamic system status and scoring telemetry from API", async ({
     page,
     request,
   }) => {
@@ -63,7 +52,7 @@ test.describe("Gate 3: Home & Public Navigation Suite", () => {
     const res = await request.get("/api/v1/config/scoring");
     expect(res.ok()).toBeTruthy();
     const cfg = await res.json();
-    const fastBls = cfg.speed.fast_bl_s;
+    expect(cfg.speed.fast_bl_s).toBeGreaterThan(0);
 
     await page.goto("/");
     const loader = page.locator('[data-testid="loader"]');
@@ -71,59 +60,29 @@ test.describe("Gate 3: Home & Public Navigation Suite", () => {
       await loader.waitFor({ state: "hidden", timeout: 6000 });
     }
 
-    await page.locator("#signals").scrollIntoViewIfNeeded();
-
-    const panel = page.locator('[data-testid="signal-panel"]');
-    await expect(panel).toBeVisible();
-
-    // Initial signal is Speed (index 0)
-    await expect(panel).toContainText("Swimming Speed");
-    await expect(panel).toContainText(`${fastBls} BL/s`);
-
-    // Click tab 1 (Direction)
-    const tab1 = page.locator('[data-testid="signal-tab-1"]');
-    await tab1.click();
-    await expect(panel).toContainText("Direction Changes");
-    await expect(panel).toContainText(`${cfg.direction.turn_deg}°`);
-
-    // Keyboard navigation: press ArrowDown to move to Isolation (index 2)
-    await tab1.press("ArrowDown");
-    await expect(panel).toContainText("Social Isolation");
-
-    // Press ArrowDown again to move to Vertical (index 3)
-    await tab1.press("ArrowDown");
-    await expect(panel).toContainText("Vertical Position");
-
-    // Press ArrowUp to move back to Isolation
-    await tab1.press("ArrowUp");
-    await expect(panel).toContainText("Social Isolation");
+    // Dynamic stats and system status
+    await page.locator("#features").scrollIntoViewIfNeeded();
+    await expect(page.getByText("Upload Clip")).toBeVisible();
+    await expect(page.getByText("Suggestions")).toBeVisible();
   });
 
-  test("E-HOME04: Drawn timeline contains nodes linking to how-it-works chapters", async ({ page }) => {
+  test("E-HOME04: Solution pipeline links to how-it-works chapters", async ({ page }) => {
     await page.goto("/");
     const loader = page.locator('[data-testid="loader"]');
     if ((await loader.count()) > 0) {
       await loader.waitFor({ state: "hidden", timeout: 6000 });
     }
 
-    await page.locator("#pipeline").scrollIntoViewIfNeeded();
-
-    // Six stage nodes
-    const stages = ["upload", "clean", "detect", "track", "score", "advise"];
-    for (let i = 0; i < stages.length; i++) {
-      const node = page.locator(`[data-testid="timeline-node-${i}"]`);
-      await expect(node).toBeVisible();
-      const link = node.locator("a");
-      await expect(link).toHaveAttribute("href", `/how-it-works#${stages[i]}`);
-    }
+    await page.locator("#features").scrollIntoViewIfNeeded();
+    await expect(page.getByText("From video to actionable insight")).toBeVisible();
+    await expect(page.getByText("Upload Clip")).toBeVisible();
   });
 
-  test("E-HOME05: Status table values equal the system status API", async ({ page, request }) => {
+  test("E-HOME05: Detector status matches system status API", async ({ page, request }) => {
     const res = await request.get("/api/v1/system/status");
     expect(res.ok()).toBeTruthy();
     const statusData = await res.json();
     const onnxActive = Boolean(statusData.detectors?.onnx);
-    const expectedOnnxLabel = onnxActive ? "Integrated" : "Awaiting trained weights";
 
     await page.goto("/");
     const loader = page.locator('[data-testid="loader"]');
@@ -131,20 +90,16 @@ test.describe("Gate 3: Home & Public Navigation Suite", () => {
       await loader.waitFor({ state: "hidden", timeout: 6000 });
     }
 
-    await page.locator("#status").scrollIntoViewIfNeeded();
-
-    // Check status rows exist
-    const rows = page.locator('[data-testid^="status-row-"]');
-    const count = await rows.count();
-    expect(count).toBeGreaterThanOrEqual(6);
-
-    // Learned detector row is row 2
-    const row2 = page.locator('[data-testid="status-row-2"]');
-    await expect(row2).toContainText("Learned detector");
-    await expect(row2).toContainText(expectedOnnxLabel);
+    const badge = page.getByTestId("detector-status-badge");
+    await expect(badge).toBeVisible();
+    if (onnxActive) {
+      await expect(badge).toContainText("Integrated");
+    } else {
+      await expect(badge).toContainText("classical detector");
+    }
   });
 
-  test("E-HOME06: Sample result section renders Gauge, fish rows, chart from sample json", async ({
+  test("E-HOME06: Historical recordings and dynamic metrics render", async ({
     page,
   }) => {
     await page.goto("/");
@@ -153,24 +108,9 @@ test.describe("Gate 3: Home & Public Navigation Suite", () => {
       await loader.waitFor({ state: "hidden", timeout: 6000 });
     }
 
-    await page.locator("#sample-result").scrollIntoViewIfNeeded();
-
-    // Correct provenance label
-    await expect(
-      page.locator("text=Sample output (baseline analyzer, synthetic clip)")
-    ).toBeVisible();
-
-    // Gauge rendered
-    const gauge = page.locator('[data-testid="result-gauge"]');
-    await expect(gauge).toBeVisible();
-
-    // Timeline chart rendered
-    const timeline = page.locator('[data-testid="result-timeline"]');
-    await expect(timeline).toBeVisible();
-
-    // Fish rows rendered
-    const fishRow1 = page.locator('[data-testid="fish-row-1"]');
-    await expect(fishRow1).toBeVisible();
+    await page.locator("#recordings").scrollIntoViewIfNeeded();
+    await expect(page.getByText("Recordings & Tank History")).toBeVisible();
+    await expect(page.getByTestId("cta-sample")).toBeVisible();
   });
 
   test("E-HOME07: Drive link behavior when unset vs set", async ({ page }) => {
@@ -192,17 +132,11 @@ test.describe("Gate 3: Home & Public Navigation Suite", () => {
     const nav = page.locator('[data-testid="pill-nav"]');
     await expect(nav).toBeVisible();
 
-    // 1. Navigate to Science
-    await page.click('[data-testid="nav-science"]');
-    await expect(page).toHaveURL(/\/science/);
-    await expect(page.locator("h1")).toContainText("Quantifying Aquatic Stress");
+    // 1. Navigate to Resources
+    await page.click('[data-testid="nav-resources"]');
+    await expect(page).toHaveURL(/\/resources/);
 
-    // 2. Navigate to How it works
-    await page.click('[data-testid="nav-how-it-works"]');
-    await expect(page).toHaveURL(/\/how-it-works/);
-    await expect(page.locator("h1")).toContainText("From Raw Aquarium Video");
-
-    // 3. Navigate to About
+    // 2. Navigate to About
     await page.click('[data-testid="nav-about"]');
     await expect(page).toHaveURL(/\/about/);
     await expect(page.locator("h1")).toContainText("Non-Invasive Aquatic Kinematic Telemetry");

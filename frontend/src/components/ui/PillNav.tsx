@@ -6,10 +6,9 @@ import { usePathname } from "next/navigation";
 import { Menu, X, ExternalLink } from "lucide-react";
 
 const NAV_LINKS = [
-  { name: "Science", href: "/science", testId: "nav-science" },
-  { name: "How it works", href: "/how-it-works", testId: "nav-how-it-works" },
+  { name: "Home", href: "/", testId: "nav-home" },
+  { name: "Features", href: "/#features", testId: "nav-features" },
   { name: "Resources", href: "/resources", testId: "nav-resources" },
-  { name: "Validation", href: "/validation", testId: "nav-validation" },
   { name: "About", href: "/about", testId: "nav-about" },
 ];
 
@@ -123,13 +122,16 @@ export function PillNav() {
                 <ExternalLink className="w-3 h-3" />
               </a>
             )}
-            <Link
-              href="/app"
-              data-testid="nav-open-app"
-              className="btn-primary-gold text-xs uppercase font-mono tracking-wider py-1.5 px-4"
+            <a
+              href="/app/analyse"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Try Now (opens in a new tab)"
+              data-testid="nav-try-now"
+              className="px-5 py-2 rounded-full backdrop-blur-md bg-white/20 border border-white/40 text-ink hover:bg-white/30 text-xs font-sans font-medium tracking-wide shadow-sm transition-all"
             >
-              Open app
-            </Link>
+              Try Now
+            </a>
           </div>
 
           {/* Mobile hamburger button */}
@@ -203,13 +205,16 @@ export function PillNav() {
           </div>
 
           <div className="pt-6 border-t border-hair">
-            <Link
-              href="/app"
+            <a
+              href="/app/analyse"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Try Now (opens in a new tab)"
               onClick={() => setDrawerOpen(false)}
-              className="btn-primary-gold w-full text-center py-3 text-sm uppercase font-mono tracking-wider"
+              className="block w-full text-center py-3 rounded-full backdrop-blur-md bg-white/20 border border-white/40 text-ink text-sm font-sans font-medium tracking-wide shadow-sm"
             >
-              Open app
-            </Link>
+              Try Now
+            </a>
           </div>
         </div>
       )}

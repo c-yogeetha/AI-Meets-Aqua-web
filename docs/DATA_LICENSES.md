@@ -46,3 +46,7 @@ The following 12 distinct Wikimedia Commons clips form the frozen evaluation cor
 The TEST frames are derived from seven CC BY-SA 4.0 videos. The annotation pack retains these credits and is shared under CC BY-SA 4.0; preserve creator attribution, source links, licence links and the share-alike notice. No video frame is used for detector training. Under the v5 one-second sampling cadence, the generated TEST count is recorded in `annotation/pack_summary.json`; verify it is within the required 80–110-frame range before labelling. Three TEST clips are explicitly classified as fixed-camera tank or planted-tank scenes.
 
 There are currently no owner-labelled goldfish clips, trained model weights, or featured owner analyses in `backend/featured/` or `backend/models/`. No licence or performance claim is implied for those empty directories.
+
+| `frontend/public/media/ocean-hero.jpg` | Supplied by the owner; owner to confirm the source licence | Owner-supplied | Project repository asset | Hero background photograph for public pages |
+| `frontend/public/media/ocean-hero-1000.jpg` | Derived from `ocean-hero.jpg` (1000px width web version) | Owner-supplied | Derived from `frontend/public/media/ocean-hero.jpg` | Mobile hero background photograph |
+| Instrument Serif font | Rodrigo Fuenzalida, Jordan Wilson, Instrument | SIL Open Font License 1.1 | https://fonts.google.com/specimen/Instrument+Serif | Display font for italic serif headlines |

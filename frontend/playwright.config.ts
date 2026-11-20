@@ -49,7 +49,7 @@ export default defineConfig({
   webServer: [
     {
       command:
-        `cd ../backend && MPLCONFIGDIR=/tmp/matplotlib ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 SINGLE_USER_MODE=1 DATA_DIR=/tmp/aqua-e2e ${JSON.stringify(pythonExecutable)} -m uvicorn app.main:app --port 8000 --host 127.0.0.1`,
+        `cd ../backend && MPLCONFIGDIR=/tmp/matplotlib ANALYZER=baseline ENABLE_TEST_HOOKS=1 STAGE_DELAY_S=0.1 SINGLE_USER_MODE=1 DATA_DIR=/tmp/aqua-e2e PYTHONPATH="${process.env.PYTHONPATH || '/tmp/pylibs:.'}" ${JSON.stringify(pythonExecutable)} -m uvicorn app.main:app --port 8000 --host 127.0.0.1`,
       url: "http://127.0.0.1:8000/health",
       reuseExistingServer: Boolean(process.env.PROD_URL),
       timeout: 60000,

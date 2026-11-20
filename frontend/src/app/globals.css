@@ -3,34 +3,41 @@
 @tailwind utilities;
 
 :root {
-  --abyss: #040D14;
-  --trench: #071A27;
-  --deep: #0A2A3D;
-  --current: #12485F;
-  --lagoon: #1E7F8C;
-  --aqua: #4FD1C5;
-  --foam: #D7EEEA;
-  --paper: #EEF4F1;
-  --gold: #E8A23A;
-  --ink: #E6EFED;
-  --ink-2: #9FB5B8;
-  --ink-3: #6D878C;
-  --ok: #3FBF8F;
-  --warn: #E9B949;
-  --danger: #E5636A;
-  --hair: rgba(215, 238, 234, 0.12);
-  --hair-strong: rgba(215, 238, 234, 0.22);
+  --ink: #06324A;
+  --deep: #0078A5;
+  --azure: #028BB2;
+  --turquoise: #1D9EB4;
+  --aqua: #5BBFC2;
+  --foam: #B9E3E0;
+  --mist: #E5F3F1;
+  --sand: #F6F8F5;
+  --white: #FFFFFF;
+
+  --abyss: #F6F8F5;
+  --trench: #E5F3F1;
+  --current: #1D9EB4;
+  --lagoon: #028BB2;
+  --paper: #FFFFFF;
+  --gold: #0078A5;
+  --ink-2: #1D546F;
+  --ink-3: #437189;
+  --ok: #208B6B;
+  --warn: #B8781B;
+  --danger: #C83C45;
+  --hair: rgba(6, 50, 74, 0.12);
+  --hair-strong: rgba(6, 50, 74, 0.24);
   --radius: 6px;
   --radius-lg: 8px;
 
   --font-inter: 'Inter Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-fraunces: 'Fraunces Variable', Georgia, serif;
+  --font-display: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
+  --font-fraunces: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
   --font-jetbrains-mono: 'JetBrains Mono Variable', monospace;
 }
 
 html {
-  color-scheme: dark;
-  background-color: var(--abyss);
+  color-scheme: light;
+  background-color: var(--sand);
   color: var(--ink);
   font-family: var(--font-inter);
 }
@@ -39,7 +46,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: var(--abyss);
+  background-color: var(--sand);
   color: var(--ink);
   overflow-x: hidden;
 }
