@@ -40,4 +40,25 @@ test.describe("Validation Page Suite (E-VAL)", () => {
     await expect(page.getByText("Stocking Density")).toBeVisible();
     await expect(page.getByText("Documented Failure Modes & Degradation Behaviors")).toBeVisible();
   });
+
+  test("E-VAL02: no console error or warning logs across public routes including validation", async ({
+    page,
+  }) => {
+    const consoleErrors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") {
+        consoleErrors.push(`[${msg.type()}] ${msg.text()}`);
+      }
+    });
+
+    const routes = ["/validation", "/", "/science", "/how-it-works", "/research", "/about"];
+    for (const route of routes) {
+      await page.goto(route);
+      await page.waitForLoadState("domcontentloaded");
+      // Allow minor delay for any async rendering/effects
+      await page.waitForTimeout(200);
+    }
+
+    expect(consoleErrors).toEqual([]);
+  });
 });

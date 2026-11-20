@@ -37,6 +37,7 @@ interface TestReport {
     passed: number;
   }[];
   cases: {
+    uid?: string;
     id: string;
     title: string;
     status: string;
@@ -357,8 +358,8 @@ export default function ValidationPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-hair">
-                        {filteredCases?.map((tc) => (
-                          <tr key={tc.id} className="hover:bg-white/5 transition-colors">
+                        {filteredCases?.map((tc, index) => (
+                          <tr key={tc.uid || `${tc.id}-${tc.suite}-${index}`} className="hover:bg-white/5 transition-colors">
                             <td className="py-2 px-4 font-semibold text-aqua whitespace-nowrap">
                               {tc.id}
                             </td>

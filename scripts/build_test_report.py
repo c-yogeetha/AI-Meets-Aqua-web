@@ -92,6 +92,7 @@ def parse_backend_junit(xml_path: str) -> list[dict]:
         title = name.replace("test_b_", "").replace("_", " ").strip()
 
         cases.append({
+            "uid": f"{case_id}-backend-{len(cases)}",
             "id": case_id,
             "title": title,
             "status": status,
@@ -140,6 +141,7 @@ def parse_playwright_json(json_path: str, browser_suite: str = "e2e") -> list[di
                         duration = results[0].get("duration", 0) / 1000.0
 
                 cases.append({
+                    "uid": f"{case_id}-{browser_suite}-{len(cases)}",
                     "id": case_id,
                     "title": title,
                     "status": "passed" if status == "expected" or status == "passed" else "failed",
